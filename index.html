@@ -1,1274 +1,1911 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>E-commerce Leads Database</title>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Expert Freelance Developers Marketplace</title>
     <script src="https://cdn.tailwindcss.com/3.4.16"></script>
-    <script>tailwind.config={theme:{extend:{colors:{primary:'#1E3A8A',secondary:'#4F46E5'},borderRadius:{'none':'0px','sm':'4px',DEFAULT:'8px','md':'12px','lg':'16px','xl':'20px','2xl':'24px','3xl':'32px','full':'9999px','button':'8px'}}}}</script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css">
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: { primary: "#1E3A8A", secondary: "#4F46E5" },
+            borderRadius: {
+              none: "0px",
+              sm: "4px",
+              DEFAULT: "8px",
+              md: "12px",
+              lg: "16px",
+              xl: "20px",
+              "2xl": "24px",
+              "3xl": "32px",
+              full: "9999px",
+              button: "8px",
+            },
+          },
+        },
+      };
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css"
+    />
     <style>
-        :where([class^="ri-"])::before { content: "\f3c2"; }
-        body {
-            font-family: 'Inter', sans-serif;
-        }
-        .custom-shadow {
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
-        }
-        .platform-logo {
-            filter: grayscale(1);
-            transition: filter 0.3s ease;
-        }
-        .platform-logo:hover {
-            filter: grayscale(0);
-        }
-        input[type="number"]::-webkit-inner-spin-button,
-        input[type="number"]::-webkit-outer-spin-button {
-            -webkit-appearance: none;
-            margin: 0;
-        }
-        .custom-switch {
-            position: relative;
-            display: inline-block;
-            width: 40px;
-            height: 20px;
-        }
-        .custom-switch input {
-            opacity: 0;
-            width: 0;
-            height: 0;
-        }
-        .slider {
-            position: absolute;
-            cursor: pointer;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: #e5e7eb;
-            transition: .4s;
-            border-radius: 20px;
-        }
-        .slider:before {
-            position: absolute;
-            content: "";
-            height: 16px;
-            width: 16px;
-            left: 2px;
-            bottom: 2px;
-            background-color: white;
-            transition: .4s;
-            border-radius: 50%;
-        }
-        input:checked + .slider {
-            background-color: #1E3A8A;
-        }
-        input:checked + .slider:before {
-            transform: translateX(20px);
-        }
-        .custom-checkbox {
-            position: relative;
-            display: inline-block;
-            width: 18px;
-            height: 18px;
-        }
-        .custom-checkbox input {
-            opacity: 0;
-            width: 0;
-            height: 0;
-        }
-        .checkmark {
-            position: absolute;
-            top: 0;
-            left: 0;
-            height: 18px;
-            width: 18px;
-            background-color: #fff;
-            border: 1px solid #d1d5db;
-            border-radius: 4px;
-        }
-        .custom-checkbox input:checked ~ .checkmark {
-            background-color: #1E3A8A;
-            border-color: #1E3A8A;
-        }
-        .checkmark:after {
-            content: "";
-            position: absolute;
-            display: none;
-        }
-        .custom-checkbox input:checked ~ .checkmark:after {
-            display: block;
-        }
-        .custom-checkbox .checkmark:after {
-            left: 6px;
-            top: 2px;
-            width: 5px;
-            height: 10px;
-            border: solid white;
-            border-width: 0 2px 2px 0;
-            transform: rotate(45deg);
-        }
-        .custom-radio {
-            position: relative;
-            display: inline-block;
-            width: 18px;
-            height: 18px;
-        }
-        .custom-radio input {
-            opacity: 0;
-            width: 0;
-            height: 0;
-        }
-        .radiomark {
-            position: absolute;
-            top: 0;
-            left: 0;
-            height: 18px;
-            width: 18px;
-            background-color: #fff;
-            border: 1px solid #d1d5db;
-            border-radius: 50%;
-        }
-        .custom-radio input:checked ~ .radiomark {
-            background-color: #fff;
-            border-color: #1E3A8A;
-        }
-        .radiomark:after {
-            content: "";
-            position: absolute;
-            display: none;
-        }
-        .custom-radio input:checked ~ .radiomark:after {
-            display: block;
-        }
-        .custom-radio .radiomark:after {
-            top: 4px;
-            left: 4px;
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background: #1E3A8A;
-        }
-        .custom-range {
-            -webkit-appearance: none;
-            appearance: none;
-            width: 100%;
-            height: 6px;
-            border-radius: 5px;
-            background: #e5e7eb;
-            outline: none;
-        }
-        .custom-range::-webkit-slider-thumb {
-            -webkit-appearance: none;
-            appearance: none;
-            width: 18px;
-            height: 18px;
-            border-radius: 50%;
-            background: #1E3A8A;
-            cursor: pointer;
-        }
-        .custom-range::-moz-range-thumb {
-            width: 18px;
-            height: 18px;
-            border-radius: 50%;
-            background: #1E3A8A;
-            cursor: pointer;
-        }
-        .custom-select {
-            position: relative;
-            display: inline-block;
-        }
-        .custom-select-trigger {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 0.5rem 1rem;
-            border: 1px solid #e5e7eb;
-            border-radius: 8px;
-            background-color: #fff;
-            cursor: pointer;
-            min-width: 150px;
-        }
-        .custom-options {
-            position: absolute;
-            top: 100%;
-            left: 0;
-            right: 0;
-            background: #fff;
-            border: 1px solid #e5e7eb;
-            border-radius: 8px;
-            margin-top: 4px;
-            max-height: 200px;
-            overflow-y: auto;
-            z-index: 10;
-            display: none;
-        }
-        .custom-option {
-            padding: 0.5rem 1rem;
-            cursor: pointer;
-        }
-        .custom-option:hover {
-            background-color: #f3f4f6;
-        }
+      :where([class^="ri-"])::before {
+        content: "\f3c2";
+      }
+      body {
+        font-family: "Inter", sans-serif;
+      }
+      .custom-shadow {
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+      }
+      .platform-logo {
+        filter: grayscale(1);
+        transition: filter 0.3s ease;
+      }
+      .platform-logo:hover {
+        filter: grayscale(0);
+      }
+      input[type="number"]::-webkit-inner-spin-button,
+      input[type="number"]::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+      }
+      .custom-switch {
+        position: relative;
+        display: inline-block;
+        width: 40px;
+        height: 20px;
+      }
+      .custom-switch input {
+        opacity: 0;
+        width: 0;
+        height: 0;
+      }
+      .slider {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: #e5e7eb;
+        transition: 0.4s;
+        border-radius: 20px;
+      }
+      .slider:before {
+        position: absolute;
+        content: "";
+        height: 16px;
+        width: 16px;
+        left: 2px;
+        bottom: 2px;
+        background-color: white;
+        transition: 0.4s;
+        border-radius: 50%;
+      }
+      input:checked + .slider {
+        background-color: #1e3a8a;
+      }
+      input:checked + .slider:before {
+        transform: translateX(20px);
+      }
+      .custom-checkbox {
+        position: relative;
+        display: inline-block;
+        width: 18px;
+        height: 18px;
+      }
+      .custom-checkbox input {
+        opacity: 0;
+        width: 0;
+        height: 0;
+      }
+      .checkmark {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 18px;
+        width: 18px;
+        background-color: #fff;
+        border: 1px solid #d1d5db;
+        border-radius: 4px;
+      }
+      .custom-checkbox input:checked ~ .checkmark {
+        background-color: #1e3a8a;
+        border-color: #1e3a8a;
+      }
+      .checkmark:after {
+        content: "";
+        position: absolute;
+        display: none;
+      }
+      .custom-checkbox input:checked ~ .checkmark:after {
+        display: block;
+      }
+      .custom-checkbox .checkmark:after {
+        left: 6px;
+        top: 2px;
+        width: 5px;
+        height: 10px;
+        border: solid white;
+        border-width: 0 2px 2px 0;
+        transform: rotate(45deg);
+      }
+      .custom-radio {
+        position: relative;
+        display: inline-block;
+        width: 18px;
+        height: 18px;
+      }
+      .custom-radio input {
+        opacity: 0;
+        width: 0;
+        height: 0;
+      }
+      .radiomark {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 18px;
+        width: 18px;
+        background-color: #fff;
+        border: 1px solid #d1d5db;
+        border-radius: 50%;
+      }
+      .custom-radio input:checked ~ .radiomark {
+        background-color: #fff;
+        border-color: #1e3a8a;
+      }
+      .radiomark:after {
+        content: "";
+        position: absolute;
+        display: none;
+      }
+      .custom-radio input:checked ~ .radiomark:after {
+        display: block;
+      }
+      .custom-radio .radiomark:after {
+        top: 4px;
+        left: 4px;
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: #1e3a8a;
+      }
+      .custom-range {
+        -webkit-appearance: none;
+        appearance: none;
+        width: 100%;
+        height: 6px;
+        border-radius: 5px;
+        background: #e5e7eb;
+        outline: none;
+      }
+      .custom-range::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        appearance: none;
+        width: 18px;
+        height: 18px;
+        border-radius: 50%;
+        background: #1e3a8a;
+        cursor: pointer;
+      }
+      .custom-range::-moz-range-thumb {
+        width: 18px;
+        height: 18px;
+        border-radius: 50%;
+        background: #1e3a8a;
+        cursor: pointer;
+      }
+      .custom-select {
+        position: relative;
+        display: inline-block;
+      }
+      .custom-select-trigger {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0.5rem 1rem;
+        border: 1px solid #e5e7eb;
+        border-radius: 8px;
+        background-color: #fff;
+        cursor: pointer;
+        min-width: 150px;
+      }
+      .custom-options {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: #fff;
+        border: 1px solid #e5e7eb;
+        border-radius: 8px;
+        margin-top: 4px;
+        max-height: 200px;
+        overflow-y: auto;
+        z-index: 10;
+        display: none;
+      }
+      .custom-option {
+        padding: 0.5rem 1rem;
+        cursor: pointer;
+      }
+      .custom-option:hover {
+        background-color: #f3f4f6;
+      }
     </style>
-</head>
-<body class="bg-white">
+  </head>
+  <body class="bg-white">
     <!-- Navigation -->
     <header class="sticky top-0 z-50 bg-white shadow-sm">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between items-center h-16">
-                <div class="flex-shrink-0">
-                    <a href="#" class="text-2xl font-['Pacifico'] text-primary">Sale-Spy</a>
-                </div>
-                <nav class="hidden md:flex space-x-8">
-                    <a href="#why-us" class="text-gray-700 hover:text-primary font-medium">Why Us</a>
-                    <a href="#features" class="text-gray-700 hover:text-primary font-medium">Features</a>
-                    <a href="#pricing" class="text-gray-700 hover:text-primary font-medium">Pricing</a>
-                    <a href="#login" class="text-gray-700 hover:text-primary font-medium">Login</a>
-                </nav>
-                <div class="hidden md:block">
-                    <button class="bg-primary text-white px-4 py-2 !rounded-button font-medium hover:bg-primary/90 whitespace-nowrap">Get Started</button>
-                </div>
-                <div class="md:hidden flex items-center">
-                    <button id="mobile-menu-button" class="text-gray-700">
-                        <div class="w-8 h-8 flex items-center justify-center">
-                            <i class="ri-menu-line ri-lg"></i>
-                        </div>
-                    </button>
-                </div>
-            </div>
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between items-center h-16">
+          <div class="flex-shrink-0">
+            <a href="#" class="text-2xl font-['Pacifico'] text-primary">logo</a>
+          </div>
+          <nav class="hidden md:flex space-x-8">
+            <a
+              href="#developers"
+              class="text-gray-700 hover:text-primary font-medium"
+              >Developers</a
+            >
+            <a
+              href="#platforms"
+              class="text-gray-700 hover:text-primary font-medium"
+              >Platforms</a
+            >
+            <a
+              href="#pricing"
+              class="text-gray-700 hover:text-primary font-medium"
+              >Pricing</a
+            >
+            <a
+              href="#login"
+              class="text-gray-700 hover:text-primary font-medium"
+              >Login</a
+            >
+          </nav>
+          <div class="hidden md:block">
+            <a
+              href="https://readdy.ai/home/b7642467-ccb5-4664-b933-071c4f4c23a3/7ac0581f-56f3-4183-9737-fd25683b6a31"
+              data-readdy="true"
+            >
+              <button
+                class="bg-primary text-white px-4 py-2 !rounded-button font-medium hover:bg-primary/90 whitespace-nowrap"
+              >
+                Get Started
+              </button>
+            </a>
+          </div>
+          <div class="md:hidden flex items-center">
+            <button id="mobile-menu-button" class="text-gray-700">
+              <div class="w-8 h-8 flex items-center justify-center">
+                <i class="ri-menu-line ri-lg"></i>
+              </div>
+            </button>
+          </div>
         </div>
-        <!-- Mobile menu -->
-        <div id="mobile-menu" class="hidden md:hidden bg-white shadow-lg absolute top-16 inset-x-0">
-            <div class="px-2 pt-2 pb-3 space-y-1">
-                <a href="#why-us" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-50">Why Us</a>
-                <a href="#features" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-50">Features</a>
-                <a href="#pricing" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-50">Pricing</a>
-                <a href="#login" class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-50">Login</a>
-                <div class="px-3 py-2">
-                    <button class="w-full bg-primary text-white px-4 py-2 !rounded-button font-medium hover:bg-primary/90 whitespace-nowrap">Get Started</button>
-                </div>
-            </div>
+      </div>
+      <!-- Mobile menu -->
+      <div
+        id="mobile-menu"
+        class="hidden md:hidden bg-white shadow-lg absolute top-16 inset-x-0"
+      >
+        <div class="px-2 pt-2 pb-3 space-y-1">
+          <a
+            href="#why-us"
+            class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-50"
+            >Why Us</a
+          >
+          <a
+            href="#features"
+            class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-50"
+            >Features</a
+          >
+          <a
+            href="#pricing"
+            class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-50"
+            >Pricing</a
+          >
+          <a
+            href="#login"
+            class="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:bg-gray-50"
+            >Login</a
+          >
+          <div class="px-3 py-2">
+            <a
+              href="https://readdy.ai/home/b7642467-ccb5-4664-b933-071c4f4c23a3/7ac0581f-56f3-4183-9737-fd25683b6a31"
+              data-readdy="true"
+            >
+              <button
+                class="w-full bg-primary text-white px-4 py-2 !rounded-button font-medium hover:bg-primary/90 whitespace-nowrap"
+              >
+                Get Started
+              </button>
+            </a>
+          </div>
         </div>
+      </div>
     </header>
-
     <!-- Hero Section -->
     <section class="relative bg-white overflow-hidden">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24">
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-                <div>
-                    <h1 class="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-6">
-                        Easy to use and daily updated <span class="text-primary">ecommerce leads database</span>
-                    </h1>
-                    <p class="text-lg text-gray-600 mb-8">
-                        Find reliable and promising e-commerce stores that need your services and solutions. 
-                        Our leads are verified daily, giving you access to the latest and most valuable business opportunities.
-                    </p>
-                    <button class="bg-primary text-white px-6 py-3 !rounded-button font-medium hover:bg-primary/90 whitespace-nowrap">Explore Now</button>
-                </div>
-                <div class="relative">
-                    <div class="bg-white rounded-lg shadow-xl overflow-hidden">
-                        <img src="https://readdy.ai/api/search-image?query=professional%20dashboard%20interface%20showing%20e-commerce%20data%20with%20green%20and%20blue%20bars%2C%20clean%20modern%20design%2C%20white%20background%2C%20data%20visualization%2C%20business%20analytics%20screen&width=600&height=400&seq=1&orientation=landscape" 
-                             alt="E-commerce leads dashboard" 
-                             class="w-full h-auto object-cover object-top">
-                    </div>
-                </div>
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+          <div>
+            <h1
+              class="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-6"
+            >
+              Build Your Perfect
+              <span class="text-primary">Online Business</span> With Expert
+              Developers
+            </h1>
+            <p class="text-lg text-gray-600 mb-8">
+              Connect with skilled developers specialized in Shopify, WordPress,
+              Wix, and more. Get custom solutions for your e-commerce and
+              business websites from our vetted network of professionals.
+            </p>
+            <div class="flex gap-4">
+              <a
+                href="https://readdy.ai/home/b7642467-ccb5-4664-b933-071c4f4c23a3/7ac0581f-56f3-4183-9737-fd25683b6a31"
+                data-readdy="true"
+              >
+                <button
+                  class="bg-primary text-white px-6 py-3 !rounded-button font-medium hover:bg-primary/90 whitespace-nowrap"
+                >
+                  Find Developers
+                </button>
+              </a>
+              <button
+                class="bg-white border-2 border-primary text-primary px-6 py-3 !rounded-button font-medium hover:bg-primary/5 whitespace-nowrap"
+              >
+                Join as Developer
+              </button>
             </div>
+          </div>
+          <div class="relative">
+            <div class="bg-white rounded-lg shadow-xl overflow-hidden">
+              <img
+                src="https://readdy.ai/api/search-image?query=professional%20dashboard%20interface%20showing%20e-commerce%20data%20with%20green%20and%20blue%20bars%2C%20clean%20modern%20design%2C%20white%20background%2C%20data%20visualization%2C%20business%20analytics%20screen&width=600&height=400&seq=1&orientation=landscape"
+                alt="E-commerce leads dashboard"
+                class="w-full h-auto object-cover object-top"
+              />
+            </div>
+          </div>
         </div>
+      </div>
     </section>
-
     <!-- Stats Section -->
     <section class="bg-gray-50 py-12">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <div class="text-center">
-                    <h3 class="text-3xl md:text-4xl font-bold text-primary">5,000+</h3>
-                    <p class="text-gray-600 mt-2">New leads added every month</p>
-                </div>
-                <div class="text-center">
-                    <h3 class="text-3xl md:text-4xl font-bold text-primary">3,158,400</h3>
-                    <p class="text-gray-600 mt-2">Active stores</p>
-                </div>
-                <div class="text-center">
-                    <h3 class="text-3xl md:text-4xl font-bold text-primary">16,322</h3>
-                    <p class="text-gray-600 mt-2">Customers using our data</p>
-                </div>
-            </div>
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+          <div class="text-center">
+            <h3 class="text-3xl md:text-4xl font-bold text-primary">5,000+</h3>
+            <p class="text-gray-600 mt-2">Expert Developers</p>
+          </div>
+          <div class="text-center">
+            <h3 class="text-3xl md:text-4xl font-bold text-primary">15,000+</h3>
+            <p class="text-gray-600 mt-2">Projects Delivered</p>
+          </div>
+          <div class="text-center">
+            <h3 class="text-3xl md:text-4xl font-bold text-primary">10+</h3>
+            <p class="text-gray-600 mt-2">Platforms Supported</p>
+          </div>
+          <div class="text-center">
+            <h3 class="text-3xl md:text-4xl font-bold text-primary">99%</h3>
+            <p class="text-gray-600 mt-2">Client Satisfaction</p>
+          </div>
         </div>
+      </div>
     </section>
-
     <!-- Platforms Section -->
     <section class="py-12 bg-white">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 class="text-2xl md:text-3xl font-bold text-center mb-12">Generate leads across multiple e-commerce platforms</h2>
-            <div class="grid grid-cols-2 md:grid-cols-5 gap-8">
-                <div class="flex items-center justify-center">
-                    <div class="w-10 h-10 flex items-center justify-center">
-                        <i class="ri-shopify-fill ri-3x text-gray-700"></i>
-                    </div>
-                    <span class="ml-2 text-lg font-medium">Shopify</span>
-                </div>
-                <div class="flex items-center justify-center">
-                    <div class="w-10 h-10 flex items-center justify-center">
-                        <i class="ri-amazon-fill ri-3x text-gray-700"></i>
-                    </div>
-                    <span class="ml-2 text-lg font-medium">Amazon</span>
-                </div>
-                <div class="flex items-center justify-center">
-                    <div class="w-10 h-10 flex items-center justify-center">
-                        <i class="ri-wechat-fill ri-3x text-gray-700"></i>
-                    </div>
-                    <span class="ml-2 text-lg font-medium">WIX</span>
-                </div>
-                <div class="flex items-center justify-center">
-                    <div class="w-10 h-10 flex items-center justify-center">
-                        <i class="ri-store-2-fill ri-3x text-gray-700"></i>
-                    </div>
-                    <span class="ml-2 text-lg font-medium">Etsy</span>
-                </div>
-                <div class="flex items-center justify-center">
-                    <div class="w-10 h-10 flex items-center justify-center">
-                        <i class="ri-shopping-cart-fill ri-3x text-gray-700"></i>
-                    </div>
-                    <span class="ml-2 text-lg font-medium">BigCommerce</span>
-                </div>
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <h2 class="text-2xl md:text-3xl font-bold text-center mb-12">
+          Expert Development Across All Major Platforms
+        </h2>
+        <div class="grid grid-cols-2 md:grid-cols-5 grid-rows-2 gap-8">
+          <!-- Shopify -->
+          <div class="flex items-center justify-center">
+            <div class="w-10 h-10 flex items-center justify-center">
+              <i class="ri-shopify-fill ri-3x" style="color: #96bf48"></i>
             </div>
+            <span class="ml-2 text-lg font-medium">Shopify</span>
+          </div>
+          <!-- Etsy -->
+          <div class="flex items-center justify-center">
+            <div class="w-10 h-10 flex items-center justify-center">
+              <i class="ri-store-2-fill ri-3x" style="color: #f56400"></i>
+            </div>
+            <span class="ml-2 text-lg font-medium">Etsy</span>
+          </div>
+          <!-- EBay -->
+          <div class="flex items-center justify-center">
+            <div class="w-10 h-10 flex items-center justify-center">
+              <i class="ri-shopping-cart-fill ri-3x" style="color: #e53238"></i>
+            </div>
+            <span class="ml-2 text-lg font-medium">EBay</span>
+          </div>
+          <!-- WordPress -->
+          <div class="flex items-center justify-center">
+            <div class="w-10 h-10 flex items-center justify-center">
+              <i class="ri-wordpress-fill ri-3x" style="color: #21759b"></i>
+            </div>
+            <span class="ml-2 text-lg font-medium">WordPress</span>
+          </div>
+          <!-- Wix -->
+          <div class="flex items-center justify-center">
+            <div class="w-10 h-10 flex items-center justify-center">
+              <i class="ri-wechat-fill ri-3x" style="color: #ffbe00"></i>
+            </div>
+            <span class="ml-2 text-lg font-medium">Wix</span>
+          </div>
+          <!-- Squarespace -->
+          <div class="flex items-center justify-center">
+            <div class="w-10 h-10 flex items-center justify-center">
+              <i class="ri-layout-2-fill ri-3x" style="color: #222"></i>
+            </div>
+            <span class="ml-2 text-lg font-medium">Squarespace</span>
+          </div>
+          <!-- WooCommerce -->
+          <div class="flex items-center justify-center">
+            <div class="w-10 h-10 flex items-center justify-center">
+              <i
+                class="ri-shopping-bag-3-fill ri-3x"
+                style="color: #96588a"
+              ></i>
+            </div>
+            <span class="ml-2 text-lg font-medium">WooCommerce</span>
+          </div>
+          <!-- Square -->
+          <div class="flex items-center justify-center">
+            <div class="w-10 h-10 flex items-center justify-center">
+              <i
+                class="ri-checkbox-blank-circle-fill ri-3x"
+                style="color: #28c101"
+              ></i>
+            </div>
+            <span class="ml-2 text-lg font-medium">Square</span>
+          </div>
+          <!-- GoDaddy -->
+          <div class="flex items-center justify-center">
+            <div class="w-10 h-10 flex items-center justify-center">
+              <i class="ri-global-fill ri-3x" style="color: #1eaa39"></i>
+            </div>
+            <span class="ml-2 text-lg font-medium">GoDaddy</span>
+          </div>
+          <!-- Webflow -->
+          <div class="flex items-center justify-center">
+            <div class="w-10 h-10 flex items-center justify-center">
+              <i class="ri-store-2-fill ri-3x" style="color: #4353ff"></i>
+            </div>
+            <span class="ml-2 text-lg font-medium">Webflow</span>
+          </div>
+          <!-- Weebly -->
+          <div class="flex items-center justify-center">
+            <div class="w-10 h-10 flex items-center justify-center">
+              <i class="ri-window-fill ri-3x" style="color: #1f8ded"></i>
+            </div>
+            <span class="ml-2 text-lg font-medium">Weebly</span>
+          </div>
         </div>
+      </div>
     </section>
-
     <!-- Features Section -->
     <section class="py-16 bg-gray-50">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
-                <div class="bg-white p-8 rounded-lg shadow-sm">
-                    <div class="w-12 h-12 flex items-center justify-center bg-primary/10 rounded-full mb-6">
-                        <i class="ri-search-line ri-xl text-primary"></i>
-                    </div>
-                    <h3 class="text-xl font-bold mb-4">App Integration</h3>
-                    <p class="text-gray-600">
-                        Connect with your favorite tools and platforms seamlessly. Our API allows you to integrate our data with your existing workflow, making it easier to manage your leads and campaigns.
-                    </p>
-                </div>
-                <div class="bg-white p-8 rounded-lg shadow-sm">
-                    <div class="w-12 h-12 flex items-center justify-center bg-primary/10 rounded-full mb-6">
-                        <i class="ri-bar-chart-line ri-xl text-primary"></i>
-                    </div>
-                    <h3 class="text-xl font-bold mb-4">Store Analytics</h3>
-                    <p class="text-gray-600">
-                        Get detailed insights into store performance, traffic sources, and customer behavior. Our analytics dashboard helps you identify high-potential leads and optimize your outreach strategy.
-                    </p>
-                </div>
-                <div class="bg-white p-8 rounded-lg shadow-sm">
-                    <div class="w-12 h-12 flex items-center justify-center bg-primary/10 rounded-full mb-6">
-                        <i class="ri-filter-3-line ri-xl text-primary"></i>
-                    </div>
-                    <h3 class="text-xl font-bold mb-4">Powerful Filters</h3>
-                    <p class="text-gray-600">
-                        Narrow down your search with our advanced filtering options. Filter by industry, revenue, location, platform, and more to find the perfect leads for your business.
-                    </p>
-                </div>
-                <div class="bg-white p-8 rounded-lg shadow-sm">
-                    <div class="w-12 h-12 flex items-center justify-center bg-primary/10 rounded-full mb-6">
-                        <i class="ri-notification-4-line ri-xl text-primary"></i>
-                    </div>
-                    <h3 class="text-xl font-bold mb-4">Real-time Alerts</h3>
-                    <p class="text-gray-600">
-                        Stay updated with real-time notifications about new leads that match your criteria. Get alerts about changes in store performance, new product launches, and more.
-                    </p>
-                </div>
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+          <div class="bg-white p-8 rounded-lg shadow-sm">
+            <div
+              class="w-12 h-12 flex items-center justify-center bg-primary/10 rounded-full mb-6"
+            >
+              <i class="ri-code-line ri-xl text-primary"></i>
             </div>
+            <h3 class="text-xl font-bold mb-4">Expert Development</h3>
+            <p class="text-gray-600">
+              Access skilled developers with proven experience in your specific
+              platform and industry. Our network includes specialists in
+              e-commerce, custom features, and business websites.
+            </p>
+          </div>
+          <div class="bg-white p-8 rounded-lg shadow-sm">
+            <div
+              class="w-12 h-12 flex items-center justify-center bg-primary/10 rounded-full mb-6"
+            >
+              <i class="ri-team-line ri-xl text-primary"></i>
+            </div>
+            <h3 class="text-xl font-bold mb-4">Perfect Match</h3>
+            <p class="text-gray-600">
+              Our intelligent matching system pairs you with developers who have
+              the exact skills and experience you need. Get personalized
+              recommendations based on your project requirements.
+            </p>
+          </div>
+          <div class="bg-white p-8 rounded-lg shadow-sm">
+            <div
+              class="w-12 h-12 flex items-center justify-center bg-primary/10 rounded-full mb-6"
+            >
+              <i class="ri-customer-service-2-line ri-xl text-primary"></i>
+            </div>
+            <h3 class="text-xl font-bold mb-4">Ongoing Support</h3>
+            <p class="text-gray-600">
+              Receive continuous technical support and maintenance for your
+              website. Our developers ensure smooth operations and quick
+              resolution of any issues that arise.
+            </p>
+          </div>
+          <div class="bg-white p-8 rounded-lg shadow-sm">
+            <div
+              class="w-12 h-12 flex items-center justify-center bg-primary/10 rounded-full mb-6"
+            >
+              <i class="ri-shield-check-line ri-xl text-primary"></i>
+            </div>
+            <h3 class="text-xl font-bold mb-4">Quality Assured</h3>
+            <p class="text-gray-600">
+              Every developer in our network is thoroughly vetted and regularly
+              evaluated. We maintain high standards to ensure you receive
+              top-quality development services.
+            </p>
+          </div>
         </div>
+      </div>
     </section>
-
     <!-- Filter Section -->
     <section class="py-12 bg-white">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 class="text-2xl md:text-3xl font-bold mb-8">Find the perfect leads for your business</h2>
-            <div class="bg-gray-50 p-6 rounded-lg mb-8">
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-2">Niche</label>
-                        <div class="custom-select w-full" data-filter="niche">
-                            <div class="custom-select-trigger">
-                                <span>All Niches</span>
-                                <div class="w-4 h-4 flex items-center justify-center">
-                                    <i class="ri-arrow-down-s-line"></i>
-                                </div>
-                            </div>
-                            <div class="custom-options">
-                                <div class="custom-option" data-value="all">All Niches</div>
-                                <div class="custom-option" data-value="fashion">Fashion</div>
-                                <div class="custom-option" data-value="beauty">Beauty & Cosmetics</div>
-                                <div class="custom-option" data-value="electronics">Electronics</div>
-                                <div class="custom-option" data-value="home">Home & Garden</div>
-                                <div class="custom-option" data-value="health">Health & Wellness</div>
-                            </div>
-                        </div>
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-2">Platform</label>
-                        <div class="custom-select w-full" data-filter="platform">
-                            <div class="custom-select-trigger">
-                                <span>All Platforms</span>
-                                <div class="w-4 h-4 flex items-center justify-center">
-                                    <i class="ri-arrow-down-s-line"></i>
-                                </div>
-                            </div>
-                            <div class="custom-options">
-                                <div class="custom-option" data-value="all">All Platforms</div>
-                                <div class="custom-option" data-value="shopify">Shopify</div>
-                                <div class="custom-option" data-value="wix">WIX</div>
-                                <div class="custom-option" data-value="amazon">Amazon</div>
-                                <div class="custom-option" data-value="etsy">Etsy</div>
-                                <div class="custom-option" data-value="bigcommerce">BigCommerce</div>
-                            </div>
-                        </div>
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-2">Revenue</label>
-                        <div class="custom-select w-full" data-filter="revenue">
-                            <div class="custom-select-trigger">
-                                <span>Any Revenue</span>
-                                <div class="w-4 h-4 flex items-center justify-center">
-                                    <i class="ri-arrow-down-s-line"></i>
-                                </div>
-                            </div>
-                            <div class="custom-options">
-                                <div class="custom-option" data-value="all">Any Revenue</div>
-                                <div class="custom-option" data-value="10k">$0 - $10k</div>
-                                <div class="custom-option" data-value="50k">$10k - $50k</div>
-                                <div class="custom-option" data-value="100k">$50k - $100k</div>
-                                <div class="custom-option" data-value="500k">$100k - $500k</div>
-                                <div class="custom-option" data-value="1m">$500k+</div>
-                            </div>
-                        </div>
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-2">Country</label>
-                        <div class="custom-select w-full" data-filter="country">
-                            <div class="custom-select-trigger">
-                                <span>All Countries</span>
-                                <div class="w-4 h-4 flex items-center justify-center">
-                                    <i class="ri-arrow-down-s-line"></i>
-                                </div>
-                            </div>
-                            <div class="custom-options">
-                                <div class="custom-option" data-value="all">All Countries</div>
-                                <div class="custom-option" data-value="us">United States</div>
-                                <div class="custom-option" data-value="ca">Canada</div>
-                                <div class="custom-option" data-value="uk">United Kingdom</div>
-                                <div class="custom-option" data-value="au">Australia</div>
-                                <div class="custom-option" data-value="de">Germany</div>
-                            </div>
-                        </div>
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-2">Ad Spend</label>
-                        <div class="custom-select w-full" data-filter="adspend">
-                            <div class="custom-select-trigger">
-                                <span>Any Ad Spend</span>
-                                <div class="w-4 h-4 flex items-center justify-center">
-                                    <i class="ri-arrow-down-s-line"></i>
-                                </div>
-                            </div>
-                            <div class="custom-options">
-                                <div class="custom-option" data-value="all">Any Ad Spend</div>
-                                <div class="custom-option" data-value="5k">$0 - $5k</div>
-                                <div class="custom-option" data-value="10k">$5k - $10k</div>
-                                <div class="custom-option" data-value="25k">$10k - $25k</div>
-                                <div class="custom-option" data-value="50k">$25k - $50k</div>
-                                <div class="custom-option" data-value="100k">$50k+</div>
-                            </div>
-                        </div>
-                    </div>
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-2">Language</label>
-                        <div class="custom-select w-full" data-filter="language">
-                            <div class="custom-select-trigger">
-                                <span>All Languages</span>
-                                <div class="w-4 h-4 flex items-center justify-center">
-                                    <i class="ri-arrow-down-s-line"></i>
-                                </div>
-                            </div>
-                            <div class="custom-options">
-                                <div class="custom-option" data-value="all">All Languages</div>
-                                <div class="custom-option" data-value="en">English</div>
-                                <div class="custom-option" data-value="fr">French</div>
-                                <div class="custom-option" data-value="de">German</div>
-                                <div class="custom-option" data-value="es">Spanish</div>
-                                <div class="custom-option" data-value="it">Italian</div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="flex items-end">
-                        <button class="bg-primary text-white px-4 py-2 !rounded-button font-medium hover:bg-primary/90 whitespace-nowrap w-full">Apply Filters</button>
-                    </div>
-                    <div class="flex items-end">
-                        <button class="bg-white border border-gray-300 text-gray-700 px-4 py-2 !rounded-button font-medium hover:bg-gray-50 whitespace-nowrap w-full">Reset Filters</button>
-                    </div>
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <h2 class="text-2xl md:text-3xl font-bold mb-8">
+          Find the perfect leads for your business
+        </h2>
+        <div class="bg-gray-50 p-6 rounded-lg mb-8">
+          <div
+            class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
+          >
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-2"
+                >Niche</label
+              >
+              <div class="custom-select w-full" data-filter="niche">
+                <div class="custom-select-trigger">
+                  <span>All Niches</span>
+                  <div class="w-4 h-4 flex items-center justify-center">
+                    <i class="ri-arrow-down-s-line"></i>
+                  </div>
                 </div>
+                <div class="custom-options">
+                  <div class="custom-option" data-value="all">All Niches</div>
+                  <div class="custom-option" data-value="fashion">Fashion</div>
+                  <div class="custom-option" data-value="beauty">
+                    Beauty & Cosmetics
+                  </div>
+                  <div class="custom-option" data-value="electronics">
+                    Electronics
+                  </div>
+                  <div class="custom-option" data-value="home">
+                    Home & Garden
+                  </div>
+                  <div class="custom-option" data-value="health">
+                    Health & Wellness
+                  </div>
+                  <div class="custom-option" data-value="sports">
+                    Sports & Outdoors
+                  </div>
+                  <div class="custom-option" data-value="food">
+                    Food & Beverage
+                  </div>
+                  <div class="custom-option" data-value="pet">Pet Supplies</div>
+                  <div class="custom-option" data-value="toys">
+                    Toys & Games
+                  </div>
+                  <div class="custom-option" data-value="auto">Automotive</div>
+                  <div class="custom-option" data-value="baby">Baby & Kids</div>
+                  <div class="custom-option" data-value="jewelry">
+                    Jewelry & Accessories
+                  </div>
+                  <div class="custom-option" data-value="books">
+                    Books & Media
+                  </div>
+                  <div class="custom-option" data-value="office">
+                    Office Supplies
+                  </div>
+                  <div class="custom-option" data-value="art">
+                    Art & Collectibles
+                  </div>
+                  <div class="custom-option" data-value="music">
+                    Music & Instruments
+                  </div>
+                  <div class="custom-option" data-value="tools">
+                    Tools & Hardware
+                  </div>
+                  <div class="custom-option" data-value="travel">
+                    Travel & Luggage
+                  </div>
+                  <div class="custom-option" data-value="other">Other</div>
+                </div>
+              </div>
             </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-2"
+                >Platform</label
+              >
+              <div class="custom-select w-full" data-filter="platform">
+                <div class="custom-select-trigger">
+                  <span>All Platforms</span>
+                  <div class="w-4 h-4 flex items-center justify-center">
+                    <i class="ri-arrow-down-s-line"></i>
+                  </div>
+                </div>
+                <div class="custom-options">
+                  <div class="custom-option" data-value="all">
+                    All Platforms
+                  </div>
+                  <div class="custom-option" data-value="shopify">Shopify</div>
+                  <div class="custom-option" data-value="etsy">Etsy</div>
+                  <div class="custom-option" data-value="ebay">EBay</div>
+                  <div class="custom-option" data-value="wordpress">
+                    WordPress
+                  </div>
+                  <div class="custom-option" data-value="wix">Wix</div>
+                  <div class="custom-option" data-value="squarespace">
+                    Squarespace
+                  </div>
+                  <div class="custom-option" data-value="woocommerce">
+                    WooCommerce
+                  </div>
+                  <div class="custom-option" data-value="square">Square</div>
+                  <div class="custom-option" data-value="godaddy">GoDaddy</div>
+                  <div class="custom-option" data-value="webflow">Webflow</div>
+                  <div class="custom-option" data-value="weebly">Weebly</div>
+                </div>
+              </div>
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-2"
+                >Country</label
+              >
+              <div class="custom-select w-full" data-filter="country">
+                <div class="custom-select-trigger">
+                  <span>All Countries</span>
+                  <div class="w-4 h-4 flex items-center justify-center">
+                    <i class="ri-arrow-down-s-line"></i>
+                  </div>
+                </div>
+                <div
+                  class="custom-options"
+                  style="max-height: 300px; overflow-y: auto"
+                >
+                  <div class="custom-option" data-value="all">
+                    All Countries
+                  </div>
+                  <div class="custom-option" data-value="us">United States</div>
+                  <div class="custom-option" data-value="ca">Canada</div>
+                  <div class="custom-option" data-value="uk">
+                    United Kingdom
+                  </div>
+                  <div class="custom-option" data-value="au">Australia</div>
+                  <div class="custom-option" data-value="de">Germany</div>
+                  <div class="custom-option" data-value="fr">France</div>
+                  <div class="custom-option" data-value="it">Italy</div>
+                  <div class="custom-option" data-value="es">Spain</div>
+                  <div class="custom-option" data-value="nl">Netherlands</div>
+                  <div class="custom-option" data-value="br">Brazil</div>
+                  <div class="custom-option" data-value="in">India</div>
+                  <div class="custom-option" data-value="cn">China</div>
+                  <div class="custom-option" data-value="jp">Japan</div>
+                  <div class="custom-option" data-value="mx">Mexico</div>
+                  <div class="custom-option" data-value="ru">Russia</div>
+                  <div class="custom-option" data-value="za">South Africa</div>
+                  <div class="custom-option" data-value="ae">
+                    United Arab Emirates
+                  </div>
+                  <div class="custom-option" data-value="ng">Nigeria</div>
+                  <div class="custom-option" data-value="eg">Egypt</div>
+                  <div class="custom-option" data-value="tr">Turkey</div>
+                  <div class="custom-option" data-value="ar">Argentina</div>
+                  <div class="custom-option" data-value="se">Sweden</div>
+                  <div class="custom-option" data-value="ch">Switzerland</div>
+                  <div class="custom-option" data-value="pl">Poland</div>
+                  <div class="custom-option" data-value="be">Belgium</div>
+                  <div class="custom-option" data-value="dk">Denmark</div>
+                  <div class="custom-option" data-value="no">Norway</div>
+                  <div class="custom-option" data-value="fi">Finland</div>
+                  <div class="custom-option" data-value="ie">Ireland</div>
+                  <div class="custom-option" data-value="pt">Portugal</div>
+                  <div class="custom-option" data-value="gr">Greece</div>
+                  <div class="custom-option" data-value="il">Israel</div>
+                  <div class="custom-option" data-value="kr">South Korea</div>
+                  <div class="custom-option" data-value="sg">Singapore</div>
+                  <div class="custom-option" data-value="nz">New Zealand</div>
+                  <div class="custom-option" data-value="sa">Saudi Arabia</div>
+                  <div class="custom-option" data-value="ua">Ukraine</div>
+                  <div class="custom-option" data-value="cz">
+                    Czech Republic
+                  </div>
+                  <div class="custom-option" data-value="hu">Hungary</div>
+                  <div class="custom-option" data-value="ro">Romania</div>
+                  <div class="custom-option" data-value="cl">Chile</div>
+                  <div class="custom-option" data-value="co">Colombia</div>
+                  <div class="custom-option" data-value="th">Thailand</div>
+                  <div class="custom-option" data-value="ph">Philippines</div>
+                  <div class="custom-option" data-value="my">Malaysia</div>
+                  <div class="custom-option" data-value="id">Indonesia</div>
+                  <div class="custom-option" data-value="pk">Pakistan</div>
+                  <div class="custom-option" data-value="bd">Bangladesh</div>
+                  <div class="custom-option" data-value="vn">Vietnam</div>
+                  <div class="custom-option" data-value="hk">Hong Kong</div>
+                  <div class="custom-option" data-value="tw">Taiwan</div>
+                  <!-- Add more countries as needed -->
+                </div>
+              </div>
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-2"
+                >Ad Spend</label
+              >
+              <div class="custom-select w-full" data-filter="adspend">
+                <div class="custom-select-trigger">
+                  <span>Any Ad Spend</span>
+                  <div class="w-4 h-4 flex items-center justify-center">
+                    <i class="ri-arrow-down-s-line"></i>
+                  </div>
+                </div>
+                <div class="custom-options">
+                  <div class="custom-option" data-value="all">Any Ad Spend</div>
+                  <div class="custom-option" data-value="5k">$0 - $5k</div>
+                  <div class="custom-option" data-value="10k">$5k - $10k</div>
+                  <div class="custom-option" data-value="25k">$10k - $25k</div>
+                  <div class="custom-option" data-value="50k">$25k - $50k</div>
+                  <div class="custom-option" data-value="100k">$50k+</div>
+                </div>
+              </div>
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-2"
+                >Language</label
+              >
+              <div class="custom-select w-full" data-filter="language">
+                <div class="custom-select-trigger">
+                  <span>All Languages</span>
+                  <div class="w-4 h-4 flex items-center justify-center">
+                    <i class="ri-arrow-down-s-line"></i>
+                  </div>
+                </div>
+                <div class="custom-options">
+                  <div class="custom-option" data-value="all">
+                    All Languages
+                  </div>
+                  <div class="custom-option" data-value="en">English</div>
+                  <div class="custom-option" data-value="fr">French</div>
+                  <div class="custom-option" data-value="de">German</div>
+                  <div class="custom-option" data-value="es">Spanish</div>
+                  <div class="custom-option" data-value="it">Italian</div>
+                </div>
+              </div>
+            </div>
+            <div class="flex items-end">
+              <button
+                id="apply-filters-btn"
+                class="bg-primary text-white px-4 py-2 !rounded-button font-medium hover:bg-primary/90 whitespace-nowrap w-full"
+              >
+                Apply Filters
+              </button>
+            </div>
+            <div class="flex items-end">
+              <button
+                id="reset-filters-btn"
+                class="bg-white border border-gray-300 text-gray-700 px-4 py-2 !rounded-button font-medium hover:bg-gray-50 whitespace-nowrap w-full"
+              >
+                Reset Filters
+              </button>
+            </div>
+          </div>
         </div>
+      </div>
     </section>
-
     <!-- Results Section -->
     <section class="py-12 bg-white">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="overflow-x-auto">
-                <table class="min-w-full divide-y divide-gray-200">
-                    <thead class="bg-gray-50">
-                        <tr>
-                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Store</th>
-                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Niche</th>
-                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Platform</th>
-                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Revenue</th>
-                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Traffic</th>
-                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Ad Spend</th>
-                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Country</th>
-                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody class="bg-white divide-y divide-gray-200">
-                        <tr>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <div class="flex items-center">
-                                    <div class="w-8 h-8 flex items-center justify-center bg-blue-100 rounded-full">
-                                        <span class="text-blue-800 font-medium">A</span>
-                                    </div>
-                                    <div class="ml-4">
-                                        <div class="text-sm font-medium text-gray-900">Athletic Apparel Co.</div>
-                                        <div class="text-sm text-gray-500">athleticapparel.com</div>
-                                    </div>
-                                </div>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
-                                    Fashion
-                                </span>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <div class="w-6 h-6 flex items-center justify-center">
-                                    <i class="ri-shopify-fill text-gray-600"></i>
-                                </div>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                $125K - $150K
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <div class="w-24 bg-blue-100 rounded-full h-2.5">
-                                    <div class="bg-blue-500 h-2.5 rounded-full" style="width: 65%"></div>
-                                </div>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <div class="w-24 bg-yellow-100 rounded-full h-2.5">
-                                    <div class="bg-yellow-500 h-2.5 rounded-full" style="width: 40%"></div>
-                                </div>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                United States
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                <button class="text-primary hover:text-primary/80 !rounded-button whitespace-nowrap">Track</button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <div class="flex items-center">
-                                    <div class="w-8 h-8 flex items-center justify-center bg-purple-100 rounded-full">
-                                        <span class="text-purple-800 font-medium">B</span>
-                                    </div>
-                                    <div class="ml-4">
-                                        <div class="text-sm font-medium text-gray-900">Beauty Essentials</div>
-                                        <div class="text-sm text-gray-500">beautyessentials.com</div>
-                                    </div>
-                                </div>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-purple-100 text-purple-800">
-                                    Beauty
-                                </span>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <div class="w-6 h-6 flex items-center justify-center">
-                                    <i class="ri-wechat-fill text-gray-600"></i>
-                                </div>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                $75K - $100K
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <div class="w-24 bg-blue-100 rounded-full h-2.5">
-                                    <div class="bg-blue-500 h-2.5 rounded-full" style="width: 45%"></div>
-                                </div>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <div class="w-24 bg-yellow-100 rounded-full h-2.5">
-                                    <div class="bg-yellow-500 h-2.5 rounded-full" style="width: 30%"></div>
-                                </div>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                Canada
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                <button class="text-primary hover:text-primary/80 !rounded-button whitespace-nowrap">Track</button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <div class="flex items-center">
-                                    <div class="w-8 h-8 flex items-center justify-center bg-gray-100 rounded-full">
-                                        <span class="text-gray-800 font-medium">T</span>
-                                    </div>
-                                    <div class="ml-4">
-                                        <div class="text-sm font-medium text-gray-900">Tech Gadgets Pro</div>
-                                        <div class="text-sm text-gray-500">techgadgetspro.com</div>
-                                    </div>
-                                </div>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800">
-                                    Electronics
-                                </span>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <div class="w-6 h-6 flex items-center justify-center">
-                                    <i class="ri-amazon-fill text-gray-600"></i>
-                                </div>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                $200K - $250K
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <div class="w-24 bg-blue-100 rounded-full h-2.5">
-                                    <div class="bg-blue-500 h-2.5 rounded-full" style="width: 85%"></div>
-                                </div>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <div class="w-24 bg-yellow-100 rounded-full h-2.5">
-                                    <div class="bg-yellow-500 h-2.5 rounded-full" style="width: 70%"></div>
-                                </div>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                United Kingdom
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                <button class="text-primary hover:text-primary/80 !rounded-button whitespace-nowrap">Track</button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <div class="flex items-center">
-                                    <div class="w-8 h-8 flex items-center justify-center bg-green-100 rounded-full">
-                                        <span class="text-green-800 font-medium">H</span>
-                                    </div>
-                                    <div class="ml-4">
-                                        <div class="text-sm font-medium text-gray-900">Home Decor & More</div>
-                                        <div class="text-sm text-gray-500">homedecormore.com</div>
-                                    </div>
-                                </div>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
-                                    Home
-                                </span>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <div class="w-6 h-6 flex items-center justify-center">
-                                    <i class="ri-store-2-fill text-gray-600"></i>
-                                </div>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                $50K - $75K
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <div class="w-24 bg-blue-100 rounded-full h-2.5">
-                                    <div class="bg-blue-500 h-2.5 rounded-full" style="width: 35%"></div>
-                                </div>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <div class="w-24 bg-yellow-100 rounded-full h-2.5">
-                                    <div class="bg-yellow-500 h-2.5 rounded-full" style="width: 20%"></div>
-                                </div>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                Australia
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                <button class="text-primary hover:text-primary/80 !rounded-button whitespace-nowrap">Track</button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <div class="flex items-center">
-                                    <div class="w-8 h-8 flex items-center justify-center bg-red-100 rounded-full">
-                                        <span class="text-red-800 font-medium">W</span>
-                                    </div>
-                                    <div class="ml-4">
-                                        <div class="text-sm font-medium text-gray-900">Wellness Supplements</div>
-                                        <div class="text-sm text-gray-500">wellnesssupplements.com</div>
-                                    </div>
-                                </div>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">
-                                    Health
-                                </span>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <div class="w-6 h-6 flex items-center justify-center">
-                                    <i class="ri-shopping-cart-fill text-gray-600"></i>
-                                </div>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                $100K - $125K
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <div class="w-24 bg-blue-100 rounded-full h-2.5">
-                                    <div class="bg-blue-500 h-2.5 rounded-full" style="width: 55%"></div>
-                                </div>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <div class="w-24 bg-yellow-100 rounded-full h-2.5">
-                                    <div class="bg-yellow-500 h-2.5 rounded-full" style="width: 50%"></div>
-                                </div>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                Germany
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                <button class="text-primary hover:text-primary/80 !rounded-button whitespace-nowrap">Track</button>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            <div class="mt-8 flex justify-center">
-                <nav class="relative z-0 inline-flex rounded-md shadow-sm -space-x-px" aria-label="Pagination">
-                    <a href="#" class="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
-                        <span class="sr-only">Previous</span>
-                        <div class="w-5 h-5 flex items-center justify-center">
-                            <i class="ri-arrow-left-s-line"></i>
-                        </div>
-                    </a>
-                    <a href="#" class="relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50">1</a>
-                    <a href="#" class="relative inline-flex items-center px-4 py-2 border border-gray-300 bg-primary text-sm font-medium text-white">2</a>
-                    <a href="#" class="relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50">3</a>
-                    <span class="relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700">...</span>
-                    <a href="#" class="relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50">8</a>
-                    <a href="#" class="relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50">9</a>
-                    <a href="#" class="relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50">10</a>
-                    <a href="#" class="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
-                        <span class="sr-only">Next</span>
-                        <div class="w-5 h-5 flex items-center justify-center">
-                            <i class="ri-arrow-right-s-line"></i>
-                        </div>
-                    </a>
-                </nav>
-            </div>
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="overflow-x-auto">
+          <table class="min-w-full divide-y divide-gray-200">
+            <thead class="bg-gray-50">
+              <tr>
+                <th
+                  scope="col"
+                  class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                >
+                  Store
+                </th>
+                <th
+                  scope="col"
+                  class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                >
+                  Niche
+                </th>
+                <th
+                  scope="col"
+                  class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                >
+                  Platform
+                </th>
+                <th
+                  scope="col"
+                  class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                >
+                  Revenue
+                </th>
+                <th
+                  scope="col"
+                  class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                >
+                  Traffic
+                </th>
+                <th
+                  scope="col"
+                  class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                >
+                  Ad Spend
+                </th>
+                <th
+                  scope="col"
+                  class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                >
+                  Country
+                </th>
+                <th
+                  scope="col"
+                  class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                >
+                  Actions
+                </th>
+              </tr>
+            </thead>
+            <tbody class="bg-white divide-y divide-gray-200">
+            </tbody>
+          </table>
         </div>
+        <div class="mt-8 flex justify-center">
+          <nav
+            class="relative z-0 inline-flex rounded-md shadow-sm -space-x-px"
+            aria-label="Pagination"
+          ></nav>
+        </div>
+      </div>
     </section>
-
     <!-- Data Visualization Section -->
     <section class="py-16 bg-gray-50">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 class="text-2xl md:text-3xl font-bold mb-12 text-center">Comprehensive Data Coverage: Trading Over 20 Essential Attributes</h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
-                <div>
-                    <h3 class="text-xl font-bold mb-6">Store Information</h3>
-                    <ul class="space-y-4">
-                        <li class="flex items-center">
-                            <div class="w-6 h-6 flex items-center justify-center text-primary">
-                                <i class="ri-check-line"></i>
-                            </div>
-                            <span class="ml-2 text-gray-700">Store URL and Domain</span>
-                        </li>
-                        <li class="flex items-center">
-                            <div class="w-6 h-6 flex items-center justify-center text-primary">
-                                <i class="ri-check-line"></i>
-                            </div>
-                            <span class="ml-2 text-gray-700">Store Creation Date</span>
-                        </li>
-                        <li class="flex items-center">
-                            <div class="w-6 h-6 flex items-center justify-center text-primary">
-                                <i class="ri-check-line"></i>
-                            </div>
-                            <span class="ml-2 text-gray-700">E-commerce Platform</span>
-                        </li>
-                        <li class="flex items-center">
-                            <div class="w-6 h-6 flex items-center justify-center text-primary">
-                                <i class="ri-check-line"></i>
-                            </div>
-                            <span class="ml-2 text-gray-700">Business Category and Niche</span>
-                        </li>
-                        <li class="flex items-center">
-                            <div class="w-6 h-6 flex items-center justify-center text-primary">
-                                <i class="ri-check-line"></i>
-                            </div>
-                            <span class="ml-2 text-gray-700">Contact Information</span>
-                        </li>
-                    </ul>
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <h2 class="text-2xl md:text-3xl font-bold mb-12 text-center">
+          Comprehensive Data Coverage: Trading Over 20 Essential Attributes
+        </h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+          <div>
+            <h3 class="text-xl font-bold mb-6">Store Information</h3>
+            <ul class="space-y-4">
+              <li class="flex items-center">
+                <div
+                  class="w-6 h-6 flex items-center justify-center text-primary"
+                >
+                  <i class="ri-check-line"></i>
                 </div>
-                <div>
-                    <h3 class="text-xl font-bold mb-6">Performance Metrics</h3>
-                    <ul class="space-y-4">
-                        <li class="flex items-center">
-                            <div class="w-6 h-6 flex items-center justify-center text-primary">
-                                <i class="ri-check-line"></i>
-                            </div>
-                            <span class="ml-2 text-gray-700">Monthly Revenue Estimation</span>
-                        </li>
-                        <li class="flex items-center">
-                            <div class="w-6 h-6 flex items-center justify-center text-primary">
-                                <i class="ri-check-line"></i>
-                            </div>
-                            <span class="ml-2 text-gray-700">Traffic Volume and Sources</span>
-                        </li>
-                        <li class="flex items-center">
-                            <div class="w-6 h-6 flex items-center justify-center text-primary">
-                                <i class="ri-check-line"></i>
-                            </div>
-                            <span class="ml-2 text-gray-700">Social Media Presence</span>
-                        </li>
-                        <li class="flex items-center">
-                            <div class="w-6 h-6 flex items-center justify-center text-primary">
-                                <i class="ri-check-line"></i>
-                            </div>
-                            <span class="ml-2 text-gray-700">Ad Spend and Campaigns</span>
-                        </li>
-                        <li class="flex items-center">
-                            <div class="w-6 h-6 flex items-center justify-center text-primary">
-                                <i class="ri-check-line"></i>
-                            </div>
-                            <span class="ml-2 text-gray-700">Growth Trends and Patterns</span>
-                        </li>
-                    </ul>
+                <span class="ml-2 text-gray-700">Store URL and Domain</span>
+              </li>
+              <li class="flex items-center">
+                <div
+                  class="w-6 h-6 flex items-center justify-center text-primary"
+                >
+                  <i class="ri-check-line"></i>
                 </div>
-            </div>
-            <div class="mt-16">
-                <div class="bg-white p-6 rounded-lg shadow-sm">
-                    <h3 class="text-xl font-bold mb-6">Top E-commerce Niches by Growth Rate</h3>
-                    <div id="chart-container" style="height: 400px;"></div>
+                <span class="ml-2 text-gray-700">Store Creation Date</span>
+              </li>
+              <li class="flex items-center">
+                <div
+                  class="w-6 h-6 flex items-center justify-center text-primary"
+                >
+                  <i class="ri-check-line"></i>
                 </div>
-            </div>
+                <span class="ml-2 text-gray-700">E-commerce Platform</span>
+              </li>
+              <li class="flex items-center">
+                <div
+                  class="w-6 h-6 flex items-center justify-center text-primary"
+                >
+                  <i class="ri-check-line"></i>
+                </div>
+                <span class="ml-2 text-gray-700"
+                  >Business Category and Niche</span
+                >
+              </li>
+              <li class="flex items-center">
+                <div
+                  class="w-6 h-6 flex items-center justify-center text-primary"
+                >
+                  <i class="ri-check-line"></i>
+                </div>
+                <span class="ml-2 text-gray-700">Contact Information</span>
+              </li>
+            </ul>
+          </div>
+          <div>
+            <h3 class="text-xl font-bold mb-6">Performance Metrics</h3>
+            <ul class="space-y-4">
+              <li class="flex items-center">
+                <div
+                  class="w-6 h-6 flex items-center justify-center text-primary"
+                >
+                  <i class="ri-check-line"></i>
+                </div>
+                <span class="ml-2 text-gray-700"
+                  >Monthly Revenue Estimation</span
+                >
+              </li>
+              <li class="flex items-center">
+                <div
+                  class="w-6 h-6 flex items-center justify-center text-primary"
+                >
+                  <i class="ri-check-line"></i>
+                </div>
+                <span class="ml-2 text-gray-700"
+                  >Traffic Volume and Sources</span
+                >
+              </li>
+              <li class="flex items-center">
+                <div
+                  class="w-6 h-6 flex items-center justify-center text-primary"
+                >
+                  <i class="ri-check-line"></i>
+                </div>
+                <span class="ml-2 text-gray-700">Social Media Presence</span>
+              </li>
+              <li class="flex items-center">
+                <div
+                  class="w-6 h-6 flex items-center justify-center text-primary"
+                >
+                  <i class="ri-check-line"></i>
+                </div>
+                <span class="ml-2 text-gray-700">Ad Spend and Campaigns</span>
+              </li>
+              <li class="flex items-center">
+                <div
+                  class="w-6 h-6 flex items-center justify-center text-primary"
+                >
+                  <i class="ri-check-line"></i>
+                </div>
+                <span class="ml-2 text-gray-700"
+                  >Growth Trends and Patterns</span
+                >
+              </li>
+            </ul>
+          </div>
         </div>
+        <div class="mt-16">
+          <div class="bg-white p-6 rounded-lg shadow-sm">
+            <h3 class="text-xl font-bold mb-6">
+              Top E-commerce Niches by Growth Rate
+            </h3>
+            <div id="chart-container" style="height: 400px"></div>
+          </div>
+        </div>
+      </div>
     </section>
-
     <!-- Pricing Section -->
     <section id="pricing" class="py-16 bg-white">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 class="text-2xl md:text-3xl font-bold mb-12 text-center">Pricing</h2>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <div class="bg-white border border-gray-200 rounded-lg shadow-sm overflow-hidden">
-                    <div class="p-6">
-                        <h3 class="text-lg font-bold mb-2">Free</h3>
-                        <div class="text-3xl font-bold mb-4">$0</div>
-                        <p class="text-gray-600 mb-6">Perfect for exploring our platform</p>
-                        <ul class="space-y-3 mb-8">
-                            <li class="flex items-center">
-                                <div class="w-5 h-5 flex items-center justify-center text-green-500">
-                                    <i class="ri-check-line"></i>
-                                </div>
-                                <span class="ml-2 text-gray-700">10 leads per month</span>
-                            </li>
-                            <li class="flex items-center">
-                                <div class="w-5 h-5 flex items-center justify-center text-green-500">
-                                    <i class="ri-check-line"></i>
-                                </div>
-                                <span class="ml-2 text-gray-700">Basic filters</span>
-                            </li>
-                            <li class="flex items-center">
-                                <div class="w-5 h-5 flex items-center justify-center text-green-500">
-                                    <i class="ri-check-line"></i>
-                                </div>
-                                <span class="ml-2 text-gray-700">Store profiles</span>
-                            </li>
-                            <li class="flex items-center opacity-50">
-                                <div class="w-5 h-5 flex items-center justify-center text-gray-400">
-                                    <i class="ri-close-line"></i>
-                                </div>
-                                <span class="ml-2 text-gray-700">Advanced filters</span>
-                            </li>
-                            <li class="flex items-center opacity-50">
-                                <div class="w-5 h-5 flex items-center justify-center text-gray-400">
-                                    <i class="ri-close-line"></i>
-                                </div>
-                                <span class="ml-2 text-gray-700">Data export</span>
-                            </li>
-                            <li class="flex items-center opacity-50">
-                                <div class="w-5 h-5 flex items-center justify-center text-gray-400">
-                                    <i class="ri-close-line"></i>
-                                </div>
-                                <span class="ml-2 text-gray-700">API access</span>
-                            </li>
-                        </ul>
-                        <button class="w-full bg-white border border-primary text-primary px-4 py-2 !rounded-button font-medium hover:bg-primary/5 whitespace-nowrap">Sign Up Free</button>
-                    </div>
-                </div>
-                <div class="bg-white border-2 border-primary rounded-lg shadow-sm overflow-hidden relative">
-                    <div class="absolute top-0 right-0 bg-primary text-white px-3 py-1 text-xs font-medium">Popular</div>
-                    <div class="p-6">
-                        <h3 class="text-lg font-bold mb-2">Pro</h3>
-                        <div class="text-3xl font-bold mb-4">$115</div>
-                        <p class="text-gray-600 mb-6">For growing businesses</p>
-                        <ul class="space-y-3 mb-8">
-                            <li class="flex items-center">
-                                <div class="w-5 h-5 flex items-center justify-center text-green-500">
-                                    <i class="ri-check-line"></i>
-                                </div>
-                                <span class="ml-2 text-gray-700">500 leads per month</span>
-                            </li>
-                            <li class="flex items-center">
-                                <div class="w-5 h-5 flex items-center justify-center text-green-500">
-                                    <i class="ri-check-line"></i>
-                                </div>
-                                <span class="ml-2 text-gray-700">Advanced filters</span>
-                            </li>
-                            <li class="flex items-center">
-                                <div class="w-5 h-5 flex items-center justify-center text-green-500">
-                                    <i class="ri-check-line"></i>
-                                </div>
-                                <span class="ml-2 text-gray-700">Store profiles</span>
-                            </li>
-                            <li class="flex items-center">
-                                <div class="w-5 h-5 flex items-center justify-center text-green-500">
-                                    <i class="ri-check-line"></i>
-                                </div>
-                                <span class="ml-2 text-gray-700">Data export (CSV, Excel)</span>
-                            </li>
-                            <li class="flex items-center">
-                                <div class="w-5 h-5 flex items-center justify-center text-green-500">
-                                    <i class="ri-check-line"></i>
-                                </div>
-                                <span class="ml-2 text-gray-700">Email notifications</span>
-                            </li>
-                            <li class="flex items-center opacity-50">
-                                <div class="w-5 h-5 flex items-center justify-center text-gray-400">
-                                    <i class="ri-close-line"></i>
-                                </div>
-                                <span class="ml-2 text-gray-700">API access</span>
-                            </li>
-                        </ul>
-                        <button class="w-full bg-primary text-white px-4 py-2 !rounded-button font-medium hover:bg-primary/90 whitespace-nowrap">Get Started</button>
-                    </div>
-                </div>
-                <div class="bg-white border border-gray-200 rounded-lg shadow-sm overflow-hidden">
-                    <div class="p-6">
-                        <h3 class="text-lg font-bold mb-2">Enterprise</h3>
-                        <div class="text-3xl font-bold mb-4">$225</div>
-                        <p class="text-gray-600 mb-6">For large teams and agencies</p>
-                        <ul class="space-y-3 mb-8">
-                            <li class="flex items-center">
-                                <div class="w-5 h-5 flex items-center justify-center text-green-500">
-                                    <i class="ri-check-line"></i>
-                                </div>
-                                <span class="ml-2 text-gray-700">Unlimited leads</span>
-                            </li>
-                            <li class="flex items-center">
-                                <div class="w-5 h-5 flex items-center justify-center text-green-500">
-                                    <i class="ri-check-line"></i>
-                                </div>
-                                <span class="ml-2 text-gray-700">All filters</span>
-                            </li>
-                            <li class="flex items-center">
-                                <div class="w-5 h-5 flex items-center justify-center text-green-500">
-                                    <i class="ri-check-line"></i>
-                                </div>
-                                <span class="ml-2 text-gray-700">Store profiles</span>
-                            </li>
-                            <li class="flex items-center">
-                                <div class="w-5 h-5 flex items-center justify-center text-green-500">
-                                    <i class="ri-check-line"></i>
-                                </div>
-                                <span class="ml-2 text-gray-700">Data export (All formats)</span>
-                            </li>
-                            <li class="flex items-center">
-                                <div class="w-5 h-5 flex items-center justify-center text-green-500">
-                                    <i class="ri-check-line"></i>
-                                </div>
-                                <span class="ml-2 text-gray-700">API access</span>
-                            </li>
-                            <li class="flex items-center">
-                                <div class="w-5 h-5 flex items-center justify-center text-green-500">
-                                    <i class="ri-check-line"></i>
-                                </div>
-                                <span class="ml-2 text-gray-700">Dedicated support</span>
-                            </li>
-                        </ul>
-                        <button class="w-full bg-white border border-primary text-primary px-4 py-2 !rounded-button font-medium hover:bg-primary/5 whitespace-nowrap">Contact Sales</button>
-                    </div>
-                </div>
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <h2 class="text-2xl md:text-3xl font-bold mb-12 text-center">
+          Pricing
+        </h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div
+            class="bg-white border border-gray-200 rounded-lg shadow-sm overflow-hidden"
+          >
+            <div class="p-6">
+              <h3 class="text-lg font-bold mb-2">Free</h3>
+              <div class="text-3xl font-bold mb-4">$0</div>
+              <p class="text-gray-600 mb-6">
+                Perfect for exploring our platform
+              </p>
+              <ul class="space-y-3 mb-8">
+                <li class="flex items-center">
+                  <div
+                    class="w-5 h-5 flex items-center justify-center text-green-500"
+                  >
+                    <i class="ri-check-line"></i>
+                  </div>
+                  <span class="ml-2 text-gray-700">10 leads per month</span>
+                </li>
+                <li class="flex items-center">
+                  <div
+                    class="w-5 h-5 flex items-center justify-center text-green-500"
+                  >
+                    <i class="ri-check-line"></i>
+                  </div>
+                  <span class="ml-2 text-gray-700">Basic filters</span>
+                </li>
+                <li class="flex items-center">
+                  <div
+                    class="w-5 h-5 flex items-center justify-center text-green-500"
+                  >
+                    <i class="ri-check-line"></i>
+                  </div>
+                  <span class="ml-2 text-gray-700">Store profiles</span>
+                </li>
+                <li class="flex items-center opacity-50">
+                  <div
+                    class="w-5 h-5 flex items-center justify-center text-gray-400"
+                  >
+                    <i class="ri-close-line"></i>
+                  </div>
+                  <span class="ml-2 text-gray-700">Advanced filters</span>
+                </li>
+                <li class="flex items-center opacity-50">
+                  <div
+                    class="w-5 h-5 flex items-center justify-center text-gray-400"
+                  >
+                    <i class="ri-close-line"></i>
+                  </div>
+                  <span class="ml-2 text-gray-700">Data export</span>
+                </li>
+                <li class="flex items-center opacity-50">
+                  <div
+                    class="w-5 h-5 flex items-center justify-center text-gray-400"
+                  >
+                    <i class="ri-close-line"></i>
+                  </div>
+                  <span class="ml-2 text-gray-700">API access</span>
+                </li>
+              </ul>
+              <button
+                class="w-full bg-white border border-primary text-primary px-4 py-2 !rounded-button font-medium hover:bg-primary/5 whitespace-nowrap"
+              >
+                Sign Up Free
+              </button>
             </div>
+          </div>
+          <div
+            class="bg-white border-2 border-primary rounded-lg shadow-sm overflow-hidden relative"
+          >
+            <div
+              class="absolute top-0 right-0 bg-primary text-white px-3 py-1 text-xs font-medium"
+            >
+              Popular
+            </div>
+            <div class="p-6">
+              <h3 class="text-lg font-bold mb-2">Pro</h3>
+              <div class="text-3xl font-bold mb-4">$115</div>
+              <p class="text-gray-600 mb-6">For growing businesses</p>
+              <ul class="space-y-3 mb-8">
+                <li class="flex items-center">
+                  <div
+                    class="w-5 h-5 flex items-center justify-center text-green-500"
+                  >
+                    <i class="ri-check-line"></i>
+                  </div>
+                  <span class="ml-2 text-gray-700">500 leads per month</span>
+                </li>
+                <li class="flex items-center">
+                  <div
+                    class="w-5 h-5 flex items-center justify-center text-green-500"
+                  >
+                    <i class="ri-check-line"></i>
+                  </div>
+                  <span class="ml-2 text-gray-700">Advanced filters</span>
+                </li>
+                <li class="flex items-center">
+                  <div
+                    class="w-5 h-5 flex items-center justify-center text-green-500"
+                  >
+                    <i class="ri-check-line"></i>
+                  </div>
+                  <span class="ml-2 text-gray-700">Store profiles</span>
+                </li>
+                <li class="flex items-center">
+                  <div
+                    class="w-5 h-5 flex items-center justify-center text-green-500"
+                  >
+                    <i class="ri-check-line"></i>
+                  </div>
+                  <span class="ml-2 text-gray-700"
+                    >Data export (CSV, Excel)</span
+                  >
+                </li>
+                <li class="flex items-center">
+                  <div
+                    class="w-5 h-5 flex items-center justify-center text-green-500"
+                  >
+                    <i class="ri-check-line"></i>
+                  </div>
+                  <span class="ml-2 text-gray-700">Email notifications</span>
+                </li>
+                <li class="flex items-center opacity-50">
+                  <div
+                    class="w-5 h-5 flex items-center justify-center text-gray-400"
+                  >
+                    <i class="ri-close-line"></i>
+                  </div>
+                  <span class="ml-2 text-gray-700">API access</span>
+                </li>
+              </ul>
+              <button
+                class="w-full bg-primary text-white px-4 py-2 !rounded-button font-medium hover:bg-primary/90 whitespace-nowrap"
+              >
+                Get Started
+              </button>
+            </div>
+          </div>
+          <div
+            class="bg-white border border-gray-200 rounded-lg shadow-sm overflow-hidden"
+          >
+            <div class="p-6">
+              <h3 class="text-lg font-bold mb-2">Enterprise</h3>
+              <div class="text-3xl font-bold mb-4">$225</div>
+              <p class="text-gray-600 mb-6">For large teams and agencies</p>
+              <ul class="space-y-3 mb-8">
+                <li class="flex items-center">
+                  <div
+                    class="w-5 h-5 flex items-center justify-center text-green-500"
+                  >
+                    <i class="ri-check-line"></i>
+                  </div>
+                  <span class="ml-2 text-gray-700">Unlimited leads</span>
+                </li>
+                <li class="flex items-center">
+                  <div
+                    class="w-5 h-5 flex items-center justify-center text-green-500"
+                  >
+                    <i class="ri-check-line"></i>
+                  </div>
+                  <span class="ml-2 text-gray-700">All filters</span>
+                </li>
+                <li class="flex items-center">
+                  <div
+                    class="w-5 h-5 flex items-center justify-center text-green-500"
+                  >
+                    <i class="ri-check-line"></i>
+                  </div>
+                  <span class="ml-2 text-gray-700">Store profiles</span>
+                </li>
+                <li class="flex items-center">
+                  <div
+                    class="w-5 h-5 flex items-center justify-center text-green-500"
+                  >
+                    <i class="ri-check-line"></i>
+                  </div>
+                  <span class="ml-2 text-gray-700"
+                    >Data export (All formats)</span
+                  >
+                </li>
+                <li class="flex items-center">
+                  <div
+                    class="w-5 h-5 flex items-center justify-center text-green-500"
+                  >
+                    <i class="ri-check-line"></i>
+                  </div>
+                  <span class="ml-2 text-gray-700">API access</span>
+                </li>
+                <li class="flex items-center">
+                  <div
+                    class="w-5 h-5 flex items-center justify-center text-green-500"
+                  >
+                    <i class="ri-check-line"></i>
+                  </div>
+                  <span class="ml-2 text-gray-700">Dedicated support</span>
+                </li>
+              </ul>
+              <button
+                class="w-full bg-white border border-primary text-primary px-4 py-2 !rounded-button font-medium hover:bg-primary/5 whitespace-nowrap"
+              >
+                Contact Sales
+              </button>
+            </div>
+          </div>
         </div>
+      </div>
     </section>
-
     <!-- FAQ Section -->
     <section class="py-16 bg-gray-50">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 class="text-2xl md:text-3xl font-bold mb-12 text-center">Frequently Asked Questions</h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <div>
-                    <h3 class="text-xl font-bold mb-4">How accurate is your data?</h3>
-                    <p class="text-gray-600 mb-8">
-                        Our data is updated daily and verified through multiple sources. We use advanced algorithms and manual checks to ensure the highest level of accuracy. However, as with any data service, there might be occasional discrepancies. We're constantly improving our systems to minimize these occurrences.
-                    </p>
-                    
-                    <h3 class="text-xl font-bold mb-4">What payment methods do you accept?</h3>
-                    <p class="text-gray-600 mb-8">
-                        We accept all major credit cards (Visa, MasterCard, American Express), PayPal, and bank transfers for annual plans. All payments are processed securely through our payment partners.
-                    </p>
-                </div>
-                <div>
-                    <h3 class="text-xl font-bold mb-4">Can I cancel my subscription?</h3>
-                    <p class="text-gray-600 mb-8">
-                        Yes, you can cancel your subscription at any time. If you cancel, you'll continue to have access to the service until the end of your current billing period. We don't offer refunds for partial months of service.
-                    </p>
-                    
-                    <h3 class="text-xl font-bold mb-4">How do you collect this data?</h3>
-                    <p class="text-gray-600 mb-8">
-                        We collect data from various public sources, including store websites, social media profiles, and other publicly available information. We use a combination of web scraping, API integrations, and partnerships with data providers to gather and verify our data.
-                    </p>
-                </div>
-            </div>
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <h2 class="text-2xl md:text-3xl font-bold mb-12 text-center">
+          Frequently Asked Questions
+        </h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div>
+            <h3 class="text-xl font-bold mb-4">How accurate is your data?</h3>
+            <p class="text-gray-600 mb-8">
+              Our data is updated daily and verified through multiple sources.
+              We use advanced algorithms and manual checks to ensure the highest
+              level of accuracy. However, as with any data service, there might
+              be occasional discrepancies. We're constantly improving our
+              systems to minimize these occurrences.
+            </p>
+            <h3 class="text-xl font-bold mb-4">
+              What payment methods do you accept?
+            </h3>
+            <p class="text-gray-600 mb-8">
+              We accept all major credit cards (Visa, MasterCard, American
+              Express), PayPal, and bank transfers for annual plans. All
+              payments are processed securely through our payment partners.
+            </p>
+          </div>
+          <div>
+            <h3 class="text-xl font-bold mb-4">
+              Can I cancel my subscription?
+            </h3>
+            <p class="text-gray-600 mb-8">
+              Yes, you can cancel your subscription at any time. If you cancel,
+              you'll continue to have access to the service until the end of
+              your current billing period. We don't offer refunds for partial
+              months of service.
+            </p>
+            <h3 class="text-xl font-bold mb-4">
+              How do you collect this data?
+            </h3>
+            <p class="text-gray-600 mb-8">
+              We collect data from various public sources, including store
+              websites, social media profiles, and other publicly available
+              information. We use a combination of web scraping, API
+              integrations, and partnerships with data providers to gather and
+              verify our data.
+            </p>
+          </div>
         </div>
+      </div>
     </section>
-
     <!-- Footer -->
     <footer class="bg-white border-t border-gray-200 py-12">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
-                <div>
-                    <a href="#" class="text-2xl font-['Pacifico'] text-primary">Sale Spy</a>
-                    <p class="text-gray-600 mt-4">
-                        The most comprehensive e-commerce leads database for businesses looking to grow their customer base.
-                    </p>
-                    <div class="flex space-x-4 mt-6">
-                        <a href="#" class="text-gray-600 hover:text-primary">
-                            <div class="w-8 h-8 flex items-center justify-center">
-                                <i class="ri-twitter-x-fill ri-lg"></i>
-                            </div>
-                        </a>
-                        <a href="#" class="text-gray-600 hover:text-primary">
-                            <div class="w-8 h-8 flex items-center justify-center">
-                                <i class="ri-facebook-fill ri-lg"></i>
-                            </div>
-                        </a>
-                        <a href="#" class="text-gray-600 hover:text-primary">
-                            <div class="w-8 h-8 flex items-center justify-center">
-                                <i class="ri-linkedin-fill ri-lg"></i>
-                            </div>
-                        </a>
-                        <a href="#" class="text-gray-600 hover:text-primary">
-                            <div class="w-8 h-8 flex items-center justify-center">
-                                <i class="ri-instagram-fill ri-lg"></i>
-                            </div>
-                        </a>
-                    </div>
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+          <div>
+            <a href="#" class="text-2xl font-['Pacifico'] text-primary">logo</a>
+            <p class="text-gray-600 mt-4">
+              The most comprehensive e-commerce leads database for businesses
+              looking to grow their customer base.
+            </p>
+            <div class="flex space-x-4 mt-6">
+              <a href="#" class="text-gray-600 hover:text-primary">
+                <div class="w-8 h-8 flex items-center justify-center">
+                  <i class="ri-twitter-x-fill ri-lg"></i>
                 </div>
-                <div>
-                    <h3 class="text-lg font-bold mb-4">Company</h3>
-                    <ul class="space-y-2">
-                        <li><a href="#" class="text-gray-600 hover:text-primary">About Us</a></li>
-                        <li><a href="#" class="text-gray-600 hover:text-primary">Careers</a></li>
-                        <li><a href="#" class="text-gray-600 hover:text-primary">Blog</a></li>
-                        <li><a href="#" class="text-gray-600 hover:text-primary">Press</a></li>
-                    </ul>
+              </a>
+              <a href="#" class="text-gray-600 hover:text-primary">
+                <div class="w-8 h-8 flex items-center justify-center">
+                  <i class="ri-facebook-fill ri-lg"></i>
                 </div>
-                <div>
-                    <h3 class="text-lg font-bold mb-4">Resources</h3>
-                    <ul class="space-y-2">
-                        <li><a href="#" class="text-gray-600 hover:text-primary">Documentation</a></li>
-                        <li><a href="#" class="text-gray-600 hover:text-primary">API Reference</a></li>
-                        <li><a href="#" class="text-gray-600 hover:text-primary">Guides</a></li>
-                        <li><a href="#" class="text-gray-600 hover:text-primary">Support</a></li>
-                    </ul>
+              </a>
+              <a href="#" class="text-gray-600 hover:text-primary">
+                <div class="w-8 h-8 flex items-center justify-center">
+                  <i class="ri-linkedin-fill ri-lg"></i>
                 </div>
-                <div>
-                    <h3 class="text-lg font-bold mb-4">Legal</h3>
-                    <ul class="space-y-2">
-                        <li><a href="#" class="text-gray-600 hover:text-primary">Privacy Policy</a></li>
-                        <li><a href="#" class="text-gray-600 hover:text-primary">Terms of Service</a></li>
-                        <li><a href="#" class="text-gray-600 hover:text-primary">Cookie Policy</a></li>
-                        <li><a href="#" class="text-gray-600 hover:text-primary">GDPR Compliance</a></li>
-                    </ul>
+              </a>
+              <a href="#" class="text-gray-600 hover:text-primary">
+                <div class="w-8 h-8 flex items-center justify-center">
+                  <i class="ri-instagram-fill ri-lg"></i>
                 </div>
+              </a>
             </div>
-            <div class="mt-12 pt-8 border-t border-gray-200 flex flex-col md:flex-row justify-between items-center">
-                <p class="text-gray-600 text-sm">© 2025 logo. All rights reserved.</p>
-                <div class="mt-4 md:mt-0 flex space-x-6">
-                    <div class="w-8 h-5 flex items-center justify-center">
-                        <i class="ri-visa-fill ri-lg text-gray-600"></i>
-                    </div>
-                    <div class="w-8 h-5 flex items-center justify-center">
-                        <i class="ri-mastercard-fill ri-lg text-gray-600"></i>
-                    </div>
-                    <div class="w-8 h-5 flex items-center justify-center">
-                        <i class="ri-paypal-fill ri-lg text-gray-600"></i>
-                    </div>
-                    <div class="w-8 h-5 flex items-center justify-center">
-                        <i class="ri-apple-fill ri-lg text-gray-600"></i>
-                    </div>
-                </div>
-            </div>
+          </div>
+          <div>
+            <h3 class="text-lg font-bold mb-4">Company</h3>
+            <ul class="space-y-2">
+              <li>
+                <a href="#" class="text-gray-600 hover:text-primary"
+                  >About Us</a
+                >
+              </li>
+              <li>
+                <a href="#" class="text-gray-600 hover:text-primary">Careers</a>
+              </li>
+              <li>
+                <a href="#" class="text-gray-600 hover:text-primary">Blog</a>
+              </li>
+              <li>
+                <a href="#" class="text-gray-600 hover:text-primary">Press</a>
+              </li>
+            </ul>
+          </div>
+          <div>
+            <h3 class="text-lg font-bold mb-4">Resources</h3>
+            <ul class="space-y-2">
+              <li>
+                <a href="#" class="text-gray-600 hover:text-primary"
+                  >Documentation</a
+                >
+              </li>
+              <li>
+                <a href="#" class="text-gray-600 hover:text-primary"
+                  >API Reference</a
+                >
+              </li>
+              <li>
+                <a href="#" class="text-gray-600 hover:text-primary">Guides</a>
+              </li>
+              <li>
+                <a href="#" class="text-gray-600 hover:text-primary">Support</a>
+              </li>
+            </ul>
+          </div>
+          <div>
+            <h3 class="text-lg font-bold mb-4">Legal</h3>
+            <ul class="space-y-2">
+              <li>
+                <a href="#" class="text-gray-600 hover:text-primary"
+                  >Privacy Policy</a
+                >
+              </li>
+              <li>
+                <a href="#" class="text-gray-600 hover:text-primary"
+                  >Terms of Service</a
+                >
+              </li>
+              <li>
+                <a href="#" class="text-gray-600 hover:text-primary"
+                  >Cookie Policy</a
+                >
+              </li>
+              <li>
+                <a href="#" class="text-gray-600 hover:text-primary"
+                  >GDPR Compliance</a
+                >
+              </li>
+            </ul>
+          </div>
         </div>
+        <div
+          class="mt-12 pt-8 border-t border-gray-200 flex flex-col md:flex-row justify-between items-center"
+        >
+          <p class="text-gray-600 text-sm">© 2025 logo. All rights reserved.</p>
+          <div class="mt-4 md:mt-0 flex space-x-6">
+            <div class="w-8 h-5 flex items-center justify-center">
+              <i class="ri-visa-fill ri-lg text-gray-600"></i>
+            </div>
+            <div class="w-8 h-5 flex items-center justify-center">
+              <i class="ri-mastercard-fill ri-lg text-gray-600"></i>
+            </div>
+            <div class="w-8 h-5 flex items-center justify-center">
+              <i class="ri-paypal-fill ri-lg text-gray-600"></i>
+            </div>
+            <div class="w-8 h-5 flex items-center justify-center">
+              <i class="ri-apple-fill ri-lg text-gray-600"></i>
+            </div>
+          </div>
+        </div>
+      </div>
     </footer>
-
     <script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/5.5.0/echarts.min.js"></script>
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Mobile menu toggle
-            const mobileMenuButton = document.getElementById('mobile-menu-button');
-            const mobileMenu = document.getElementById('mobile-menu');
-            
-            mobileMenuButton.addEventListener('click', function() {
-                mobileMenu.classList.toggle('hidden');
-            });
-
-            // Custom select functionality
-            const customSelects = document.querySelectorAll('.custom-select');
-            
-            customSelects.forEach(select => {
-                const trigger = select.querySelector('.custom-select-trigger');
-                const options = select.querySelector('.custom-options');
-                const optionItems = select.querySelectorAll('.custom-option');
-                const displayText = trigger.querySelector('span');
-                
-                trigger.addEventListener('click', function() {
-                    options.style.display = options.style.display === 'block' ? 'none' : 'block';
-                });
-                
-                optionItems.forEach(option => {
-                    option.addEventListener('click', function() {
-                        displayText.textContent = this.textContent;
-                        options.style.display = 'none';
-                    });
-                });
-                
-                // Close when clicking outside
-                document.addEventListener('click', function(e) {
-                    if (!select.contains(e.target)) {
-                        options.style.display = 'none';
-                    }
-                });
-            });
-
-            // Initialize chart
-            const chartContainer = document.getElementById('chart-container');
-            const chart = echarts.init(chartContainer);
-            
-            const option = {
-                animation: false,
-                tooltip: {
-                    trigger: 'axis',
-                    backgroundColor: 'rgba(255, 255, 255, 0.8)',
-                    borderColor: '#e2e8f0',
-                    textStyle: {
-                        color: '#1f2937'
-                    }
-                },
-                legend: {
-                    data: ['Growth Rate (%)', 'Market Share (%)'],
-                    bottom: 0
-                },
-                grid: {
-                    left: '3%',
-                    right: '4%',
-                    bottom: '10%',
-                    top: '3%',
-                    containLabel: true
-                },
-                xAxis: {
-                    type: 'category',
-                    data: ['Health & Wellness', 'Home Decor', 'Beauty', 'Electronics', 'Fashion', 'Pet Supplies', 'Food & Beverage'],
-                    axisLabel: {
-                        color: '#1f2937'
-                    }
-                },
-                yAxis: [
-                    {
-                        type: 'value',
-                        name: 'Growth Rate',
-                        axisLabel: {
-                            formatter: '{value}%',
-                            color: '#1f2937'
-                        }
-                    },
-                    {
-                        type: 'value',
-                        name: 'Market Share',
-                        axisLabel: {
-                            formatter: '{value}%',
-                            color: '#1f2937'
-                        }
-                    }
-                ],
-                series: [
-                    {
-                        name: 'Growth Rate (%)',
-                        type: 'bar',
-                        data: [28, 22, 19, 17, 15, 12, 10],
-                        itemStyle: {
-                            color: 'rgba(87, 181, 231, 1)',
-                            borderRadius: 4
-                        }
-                    },
-                    {
-                        name: 'Market Share (%)',
-                        type: 'line',
-                        yAxisIndex: 1,
-                        data: [15, 12, 22, 18, 25, 8, 10],
-                        smooth: true,
-                        symbol: 'none',
-                        lineStyle: {
-                            color: 'rgba(141, 211, 199, 1)'
-                        },
-                        areaStyle: {
-                            color: {
-                                type: 'linear',
-                                x: 0,
-                                y: 0,
-                                x2: 0,
-                                y2: 1,
-                                colorStops: [
-                                    {
-                                        offset: 0,
-                                        color: 'rgba(141, 211, 199, 0.2)'
-                                    },
-                                    {
-                                        offset: 1,
-                                        color: 'rgba(141, 211, 199, 0.05)'
-                                    }
-                                ]
-                            }
-                        }
-                    }
-                ]
-            };
-            
-            chart.setOption(option);
-            
-            window.addEventListener('resize', function() {
-                chart.resize();
-            });
+      document.addEventListener("DOMContentLoaded", function () {
+        // Mobile menu toggle
+        const mobileMenuButton = document.getElementById("mobile-menu-button");
+        const mobileMenu = document.getElementById("mobile-menu");
+        mobileMenuButton.addEventListener("click", function () {
+          mobileMenu.classList.toggle("hidden");
         });
 
-        document.addEventListener('DOMContentLoaded', function() {
-            // Handle window resize for chart
-            window.addEventListener('resize', function() {
-                const chartContainer = document.getElementById('chart-container');
-                if (chartContainer) {
-                    const chart = echarts.getInstanceByDom(chartContainer);
-                    if (chart) {
-                        chart.resize();
-                    }
-                }
+        // Custom select functionality
+        const customSelects = document.querySelectorAll(".custom-select");
+        customSelects.forEach((select) => {
+          const trigger = select.querySelector(".custom-select-trigger");
+          const options = select.querySelector(".custom-options");
+          const optionItems = select.querySelectorAll(".custom-option");
+          const displayText = trigger.querySelector("span");
+          trigger.addEventListener("click", function (e) {
+            e.stopPropagation();
+            options.style.display =
+              options.style.display === "block" ? "none" : "block";
+          });
+          optionItems.forEach((option) => {
+            option.addEventListener("click", function () {
+              displayText.textContent = this.textContent;
+              options.style.display = "none";
             });
+          });
+          // Close when clicking outside
+          document.addEventListener("click", function (e) {
+            if (!select.contains(e.target)) {
+              options.style.display = "none";
+            }
+          });
         });
+
+        // FILTER SECTION LOGIC
+        // Apply Filters button
+        const applyBtn = document.getElementById("apply-filters-btn");
+        if (applyBtn) {
+          applyBtn.addEventListener("click", function (e) {
+            e.preventDefault();
+            // Show signup/signin prompt modal
+            if (!document.getElementById("signup-modal")) {
+              const modal = document.createElement("div");
+              modal.id = "signup-modal";
+              modal.className =
+                "fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40";
+              modal.innerHTML = `
+                <div class="bg-white rounded-lg shadow-lg p-8 max-w-sm w-full text-center">
+                  <h2 class="text-xl font-bold mb-4">Sign Up or Log In</h2>
+
+                    <a href="#login" class="bg-primary text-white px-4 py-2 rounded font-medium hover:bg-primary/90">Log In</a>
+                    <a href="#signup" class="bg-white border border-primary text-primary px-4 py-2 rounded font-medium hover:bg-primary/5">Sign Up</a>
+                  </div>
+                  <button id="close-signup-modal" class="mt-6 text-gray-500 hover:text-primary">Close</button>
+                </div>
+              `;
+              document.body.appendChild(modal);
+              document.getElementById("close-signup-modal").onclick =
+                function () {
+                  modal.remove();
+                };
+              // Close modal on background click
+              modal.onclick = function (e) {
+                if (e.target === modal) modal.remove();
+              };
+            }
+          });
+        }
+
+        // Reset Filters button (resets all selects to default)
+        const resetBtn = document.getElementById("reset-filters-btn");
+        if (resetBtn) {
+          resetBtn.addEventListener("click", function (e) {
+            e.preventDefault();
+            document
+              .querySelectorAll(".custom-select-trigger span")
+              .forEach(function (el) {
+                if (el.closest('[data-filter="niche"]'))
+                  el.textContent = "All Niches";
+                if (el.closest('[data-filter="platform"]'))
+                  el.textContent = "All Platforms";
+                if (el.closest('[data-filter="country"]'))
+                  el.textContent = "All Countries";
+                if (el.closest('[data-filter="adspend"]'))
+                  el.textContent = "Any Ad Spend";
+                if (el.closest('[data-filter="language"]'))
+                  el.textContent = "All Languages";
+              });
+          });
+        }
+
+        // Initialize chart
+        const chartContainer = document.getElementById("chart-container");
+        const chart = echarts.init(chartContainer);
+        const option = {
+          animation: false,
+          tooltip: {
+            trigger: "axis",
+            backgroundColor: "rgba(255, 255, 255, 0.8)",
+            borderColor: "#e2e8f0",
+            textStyle: {
+              color: "#1f2937",
+            },
+          },
+          legend: {
+            data: ["Growth Rate (%)", "Market Share (%)"],
+            bottom: 0,
+          },
+          grid: {
+            left: "3%",
+            right: "4%",
+            bottom: "10%",
+            top: "3%",
+            containLabel: true,
+          },
+          xAxis: {
+            type: "category",
+            data: [
+              "Health & Wellness",
+              "Home Decor",
+              "Beauty",
+              "Electronics",
+              "Fashion",
+            ],
+            axisLabel: {
+              color: "#1f2937",
+            },
+          },
+          yAxis: [
+            {
+              type: "value",
+              name: "Growth Rate",
+              axisLabel: {
+                formatter: "{value}%",
+                color: "#1f2937",
+              },
+            },
+            {
+              type: "value",
+              name: "Market Share",
+              axisLabel: {
+                formatter: "{value}%",
+                color: "#1f2937",
+              },
+            },
+          ],
+          series: [
+            {
+              name: "Growth Rate (%)",
+              type: "bar",
+              data: [28, 22, 19, 17, 15, 12, 10],
+              itemStyle: {
+                color: "rgba(87, 181, 231, 1)",
+                borderRadius: 4,
+              },
+            },
+            {
+              name: "Market Share (%)",
+              type: "line",
+              yAxisIndex: 1,
+              data: [15, 12, 22, 18, 25, 8, 10],
+              smooth: true,
+              symbol: "none",
+              lineStyle: {
+                color: "rgba(141, 211, 199, 1)",
+              },
+              areaStyle: {
+                color: {
+                  type: "linear",
+                  x: 0,
+                  y: 0,
+                  x2: 0,
+                  y2: 1,
+                  colorStops: [
+                    {
+                      offset: 0,
+                      color: "rgba(141, 211, 199, 0.2)",
+                    },
+                    {
+                      offset: 1,
+                      color: "rgba(141, 211, 199, 0.05)",
+                    },
+                  ],
+                },
+              },
+            },
+          ],
+        };
+        chart.setOption(option);
+        window.addEventListener("resize", function () {
+          chart.resize();
+        });
+      });
+      document.addEventListener("DOMContentLoaded", function () {
+        // Handle window resize for chart
+        window.addEventListener("resize", function () {
+          const chartContainer = document.getElementById("chart-container");
+          if (chartContainer) {
+            const chart = echarts.getInstanceByDom(chartContainer);
+            if (chart) {
+              chart.resize();
+            }
+          }
+        });
+      });
     </script>
-</body>
+    <script>
+  // --- LEADS DATA ---
+  const leads = [
+    {
+      store: "Athletic Apparel Co.",
+      domain: "athleticapparel.com",
+      initial: "A",
+      color: "blue",
+      niche: "Fashion",
+      nicheColor: "green",
+      platform: "shopify",
+      revenue: "$125K - $150K",
+      traffic: 65,
+      adspend: 40,
+      country: "United States",
+    },
+    {
+      store: "Beauty Essentials",
+      domain: "beautyessentials.com",
+      initial: "B",
+      color: "purple",
+      niche: "Beauty",
+      nicheColor: "purple",
+      platform: "wix",
+      revenue: "$75K - $100K",
+      traffic: 45,
+      adspend: 30,
+      country: "Canada",
+    },
+    {
+      store: "Tech Gadgets Pro",
+      domain: "techgadgetspro.com",
+      initial: "T",
+      color: "gray",
+      niche: "Electronics",
+      nicheColor: "blue",
+      platform: "amazon",
+      revenue: "$200K - $250K",
+      traffic: 85,
+      adspend: 70,
+      country: "United Kingdom",
+    },
+    {
+      store: "Home Decor & More",
+      domain: "homedecormore.com",
+      initial: "H",
+      color: "green",
+      niche: "Home",
+      nicheColor: "green",
+      platform: "etsy",
+      revenue: "$50K - $75K",
+      traffic: 35,
+      adspend: 20,
+      country: "Australia",
+    },
+    {
+      store: "Wellness Supplements",
+      domain: "wellnesssupplements.com",
+      initial: "W",
+      color: "red",
+      niche: "Health",
+      nicheColor: "red",
+      platform: "ebay",
+      revenue: "$100K - $125K",
+      traffic: 55,
+      adspend: 50,
+      country: "Germany",
+    },
+    // --- Add more leads below for testing pagination ---
+    {
+      store: "Gadget World",
+      domain: "gadgetworld.com",
+      initial: "G",
+      color: "blue",
+      niche: "Electronics",
+      nicheColor: "blue",
+      platform: "shopify",
+      revenue: "$80K - $100K",
+      traffic: 60,
+      adspend: 35,
+      country: "United States",
+    },
+    {
+      store: "Fashion Forward",
+      domain: "fashionforward.com",
+      initial: "F",
+      color: "green",
+      niche: "Fashion",
+      nicheColor: "green",
+      platform: "wix",
+      revenue: "$90K - $110K",
+      traffic: 50,
+      adspend: 25,
+      country: "Canada",
+    },
+    {
+      store: "Beauty Hub",
+      domain: "beautyhub.com",
+      initial: "B",
+      color: "purple",
+      niche: "Beauty",
+      nicheColor: "purple",
+      platform: "amazon",
+      revenue: "$120K - $140K",
+      traffic: 70,
+      adspend: 60,
+      country: "United Kingdom",
+    },
+    {
+      store: "Home Essentials",
+      domain: "homeessentials.com",
+      initial: "H",
+      color: "green",
+      niche: "Home",
+      nicheColor: "green",
+      platform: "etsy",
+      revenue: "$60K - $80K",
+      traffic: 40,
+      adspend: 30,
+      country: "Australia",
+    },
+    {
+      store: "Wellness Mart",
+      domain: "wellnessmart.com",
+      initial: "W",
+      color: "red",
+      niche: "Health",
+      nicheColor: "red",
+      platform: "ebay",
+      revenue: "$110K - $130K",
+      traffic: 65,
+      adspend: 55,
+      country: "Germany",
+    },
+    {
+      store: "Techies",
+      domain: "techies.com",
+      initial: "T",
+      color: "gray",
+      niche: "Electronics",
+      nicheColor: "blue",
+      platform: "shopify",
+      revenue: "$150K - $170K",
+      traffic: 75,
+      adspend: 60,
+      country: "United States",
+    },
+    {
+      store: "Decor Plus",
+      domain: "decorplus.com",
+      initial: "D",
+      color: "green",
+      niche: "Home",
+      nicheColor: "green",
+      platform: "wix",
+      revenue: "$70K - $90K",
+      traffic: 55,
+      adspend: 45,
+      country: "Canada",
+    }
+  ];
+
+  // --- PLATFORM ICON MAP ---
+  const platformIconMap = {
+    shopify: "ri-shopify-fill",
+    wix: "ri-wechat-fill",
+    amazon: "ri-amazon-fill",
+    etsy: "ri-store-2-fill",
+    ebay: "ri-shopping-cart-fill",
+    wordpress: "ri-wordpress-fill",
+    squarespace: "ri-layout-2-fill",
+    woocommerce: "ri-shopping-bag-3-fill",
+    square: "ri-checkbox-blank-circle-fill",
+    godaddy: "ri-global-fill",
+    webflow: "ri-store-2-fill",
+    weebly: "ri-window-fill",
+  };
+
+  // --- NICHE COLOR MAP ---
+  const nicheColorMap = {
+    Fashion: "green",
+    Beauty: "purple",
+    Electronics: "blue",
+    Home: "green",
+    Health: "red",
+  };
+
+  // --- PAGINATION STATE ---
+  let currentPage = 1;
+  const pageSize = 5; // Show 5 leads per page
+
+  // --- PAGINATION RENDER ---
+  function renderPagination(total, page, pageSize) {
+    const nav = document.querySelector(
+      ".mt-8 nav[aria-label='Pagination']"
+    );
+    if (!nav) return;
+    const pageCount = Math.ceil(total / pageSize);
+    let html = "";
+
+    // Previous button
+    html += `<a href="#" class="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50${page === 1 ? " opacity-50 pointer-events-none" : ""}" data-page="${page - 1}">
+      <span class="sr-only">Previous</span>
+      <div class="w-5 h-5 flex items-center justify-center"><i class="ri-arrow-left-s-line"></i></div>
+    </a>`;
+
+    // Page numbers (show up to 5 pages, with ... if needed)
+    let start = Math.max(1, page - 2);
+    let end = Math.min(pageCount, page + 2);
+    if (page <= 3) end = Math.min(5, pageCount);
+    if (page >= pageCount - 2) start = Math.max(1, pageCount - 4);
+
+    if (start > 1) {
+      html += `<a href="#" class="relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50" data-page="1">1</a>`;
+      if (start > 2) html += `<span class="relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700">...</span>`;
+    }
+
+    for (let i = start; i <= end; i++) {
+      html += `<a href="#" class="relative inline-flex items-center px-4 py-2 border border-gray-300 ${i === page ? "bg-primary text-white" : "bg-white text-gray-700 hover:bg-gray-50"} text-sm font-medium" data-page="${i}">${i}</a>`;
+    }
+
+    if (end < pageCount) {
+      if (end < pageCount - 1) html += `<span class="relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700">...</span>`;
+      html += `<a href="#" class="relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50" data-page="${pageCount}">${pageCount}</a>`;
+    }
+
+    // Next button
+    html += `<a href="#" class="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50${page === pageCount ? " opacity-50 pointer-events-none" : ""}" data-page="${page + 1}">
+      <span class="sr-only">Next</span>
+      <div class="w-5 h-5 flex items-center justify-center"><i class="ri-arrow-right-s-line"></i></div>
+    </a>`;
+
+    nav.innerHTML = html;
+
+    // Add click listeners
+    nav.querySelectorAll("a[data-page]").forEach((a) => {
+      a.addEventListener("click", function (e) {
+        e.preventDefault();
+        const newPage = parseInt(this.getAttribute("data-page"));
+        if (!isNaN(newPage) && newPage >= 1 && newPage <= pageCount && newPage !== page) {
+          currentPage = newPage;
+          renderLeadsTable(paginateLeads(filteredLeads, currentPage, pageSize));
+          renderPagination(filteredLeads.length, currentPage, pageSize);
+        }
+      });
+    });
+  }
+
+  // --- PAGINATE FUNCTION ---
+  function paginateLeads(data, page, pageSize) {
+    const start = (page - 1) * pageSize;
+    return data.slice(start, start + pageSize);
+  }
+
+  // --- FILTER STATE (for future filter logic) ---
+  let filteredLeads = leads;
+
+  // --- RENDER FUNCTION ---
+  function renderLeadsTable(data) {
+    const tbody = document.querySelector(
+      "table.min-w-full > tbody"
+    );
+    tbody.innerHTML = "";
+    if (data.length === 0) {
+      tbody.innerHTML = `<tr><td colspan="8" class="px-6 py-8 text-center text-gray-400">No results found.</td></tr>`;
+      return;
+    }
+    data.forEach((lead) => {
+      tbody.innerHTML += `
+        <tr>
+          <td class="px-6 py-4 whitespace-nowrap">
+            <div class="flex items-center">
+              <div class="w-8 h-8 flex items-center justify-center bg-${lead.color}-100 rounded-full">
+                <span class="text-${lead.color}-800 font-medium">${lead.initial}</span>
+              </div>
+              <div class="ml-4">
+                <div class="text-sm font-medium text-gray-900">${lead.store}</div>
+                <div class="text-sm text-gray-500">${lead.domain}</div>
+              </div>
+            </div>
+          </td>
+          <td class="px-6 py-4 whitespace-nowrap">
+            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-${lead.nicheColor}-100 text-${lead.nicheColor}-800">
+              ${lead.niche}
+            </span>
+          </td>
+          <td class="px-6 py-4 whitespace-nowrap">
+            <div class="w-6 h-6 flex items-center justify-center">
+              <i class="${platformIconMap[lead.platform] || "ri-store-2-fill"} text-gray-600"></i>
+            </div>
+          </td>
+          <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+            ${lead.revenue}
+          </td>
+          <td class="px-6 py-4 whitespace-nowrap">
+            <div class="w-24 bg-blue-100 rounded-full h-2.5">
+              <div class="bg-blue-500 h-2.5 rounded-full" style="width: ${lead.traffic}%"></div>
+            </div>
+          </td>
+          <td class="px-6 py-4 whitespace-nowrap">
+            <div class="w-24 bg-yellow-100 rounded-full h-2.5">
+              <div class="bg-yellow-500 h-2.5 rounded-full" style="width: ${lead.adspend}%"></div>
+            </div>
+          </td>
+          <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+            ${lead.country}
+          </td>
+          <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+            <button class="text-primary hover:text-primary/80 !rounded-button whitespace-nowrap">Track</button>
+          </td>
+        </tr>
+      `;
+    });
+  }
+
+  // --- INITIAL RENDER ---
+  document.addEventListener("DOMContentLoaded", function () {
+    filteredLeads = leads; // In case you add filters later
+    renderLeadsTable(paginateLeads(filteredLeads, currentPage, pageSize));
+    renderPagination(filteredLeads.length, currentPage, pageSize);
+  });
+
+  // TODO: Add filter logic to update filteredLeads and reset currentPage to 1, then re-render table and pagination.
+</script>
+  </body>
 </html>
-
-
-
