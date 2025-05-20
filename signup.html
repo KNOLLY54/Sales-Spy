@@ -299,6 +299,68 @@ padding: 1.5rem;
 <p>© 2025 <span class="font-['Pacifico'] text-primary">Sales - Spy</span>. All rights reserved.</p>
 </div>
 </div>
+<!-- Add the Forgot Password Modal just before the closing </body> tag -->
+<div
+  id="forgotPasswordModal"
+  class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50"
+>
+  <div
+    class="bg-white rounded-xl p-6 w-full max-w-md mx-4 relative"
+  >
+    <div id="modalContent">
+      <div id="resetForm" class="space-y-4">
+        <h2 class="text-2xl font-semibold text-gray-800 mb-4">
+          Reset Your Password
+        </h2>
+        <p class="text-gray-600 mb-4">
+          Enter your email address and we'll send you instructions to reset your password.
+        </p>
+        <div class="input-group">
+          <input
+            type="email"
+            id="reset-email"
+            placeholder=" "
+            class="border-none"
+          />
+          <label for="reset-email">Email Address</label>
+        </div>
+        <div class="flex gap-3 mt-6">
+          <button
+            id="sendResetLink"
+            class="flex-1 bg-primary text-white py-2 !rounded-button font-medium hover:bg-opacity-90 transition-all whitespace-nowrap"
+          >
+            Send Reset Link
+          </button>
+          <button
+            id="cancelReset"
+            class="flex-1 border border-gray-300 text-gray-700 py-2 !rounded-button font-medium hover:bg-gray-50 transition-all whitespace-nowrap"
+          >
+            Cancel
+          </button>
+        </div>
+      </div>
+      <div
+        id="confirmationMessage"
+        class="hidden text-center py-4"
+      >
+        <i class="ri-mail-send-line text-primary ri-3x mb-4"></i>
+        <h3 class="text-xl font-semibold text-gray-800 mb-2">
+          Check Your Email
+        </h3>
+        <p class="text-gray-600 mb-4">
+          We've sent password reset instructions to your email address.
+        </p>
+        <button
+          id="closeConfirmation"
+          class="w-full bg-primary text-white py-2 !rounded-button font-medium hover:bg-opacity-90 transition-all whitespace-nowrap"
+        >
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <script>
 document.addEventListener('DOMContentLoaded', function() {
   const showSignUp = document.getElementById('showSignUp');
@@ -434,6 +496,50 @@ document.addEventListener('DOMContentLoaded', function() {
     showToast('Account created successfully!', 'success');
     // Here you would handle actual registration logic
   });
+
+  // Forgot Password Modal logic
+  const forgotPasswordLink = document.querySelector('.signin-form a.text-primary[href="#"], .signin-form a.text-primary.hover\\:underline[href="#"]');
+  const forgotPasswordModal = document.getElementById("forgotPasswordModal");
+  const resetForm = document.getElementById("resetForm");
+  const confirmationMessage = document.getElementById("confirmationMessage");
+  const sendResetLink = document.getElementById("sendResetLink");
+  const cancelReset = document.getElementById("cancelReset");
+  const closeConfirmation = document.getElementById("closeConfirmation");
+  const resetEmail = document.getElementById("reset-email");
+
+  if (forgotPasswordLink) {
+    forgotPasswordLink.addEventListener("click", function (e) {
+      e.preventDefault();
+      forgotPasswordModal.classList.remove("hidden");
+      forgotPasswordModal.classList.add("flex");
+      resetForm.classList.remove("hidden");
+      confirmationMessage.classList.add("hidden");
+      resetEmail.value = "";
+    });
+  }
+  function closeModal() {
+    forgotPasswordModal.classList.add("hidden");
+    forgotPasswordModal.classList.remove("flex");
+  }
+  if (cancelReset) cancelReset.addEventListener("click", closeModal);
+  if (closeConfirmation) closeConfirmation.addEventListener("click", closeModal);
+  if (forgotPasswordModal) {
+    forgotPasswordModal.addEventListener("click", function (e) {
+      if (e.target === forgotPasswordModal) {
+        closeModal();
+      }
+    });
+  }
+  if (sendResetLink) {
+    sendResetLink.addEventListener("click", function () {
+      if (resetEmail.value.trim() === "") {
+        resetEmail.focus();
+        return;
+      }
+      resetForm.classList.add("hidden");
+      confirmationMessage.classList.remove("hidden");
+    });
+  }
 });
 </script>
 <style>
