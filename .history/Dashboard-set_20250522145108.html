@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Settings - Admin Dashboard</title>
+<script src="https://cdn.tailwindcss.com/3.4.16"></script>
+<script>tailwind.config={theme:{extend:{colors:{primary:'#3b82f6',secondary:'#64748b'},borderRadius:{'none':'0px','sm':'4px',DEFAULT:'8px','md':'12px','lg':'16px','xl':'20px','2xl':'24px','3xl':'32px','full':'9999px','button':'8px'}}}}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css" rel="stylesheet">
+<style>
+:where([class^="ri-"])::before { content: "\f3c2"; }
+body {
+font-family: 'Inter', sans-serif;
+background-color: #f8f9fa;
+}
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+-webkit-appearance: none;
+margin: 0;
+}
+.custom-checkbox {
+position: relative;
+display: inline-block;
+width: 20px;
+height: 20px;
+background-color: white;
+border: 2px solid #e2e8f0;
+border-radius: 4px;
+cursor: pointer;
+transition: all 0.2s;
+}
+.custom-checkbox.checked {
+background-color: #3b82f6;
+border-color: #3b82f6;
+}
+.custom-checkbox.checked::after {
+content: '';
+position: absolute;
+left: 6px;
+top: 2px;
+width: 6px;
+height: 10px;
+border: solid white;
+border-width: 0 2px 2px 0;
+transform: rotate(45deg);
+}
+.custom-switch {
+position: relative;
+display: inline-block;
+width: 44px;
+height: 24px;
+}
+.custom-switch input {
+opacity: 0;
+width: 0;
+height: 0;
+}
+.switch-slider {
+position: absolute;
+cursor: pointer;
+top: 0;
+left: 0;
+right: 0;
+bottom: 0;
+background-color: #e2e8f0;
+transition: .4s;
+border-radius: 24px;
+}
+.switch-slider:before {
+position: absolute;
+content: "";
+height: 18px;
+width: 18px;
+left: 3px;
+bottom: 3px;
+background-color: white;
+transition: .4s;
+border-radius: 50%;
+}
+input:checked + .switch-slider {
+background-color: #3b82f6;
+}
+input:checked + .switch-slider:before {
+transform: translateX(20px);
+}
+.dropdown {
+position: relative;
+display: inline-block;
+}
+.dropdown-content {
+display: none;
+position: absolute;
+background-color: white;
+min-width: 160px;
+box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+z-index: 1;
+border-radius: 8px;
+right: 0;
+}
+.dropdown-content a {
+color: black;
+padding: 12px 16px;
+text-decoration: none;
+display: block;
+}
+.dropdown-content a:hover {
+background-color: #f8f9fa;
+}
+.dropdown:hover .dropdown-content {
+display: block;
+}
+</style>
+</head>
+<body class="flex h-screen">
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+// Mobile sidebar toggle
+const openSidebar = document.getElementById('open-sidebar');
+const closeSidebar = document.getElementById('close-sidebar');
+const mobileSidebar = document.getElementById('mobile-sidebar');
+const backdrop = document.getElementById('mobile-sidebar-backdrop');
+if (openSidebar) {
+openSidebar.addEventListener('click', function() {
+mobileSidebar.classList.remove('-translate-x-full');
+backdrop.classList.remove('hidden');
+});
+}
+if (closeSidebar) {
+closeSidebar.addEventListener('click', function() {
+mobileSidebar.classList.add('-translate-x-full');
+backdrop.classList.add('hidden');
+});
+}
+if (backdrop) {
+backdrop.addEventListener('click', function() {
+mobileSidebar.classList.add('-translate-x-full');
+backdrop.classList.add('hidden');
+});
+}
+});
+document.addEventListener('DOMContentLoaded', function() {
+// Section toggles
+const toggleSections = [
+{ toggle: 'toggle-profile', content: 'profile-content', icon: 'profile-icon' },
+{ toggle: 'toggle-account', content: 'account-content', icon: 'account-icon' },
+{ toggle: 'toggle-subscription', content: 'subscription-content', icon: 'subscription-icon' },
+{ toggle: 'toggle-security', content: 'security-content', icon: 'security-icon' },
+{ toggle: 'toggle-danger', content: 'danger-content', icon: 'danger-icon' }
+];
+toggleSections.forEach(section => {
+const toggleBtn = document.getElementById(section.toggle);
+const contentEl = document.getElementById(section.content);
+const iconEl = document.getElementById(section.icon);
+if (toggleBtn && contentEl && iconEl) {
+toggleBtn.addEventListener('click', function() {
+contentEl.classList.toggle('hidden');
+if (contentEl.classList.contains('hidden')) {
+iconEl.classList.remove('ri-arrow-up-s-line');
+iconEl.classList.add('ri-arrow-down-s-line');
+} else {
+iconEl.classList.remove('ri-arrow-down-s-line');
+iconEl.classList.add('ri-arrow-up-s-line');
+}
+});
+}
+});
+});
+document.addEventListener('DOMContentLoaded', function() {
+// Profile image upload
+const profileUpload = document.getElementById('profile-upload');
+const dropzone = document.getElementById('dropzone');
+const profilePreview = document.getElementById('profile-preview');
+const saveProfileBtn = document.getElementById('save-profile');
+if (profileUpload && dropzone && profilePreview && saveProfileBtn) {
+// Click on dropzone to trigger file input
+dropzone.addEventListener('click', function() {
+profileUpload.click();
+});
+// Handle file selection
+profileUpload.addEventListener('change', function() {
+if (this.files && this.files[0]) {
+const file = this.files[0];
+// Check file type
+const validTypes = ['image/jpeg', 'image/png', 'image/webp'];
+if (!validTypes.includes(file.type)) {
+alert('Please select a valid image file (JPG, PNG, or WEBP)');
+return;
+}
+// Check file size (5MB max)
+if (file.size > 5 * 1024 * 1024) {
+alert('File size exceeds 5MB limit');
+return;
+}
+const reader = new FileReader();
+reader.onload = function(e) {
+profilePreview.src = e.target.result;
+saveProfileBtn.disabled = false;
+};
+reader.readAsDataURL(file);
+}
+});
+// Drag and drop functionality
+['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+dropzone.addEventListener(eventName, preventDefaults, false);
+});
+function preventDefaults(e) {
+e.preventDefault();
+e.stopPropagation();
+}
+['dragenter', 'dragover'].forEach(eventName => {
+dropzone.addEventListener(eventName, highlight, false);
+});
+['dragleave', 'drop'].forEach(eventName => {
+dropzone.addEventListener(eventName, unhighlight, false);
+});
+function highlight() {
+dropzone.classList.add('border-primary');
+}
+function unhighlight() {
+dropzone.classList.remove('border-primary');
+}
+dropzone.addEventListener('drop', handleDrop, false);
+function handleDrop(e) {
+const dt = e.dataTransfer;
+const file = dt.files[0];
+// Check file type
+const validTypes = ['image/jpeg', 'image/png', 'image/webp'];
+if (!validTypes.includes(file.type)) {
+alert('Please select a valid image file (JPG, PNG, or WEBP)');
+return;
+}
+// Check file size (5MB max)
+if (file.size > 5 * 1024 * 1024) {
+alert('File size exceeds 5MB limit');
+return;
+}
+const reader = new FileReader();
+reader.onload = function(e) {
+profilePreview.src = e.target.result;
+saveProfileBtn.disabled = false;
+};
+reader.readAsDataURL(file);
+}
+// Save profile button
+saveProfileBtn.addEventListener('click', function() {
+// Simulate saving
+saveProfileBtn.disabled = true;
+saveProfileBtn.innerHTML = '<div class="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin mr-2"></div> Saving...';
+setTimeout(() => {
+saveProfileBtn.innerHTML = 'Save Changes';
+saveProfileBtn.disabled = true;
+alert('Profile image updated successfully!');
+}, 1500);
+});
+}
+});
+document.addEventListener('DOMContentLoaded', function() {
+// Password strength meter
+const newPassword = document.getElementById('new-password');
+const confirmPassword = document.getElementById('confirm-password');
+const passwordStrength = document.getElementById('password-strength');
+if (newPassword && passwordStrength) {
+newPassword.addEventListener('input', function() {
+const value = this.value;
+let strength = 0;
+if (value.length >= 8) strength += 25;
+if (value.match(/[a-z]/)) strength += 25;
+if (value.match(/[A-Z]/)) strength += 25;
+if (value.match(/[0-9]/)) strength += 25;
+passwordStrength.style.width = strength + '%';
+if (strength <= 25) {
+passwordStrength.className = 'h-full bg-red-500 rounded-full';
+} else if (strength <= 50) {
+passwordStrength.className = 'h-full bg-orange-500 rounded-full';
+} else if (strength <= 75) {
+passwordStrength.className = 'h-full bg-yellow-500 rounded-full';
+} else {
+passwordStrength.className = 'h-full bg-green-500 rounded-full';
+}
+});
+}
+if (newPassword && confirmPassword) {
+confirmPassword.addEventListener('input', function() {
+if (this.value !== newPassword.value) {
+this.classList.add('border-red-500');
+} else {
+this.classList.remove('border-red-500');
+}
+});
+}
+});
+document.addEventListener('DOMContentLoaded', function() {
+// 2FA toggle
+const twoFAToggle = document.getElementById('2fa-toggle');
+const twoFASetup = document.getElementById('2fa-setup');
+if (twoFAToggle && twoFASetup) {
+twoFAToggle.addEventListener('change', function() {
+if (this.checked) {
+twoFASetup.classList.remove('hidden');
+} else {
+twoFASetup.classList.add('hidden');
+}
+});
+}
+});
+document.addEventListener('DOMContentLoaded', function() {
+// Payment method modal
+const addPaymentBtn = document.getElementById('add-payment-method');
+const paymentModal = document.getElementById('payment-modal');
+const closePaymentModal = document.getElementById('close-payment-modal');
+const cancelPaymentModal = document.getElementById('cancel-payment-modal');
+const saveCardCheckbox = document.getElementById('save-card-checkbox');
+if (addPaymentBtn && paymentModal) {
+addPaymentBtn.addEventListener('click', function() {
+paymentModal.classList.remove('hidden');
+});
+}
+if (closePaymentModal && paymentModal) {
+closePaymentModal.addEventListener('click', function() {
+paymentModal.classList.add('hidden');
+});
+}
+if (cancelPaymentModal && paymentModal) {
+cancelPaymentModal.addEventListener('click', function() {
+paymentModal.classList.add('hidden');
+});
+}
+if (saveCardCheckbox) {
+saveCardCheckbox.addEventListener('click', function() {
+this.classList.toggle('checked');
+});
+}
+// Format card number input
+const cardNumber = document.getElementById('card-number');
+if (cardNumber) {
+cardNumber.addEventListener('input', function(e) {
+let value = this.value.replace(/\D/g, '');
+if (value.length > 16) value = value.slice(0, 16);
+// Add spaces every 4 digits
+let formattedValue = '';
+for (let i = 0; i < value.length; i++) {
+if (i > 0 && i % 4 === 0) {
+formattedValue += ' ';
+}
+formattedValue += value[i];
+}
+this.value = formattedValue;
+});
+}
+// Format expiry date input
+const expiryDate = document.getElementById('expiry-date');
+if (expiryDate) {
+expiryDate.addEventListener('input', function(e) {
+let value = this.value.replace(/\D/g, '');
+if (value.length > 4) value = value.slice(0, 4);
+if (value.length > 2) {
+this.value = value.slice(0, 2) + '/' + value.slice(2);
+} else {
+this.value = value;
+}
+});
+}
+// Format CVV input
+const cvv = document.getElementById('cvv');
+if (cvv) {
+cvv.addEventListener('input', function(e) {
+let value = this.value.replace(/\D/g, '');
+if (value.length > 3) value = value.slice(0, 3);
+this.value = value;
+});
+}
+});
+document.addEventListener('DOMContentLoaded', function() {
+// Delete account modal
+const deleteAccountBtn = document.getElementById('delete-account-btn');
+const deleteModal = document.getElementById('delete-modal');
+const closeDeleteModal = document.getElementById('close-delete-modal');
+const cancelDeleteModal = document.getElementById('cancel-delete-modal');
+const confirmDeleteBtn = document.getElementById('confirm-delete-btn');
+const deleteConfirm = document.getElementById('delete-confirm');
+const deletePassword = document.getElementById('delete-password');
+if (deleteAccountBtn && deleteModal) {
+deleteAccountBtn.addEventListener('click', function() {
+deleteModal.classList.remove('hidden');
+});
+}
+if (closeDeleteModal && deleteModal) {
+closeDeleteModal.addEventListener('click', function() {
+deleteModal.classList.add('hidden');
+});
+}
+if (cancelDeleteModal && deleteModal) {
+cancelDeleteModal.addEventListener('click', function() {
+deleteModal.classList.add('hidden');
+});
+}
+if (deleteConfirm && deletePassword && confirmDeleteBtn) {
+function checkDeleteRequirements() {
+if (deleteConfirm.value === 'delete my account' && deletePassword.value.length > 0) {
+confirmDeleteBtn.disabled = false;
+} else {
+confirmDeleteBtn.disabled = true;
+}
+}
+deleteConfirm.addEventListener('input', checkDeleteRequirements);
+deletePassword.addEventListener('input', checkDeleteRequirements);
+confirmDeleteBtn.addEventListener('click', function() {
+  // Hide delete modal
+  deleteModal.classList.add('hidden');
+  
+  // Show toast notification
+  const toast = document.getElementById('toast');
+  toast.classList.remove('translate-x-full');
+  
+  // Hide toast after 3 seconds
+  setTimeout(() => {
+    toast.classList.add('translate-x-full');
+  }, 3000);
+  
+  // Simulate redirect after 3.5 seconds
+  setTimeout(() => {
+    window.location.href = '/login';
+  }, 3500);
+});
+}
+});
+document.addEventListener('DOMContentLoaded', function() {
+// Account form submission
+const accountForm = document.getElementById('account-form');
+if (accountForm) {
+accountForm.addEventListener('submit', function(e) {
+e.preventDefault();
+// Validate form
+const fullName = document.getElementById('full-name').value;
+const email = document.getElementById('email').value;
+if (!fullName) {
+alert('Please enter your full name');
+return;
+}
+if (!email || !email.includes('@')) {
+alert('Please enter a valid email address');
+return;
+}
+// Check if password fields are filled
+const currentPassword = document.getElementById('current-password').value;
+const newPassword = document.getElementById('new-password').value;
+const confirmPassword = document.getElementById('confirm-password').value;
+if ((currentPassword || newPassword || confirmPassword) &&
+(!currentPassword || !newPassword || !confirmPassword)) {
+alert('Please fill all password fields to change your password');
+return;
+}
+if (newPassword && confirmPassword && newPassword !== confirmPassword) {
+alert('New password and confirmation do not match');
+return;
+}
+// Simulate form submission
+const submitBtn = this.querySelector('button[type="submit"]');
+const originalText = submitBtn.innerHTML;
+submitBtn.disabled = true;
+submitBtn.innerHTML = '<div class="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin mr-2"></div> Saving...';
+setTimeout(() => {
+submitBtn.innerHTML = originalText;
+submitBtn.disabled = false;
+alert('Account information updated successfully!');
+// Clear password fields
+if (currentPassword) document.getElementById('current-password').value = '';
+if (newPassword) document.getElementById('new-password').value = '';
+if (confirmPassword) document.getElementById('confirm-password').value = '';
+if (passwordStrength) passwordStrength.style.width = '0%';
+}, 1500);
+});
+}
+});
+document.addEventListener('DOMContentLoaded', function() {
+// Payment form submission
+const paymentForm = document.getElementById('payment-form');
+if (paymentForm) {
+paymentForm.addEventListener('submit', function(e) {
+e.preventDefault();
+// Validate form
+const cardName = document.getElementById('card-name').value;
+const cardNumber = document.getElementById('card-number').value.replace(/\s/g, '');
+const expiryDate = document.getElementById('expiry-date').value;
+const cvv = document.getElementById('cvv').value;
+if (!cardName) {
+alert('Please enter the cardholder name');
+return;
+}
+if (!cardNumber || cardNumber.length !== 16) {
+alert('Please enter a valid card number');
+return;
+}
+if (!expiryDate || !expiryDate.includes('/')) {
+alert('Please enter a valid expiry date (MM/YY)');
+return;
+}
+if (!cvv || cvv.length !== 3) {
+alert('Please enter a valid CVV');
+return;
+}
+// Simulate form submission
+const submitBtn = this.querySelector('button[type="submit"]');
+const originalText = submitBtn.innerHTML;
+submitBtn.disabled = true;
+submitBtn.innerHTML = '<div class="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin mr-2"></div> Adding...';
+setTimeout(() => {
+submitBtn.innerHTML = originalText;
+submitBtn.disabled = false;
+document.getElementById('payment-modal').classList.add('hidden');
+alert('Payment method added successfully!');
+// Clear form
+this.reset();
+}, 1500);
+});
+}
+});
+</script>
+</body>
+</html>

@@ -361,6 +361,40 @@ padding: 1.5rem;
   </div>
 </div>
 
+<!-- Success Modal for Sign In/Sign Up -->
+<div
+  id="successModal"
+  class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50"
+>
+  <div class="bg-white rounded-xl p-6 w-full max-w-md mx-4 relative">
+    <div class="text-center py-4">
+      <i id="successModalIcon" class="ri-checkbox-circle-line text-primary ri-3x mb-4"></i>
+      <h3 class="text-xl font-semibold text-gray-800 mb-2" id="successModalTitle">
+        Success!
+      </h3>
+      <p class="text-gray-600 mb-4" id="successModalMessage">
+        You have signed in successfully.
+      </p>
+      <button
+        id="continueToDashboard"
+        class="w-full bg-primary text-white py-2 !rounded-button font-medium hover:bg-opacity-90 transition-all whitespace-nowrap"
+      >
+        Continue to Dashboard
+      </button>
+      <!-- Loader: hidden by default -->
+      <div id="dashboardLoader" class="flex-col gap-4 w-full flex items-center justify-center mt-4 hidden">
+        <div
+          class="w-20 h-20 border-4 border-transparent text-blue-400 text-4xl animate-spin flex items-center justify-center border-t-blue-400 rounded-full"
+        >
+          <div
+            class="w-16 h-16 border-4 border-transparent text-red-400 text-2xl animate-spin flex items-center justify-center border-t-red-400 rounded-full"
+          ></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
 <script>
 document.addEventListener('DOMContentLoaded', function() {
   const showSignUp = document.getElementById('showSignUp');
@@ -443,6 +477,41 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   });
 
+  // --- Success Modal logic ---
+  const successModal = document.getElementById('successModal');
+  const continueToDashboard = document.getElementById('continueToDashboard');
+  const successModalTitle = document.getElementById('successModalTitle');
+  const successModalMessage = document.getElementById('successModalMessage');
+  const dashboardLoader = document.getElementById('dashboardLoader');
+  const successModalIcon = document.getElementById('successModalIcon'); // Add this line
+
+  function showSuccessModal(name, isSignup = false) {
+    successModalTitle.textContent = isSignup ? 'Account Created!' : 'Signed In!';
+    successModalMessage.textContent = isSignup
+      ? 'Your account has been created successfully. Continue to your dashboard.'
+      : 'You have signed in successfully. Continue to your dashboard.';
+    successModal.classList.remove('hidden');
+    successModal.classList.add('flex');
+    // Reset loader/button/message/icon visibility if modal is shown again
+    continueToDashboard.style.display = '';
+    successModalMessage.style.display = '';
+    dashboardLoader.classList.add('hidden');
+    if (successModalIcon) successModalIcon.style.display = '';
+    continueToDashboard.onclick = function () {
+      // Save name to localStorage for dashboard greeting
+      if (name) localStorage.setItem('dashboardName', name);
+      // Hide button, message, and icon, show loader
+      continueToDashboard.style.display = 'none';
+      successModalMessage.style.display = 'none';
+      if (successModalIcon) successModalIcon.style.display = 'none';
+      dashboardLoader.classList.remove('hidden');
+      // Show loader for 7 seconds, then redirect
+      setTimeout(() => {
+        window.location.href = 'Dashboard-home.html';
+      }, 7000);
+    };
+  }
+
   // Sign In Form Submission
   signinForm.querySelector('button[type="submit"], button:not([type])').addEventListener('click', function(e) {
     e.preventDefault();
@@ -452,14 +521,14 @@ document.addEventListener('DOMContentLoaded', function() {
       showToast('Please enter both email and password.', 'error');
       return;
     }
-    // Simple email validation
     if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) {
       showToast('Please enter a valid email address.', 'error');
       return;
     }
     // Simulate success
-    showToast('Signed in successfully!', 'success');
-    // Here you would handle actual authentication logic
+    // Use email as fallback name if no name field
+    const name = email.split('@')[0].replace(/[^a-zA-Z0-9]/g, '') || 'User';
+    showSuccessModal(name, false);
   });
 
   // Sign Up Form Submission
@@ -493,8 +562,7 @@ document.addEventListener('DOMContentLoaded', function() {
       return;
     }
     // Simulate success
-    showToast('Account created successfully!', 'success');
-    // Here you would handle actual registration logic
+    showSuccessModal(fullname, true);
   });
 
   // Forgot Password Modal logic
@@ -540,6 +608,8 @@ document.addEventListener('DOMContentLoaded', function() {
       confirmationMessage.classList.remove("hidden");
     });
   }
+
+  // (Removed duplicate Success Modal logic and variable declarations)
 });
 </script>
 <style>
