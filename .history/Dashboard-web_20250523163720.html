@@ -215,7 +215,7 @@
         </div>
         
         <!-- Main Content -->
-        <div id="main-content" class="main-content-expanded flex-1 transition-all duration-700 ease-in-out">
+        <div id="main-content" class="main-content-expanded flex-1 transition-all duration-700 ease-in-out overflow-x-auto">
             <!-- Header -->
             <header class="bg-white shadow-sm sticky top-0 z-10">
                 <div class="flex items-center justify-between px-6 py-4">
@@ -248,210 +248,419 @@
             </header>
             
             <!-- Content -->
-            <div class="p-6">
-                <!-- Welcome Section -->
-                <div class="mb-8">
-                    <h1 class="text-2xl font-bold text-gray-800" id="dashboard-greeting">Welcome back, Michael</h1>
-                    <p class="text-gray-600">Here's what's been happening recently.</p>
-                </div>
-                
-                <!-- Stats Grid -->
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-                    <!-- Total Leads -->
-                    <div class="glassmorphism rounded-lg p-6 shadow-sm hover:shadow-md transition-shadow">
-                        <div class="flex items-center justify-between mb-4">
-                            <h3 class="text-gray-600 font-medium">Total Leads</h3>
-                            <div class="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center text-primary">
-                                <div class="w-5 h-5 flex items-center justify-center">
-                                    <i class="ri-user-search-line"></i>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="flex items-end justify-between">
-                            <div>
-                                <p class="text-3xl font-bold text-gray-800">12,543</p>
-                                <p class="text-sm text-green-500 flex items-center mt-1">
-                                    <div class="w-4 h-4 flex items-center justify-center mr-1">
-                                        <i class="ri-arrow-up-line"></i>
-                                    </div>
-                                    <span>12.5% from last month</span>
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- Active Campaigns -->
-                    <div class="glassmorphism rounded-lg p-6 shadow-sm hover:shadow-md transition-shadow">
-                        <div class="flex items-center justify-between mb-4">
-                            <h3 class="text-gray-600 font-medium">Active Campaigns</h3>
-                            <div class="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center text-green-600">
-                                <div class="w-5 h-5 flex items-center justify-center">
-                                    <i class="ri-rocket-line"></i>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="flex items-end justify-between">
-                            <div>
-                                <p class="text-3xl font-bold text-gray-800">7</p>
-                                <p class="text-sm text-green-500 flex items-center mt-1">
-                                    <div class="w-4 h-4 flex items-center justify-center mr-1">
-                                        <i class="ri-arrow-up-line"></i>
-                                    </div>
-                                    <span>2 new this week</span>
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- Credits Remaining -->
-                    <div class="glassmorphism rounded-lg p-6 shadow-sm hover:shadow-md transition-shadow">
-                        <div class="flex items-center justify-between mb-4">
-                            <h3 class="text-gray-600 font-medium">Credits Remaining</h3>
-                            <div class="w-10 h-10 rounded-full bg-yellow-100 flex items-center justify-center text-yellow-600">
-                                <div class="w-5 h-5 flex items-center justify-center">
-                                    <i class="ri-coin-line"></i>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="flex items-end justify-between">
-                            <div>
-                                <p class="text-3xl font-bold text-gray-800">1,250</p>
-                                <div class="w-full bg-gray-200 rounded-full h-2 mt-3">
-                                    <div class="bg-primary rounded-full h-2" style="width: 62.5%"></div>
-                                </div>
-                                <p class="text-xs text-gray-500 mt-1">62.5% remaining</p>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- Recent Activity -->
-                    <div class="glassmorphism rounded-lg p-6 shadow-sm hover:shadow-md transition-shadow">
-                        <div class="flex items-center justify-between mb-4">
-                            <h3 class="text-gray-600 font-medium">Recent Activity</h3>
-                            <div class="w-10 h-10 rounded-full bg-purple-100 flex items-center justify-center text-purple-600">
-                                <div class="w-5 h-5 flex items-center justify-center">
-                                    <i class="ri-pulse-line"></i>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="flex items-end justify-between">
-                            <div>
-                                <p class="text-3xl font-bold text-gray-800">243</p>
-                                <p class="text-sm text-green-500 flex items-center mt-1">
-                                    <div class="w-4 h-4 flex items-center justify-center mr-1">
-                                        <i class="ri-arrow-up-line"></i>
-                                    </div>
-                                    <span>18% from yesterday</span>
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Recent Activity Feed & Analytics -->
-                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                    <!-- Recent Activity Feed -->
-                    <div class="lg:col-span-1 glassmorphism rounded-lg shadow-sm p-6">
-                        <div class="flex items-center justify-between mb-6">
-                            <h2 class="text-lg font-semibold text-gray-800">Recent Activity</h2>
-                            <button class="text-primary hover:text-blue-700 text-sm">View all</button>
-                        </div>
-                        
-                        <div class="space-y-4 max-h-[400px] overflow-y-auto pr-2">
-                            <div class="flex items-start space-x-3 pb-4 border-b border-gray-100">
-                                <div class="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center text-primary flex-shrink-0 mt-1">
-                                    <div class="w-4 h-4 flex items-center justify-center">
-                                        <i class="ri-filter-line"></i>
-                                    </div>
-                                </div>
-                                <div>
-                                    <p class="text-gray-800 font-medium">E-commerce filter applied</p>
-                                    <p class="text-sm text-gray-500">Shopify stores with >500 products</p>
-                                    <p class="text-xs text-gray-400 mt-1">2 hours ago</p>
-                                </div>
-                            </div>
-                            
-                            <div class="flex items-start space-x-3 pb-4 border-b border-gray-100">
-                                <div class="w-8 h-8 rounded-full bg-green-100 flex items-center justify-center text-green-600 flex-shrink-0 mt-1">
-                                    <div class="w-4 h-4 flex items-center justify-center">
-                                        <i class="ri-rocket-line"></i>
-                                    </div>
-                                </div>
-                                <div>
-                                    <p class="text-gray-800 font-medium">New campaign started</p>
-                                    <p class="text-sm text-gray-500">Fashion retailers in Europe</p>
-                                    <p class="text-xs text-gray-400 mt-1">Yesterday at 4:23 PM</p>
-                                </div>
-                            </div>
-                            
-                            <div class="flex items-start space-x-3 pb-4 border-b border-gray-100">
-                                <div class="w-8 h-8 rounded-full bg-yellow-100 flex items-center justify-center text-yellow-600 flex-shrink-0 mt-1">
-                                    <div class="w-4 h-4 flex items-center justify-center">
-                                        <i class="ri-download-line"></i>
-                                    </div>
-                                </div>
-                                <div>
-                                    <p class="text-gray-800 font-medium">Lead list exported</p>
-                                    <p class="text-sm text-gray-500">1,245 leads from US tech companies</p>
-                                    <p class="text-xs text-gray-400 mt-1">May 20, 2025 at 10:15 AM</p>
-                                </div>
-                            </div>
-                            
-                            <div class="flex items-start space-x-3 pb-4 border-b border-gray-100">
-                                <div class="w-8 h-8 rounded-full bg-purple-100 flex items-center justify-center text-purple-600 flex-shrink-0 mt-1">
-                                    <div class="w-4 h-4 flex items-center justify-center">
-                                        <i class="ri-search-line"></i>
-                                    </div>
-                                </div>
-                                <div>
-                                    <p class="text-gray-800 font-medium">Website search completed</p>
-                                    <p class="text-sm text-gray-500">Found 327 matching domains</p>
-                                    <p class="text-xs text-gray-400 mt-1">May 19, 2025 at 3:45 PM</p>
-                                </div>
-                            </div>
-                            
-                            <div class="flex items-start space-x-3 pb-4 border-b border-gray-100">
-                                <div class="w-8 h-8 rounded-full bg-red-100 flex items-center justify-center text-red-600 flex-shrink-0 mt-1">
-                                    <div class="w-4 h-4 flex items-center justify-center">
-                                        <i class="ri-alert-line"></i>
-                                    </div>
-                                </div>
-                                <div>
-                                    <p class="text-gray-800 font-medium">Credit usage alert</p>
-                                    <p class="text-sm text-gray-500">Reached 50% of monthly credits</p>
-                                    <p class="text-xs text-gray-400 mt-1">May 18, 2025 at 9:12 AM</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- Analytics Charts -->
-                    <div class="lg:col-span-2 glassmorphism rounded-lg shadow-sm p-6">
-                        <div class="flex items-center justify-between mb-6">
-                            <h2 class="text-lg font-semibold text-gray-800">Analytics Overview</h2>
-                            <div class="flex items-center space-x-2">
-                                <button class="px-3 py-1 text-sm bg-primary text-white rounded-full !rounded-button whitespace-nowrap">Last 7 days</button>
-                                <button class="px-3 py-1 text-sm text-gray-600 hover:bg-gray-100 rounded-full !rounded-button whitespace-nowrap">Last 30 days</button>
-                                <button class="px-3 py-1 text-sm text-gray-600 hover:bg-gray-100 rounded-full !rounded-button whitespace-nowrap">All time</button>
-                            </div>
-                        </div>
-                        
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            <!-- Line Chart -->
-                            <div>
-                                <h3 class="text-gray-600 font-medium mb-4">Leads Generated</h3>
-                                <div id="leads-chart" style="width: 100%; height: 250px;"></div>
-                            </div>
-                            
-                            <!-- Pie Chart -->
-                            <div>
-                                <h3 class="text-gray-600 font-medium mb-4">Filter Usage</h3>
-                                <div id="filter-chart" style="width: 100%; height: 250px;"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+      <main class="ml-6 flex-1 p-6">
+<div class="mb-6">
+<h1 class="text-2xl font-bold text-gray-800 mb-2">Websites</h1>
+<p class="text-gray-600">Search, filter, and discover website leads for your business.</p>
+</div>
+<!-- Filters Section -->
+<div class="bg-white rounded shadow-sm mb-6">
+<div class="p-4 border-b border-gray-100 flex items-center justify-between">
+<h2 class="text-lg font-semibold text-gray-800">Filters</h2>
+<div class="flex items-center">
+<span class="text-sm text-gray-600 mr-2">More Filters</span>
+<div id="filterToggle" class="custom-checkbox"></div>
+</div>
+</div>
+<div class="p-4">
+<div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-4">
+<div>
+<label class="block text-sm font-medium text-gray-700 mb-1">Keyword</label>
+<input type="text" class="w-full px-3 py-2 border border-gray-300 rounded text-sm" placeholder="Enter keywords...">
+</div>
+<div>
+<label class="block text-sm font-medium text-gray-700 mb-1">Platform</label>
+<select class="w-full px-3 py-2 border border-gray-300 rounded text-sm custom-select pr-8">
+<option value="">All Platforms</option>
+<option value="shopify">Shopify</option>
+<option value="woocommerce">WooCommerce</option>
+<option value="magento">Magento</option>
+<option value="wordpress">WordPress</option>
+</select>
+</div>
+<div>
+<label class="block text-sm font-medium text-gray-700 mb-1">SNS & Email</label>
+<select class="w-full px-3 py-2 border border-gray-300 rounded text-sm custom-select pr-8">
+<option value="">All</option>
+<option value="facebook">Facebook</option>
+<option value="instagram">Instagram</option>
+<option value="twitter">Twitter</option>
+<option value="email">Email Available</option>
+</select>
+</div>
+<div>
+<label class="block text-sm font-medium text-gray-700 mb-1">Indexed Date</label>
+<input type="date" class="w-full px-3 py-2 border border-gray-300 rounded text-sm">
+</div>
+</div>
+<div id="advancedFilters" class="hidden">
+<div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-4">
+<div>
+<label class="block text-sm font-medium text-gray-700 mb-1">Tags</label>
+<select class="w-full px-3 py-2 border border-gray-300 rounded text-sm custom-select pr-8">
+<option value="">Select Tags</option>
+<option value="fashion">Fashion</option>
+<option value="electronics">Electronics</option>
+<option value="home">Home & Garden</option>
+<option value="beauty">Beauty</option>
+</select>
+</div>
+<div>
+<label class="block text-sm font-medium text-gray-700 mb-1">Language</label>
+<select class="w-full px-3 py-2 border border-gray-300 rounded text-sm custom-select pr-8">
+<option value="">All Languages</option>
+<option value="en">English</option>
+<option value="es">Spanish</option>
+<option value="fr">French</option>
+<option value="de">German</option>
+<option value="zh">Chinese</option>
+</select>
+</div>
+<div>
+<label class="block text-sm font-medium text-gray-700 mb-1">Country</label>
+<select class="w-full px-3 py-2 border border-gray-300 rounded text-sm custom-select pr-8">
+<option value="">All Countries</option>
+<option value="us">United States</option>
+<option value="uk">United Kingdom</option>
+<option value="ca">Canada</option>
+<option value="au">Australia</option>
+<option value="de">Germany</option>
+</select>
+</div>
+<div>
+<label class="block text-sm font-medium text-gray-700 mb-1">Product Count</label>
+<select class="w-full px-3 py-2 border border-gray-300 rounded text-sm custom-select pr-8">
+<option value="">Any</option>
+<option value="1-100">1-100</option>
+<option value="101-500">101-500</option>
+<option value="501-1000">501-1000</option>
+<option value="1001+">1001+</option>
+</select>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-4">
+<div>
+<label class="block text-sm font-medium text-gray-700 mb-1">Pages</label>
+<select class="w-full px-3 py-2 border border-gray-300 rounded text-sm custom-select pr-8">
+<option value="">Any</option>
+<option value="1-10">1-10</option>
+<option value="11-50">11-50</option>
+<option value="51-100">51-100</option>
+<option value="101+">101+</option>
+</select>
+</div>
+<div>
+<label class="block text-sm font-medium text-gray-700 mb-1">Top Level Domain</label>
+<select class="w-full px-3 py-2 border border-gray-300 rounded text-sm custom-select pr-8">
+<option value="">All TLDs</option>
+<option value=".com">.com</option>
+<option value=".org">.org</option>
+<option value=".net">.net</option>
+<option value=".io">.io</option>
+<option value=".co">.co</option>
+</select>
+</div>
+<div>
+<label class="block text-sm font-medium text-gray-700 mb-1">Technologies</label>
+<select class="w-full px-3 py-2 border border-gray-300 rounded text-sm custom-select pr-8">
+<option value="">All Technologies</option>
+<option value="react">React</option>
+<option value="vue">Vue.js</option>
+<option value="angular">Angular</option>
+<option value="jquery">jQuery</option>
+<option value="bootstrap">Bootstrap</option>
+</select>
+</div>
+<div>
+<label class="block text-sm font-medium text-gray-700 mb-1">Installed Apps</label>
+<select class="w-full px-3 py-2 border border-gray-300 rounded text-sm custom-select pr-8">
+<option value="">All Apps</option>
+<option value="analytics">Google Analytics</option>
+<option value="hotjar">Hotjar</option>
+<option value="intercom">Intercom</option>
+<option value="mailchimp">Mailchimp</option>
+<option value="zendesk">Zendesk</option>
+</select>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+<div>
+<label class="block text-sm font-medium text-gray-700 mb-1">Domain Reg Year</label>
+<select class="w-full px-3 py-2 border border-gray-300 rounded text-sm custom-select pr-8">
+<option value="">Any Year</option>
+<option value="2023-2025">2023-2025</option>
+<option value="2020-2022">2020-2022</option>
+<option value="2015-2019">2015-2019</option>
+<option value="2010-2014">2010-2014</option>
+<option value="before-2010">Before 2010</option>
+</select>
+</div>
+<div>
+<label class="block text-sm font-medium text-gray-700 mb-1">Product Avg Price</label>
+<div class="flex space-x-2">
+<input type="number" placeholder="Min" class="w-full px-3 py-2 border border-gray-300 rounded text-sm">
+<input type="number" placeholder="Max" class="w-full px-3 py-2 border border-gray-300 rounded text-sm">
+</div>
+</div>
+<div>
+<label class="block text-sm font-medium text-gray-700 mb-1">Currency</label>
+<select class="w-full px-3 py-2 border border-gray-300 rounded text-sm custom-select pr-8">
+<option value="">All Currencies</option>
+<option value="usd">USD</option>
+<option value="eur">EUR</option>
+<option value="gbp">GBP</option>
+<option value="cad">CAD</option>
+<option value="aud">AUD</option>
+</select>
+</div>
+<div>
+<label class="block text-sm font-medium text-gray-700 mb-1">Order Results By</label>
+<select class="w-full px-3 py-2 border border-gray-300 rounded text-sm custom-select pr-8">
+<option value="relevance">Relevance</option>
+<option value="date-desc">Date (Newest)</option>
+<option value="date-asc">Date (Oldest)</option>
+<option value="traffic-desc">Traffic (High to Low)</option>
+<option value="traffic-asc">Traffic (Low to High)</option>
+<option value="products-desc">Products (High to Low)</option>
+<option value="products-asc">Products (Low to High)</option>
+</select>
+</div>
+</div>
+</div>
+<div class="flex mt-6">
+<button class="bg-primary text-white px-6 py-2 rounded-button flex items-center whitespace-nowrap mr-3">
+<div class="w-5 h-5 flex items-center justify-center mr-2">
+<i class="ri-search-line"></i>
+</div>
+Search
+</button>
+<button class="bg-gray-100 text-gray-700 px-6 py-2 rounded-button whitespace-nowrap">
+Reset
+</button>
+</div>
+</div>
+</div>
+<!-- Results Section -->
+<div class="bg-white rounded shadow-sm">
+<div class="p-4 border-b border-gray-100 flex justify-between items-center">
+<div class="text-sm text-gray-600">Found 317,455 Stores</div>
+<div class="flex items-center">
+<button class="bg-gray-100 text-gray-700 px-3 py-1.5 rounded-button text-sm whitespace-nowrap mr-3">
+<div class="flex items-center">
+<div class="w-4 h-4 flex items-center justify-center mr-1">
+<i class="ri-download-line"></i>
+</div>
+Export
+</div>
+</button>
+<button class="bg-gray-100 text-gray-700 px-3 py-1.5 rounded-button text-sm whitespace-nowrap">
+<div class="flex items-center">
+<div class="w-4 h-4 flex items-center justify-center mr-1">
+<i class="ri-list-check"></i>
+</div>
+Display
+</div>
+</button>
+</div>
+</div>
+<div class="overflow-x-auto">
+<table class="min-w-full divide-y divide-gray-200">
+<thead class="bg-gray-50">
+<tr>
+<th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Store</th>
+<th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Platform</th>
+<th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Title</th>
+<th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Country</th>
+<th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Product Count</th>
+<th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Product avg price</th>
+</tr>
+</thead>
+<tbody class="bg-white divide-y divide-gray-200">
+<tr class="hover:bg-gray-50">
+<td class="px-6 py-4 whitespace-nowrap">
+<div class="flex items-center">
+<div class="w-8 h-8 flex items-center justify-center bg-red-100 rounded-full mr-3">
+<i class="ri-heart-fill text-red-500"></i>
+</div>
+<div class="text-sm font-medium text-gray-900">yamloveme.com</div>
+</div>
+</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Shopify</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">yamloveme</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">US</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">1900</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">37.69</td>
+</tr>
+<tr class="hover:bg-gray-50">
+<td class="px-6 py-4 whitespace-nowrap">
+<div class="flex items-center">
+<div class="w-8 h-8 flex items-center justify-center bg-blue-100 rounded-full mr-3">
+<i class="ri-compress-line text-blue-500"></i>
+</div>
+<div class="text-sm font-medium text-gray-900">true-compress.com</div>
+</div>
+</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Shopify</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">True Compress</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">GB</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">10</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">42.04</td>
+</tr>
+<tr class="hover:bg-gray-50">
+<td class="px-6 py-4 whitespace-nowrap">
+<div class="flex items-center">
+<div class="w-8 h-8 flex items-center justify-center bg-purple-100 rounded-full mr-3">
+<i class="ri-vip-diamond-fill text-purple-500"></i>
+</div>
+<div class="text-sm font-medium text-gray-900">www.telenaarl.com</div>
+</div>
+</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Shopify</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">TeleNaarl – Timeless Jewellery for Every Occasion</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">IN</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">1185</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">93.04</td>
+</tr>
+<tr class="hover:bg-gray-50">
+<td class="px-6 py-4 whitespace-nowrap">
+<div class="flex items-center">
+<div class="w-8 h-8 flex items-center justify-center bg-green-100 rounded-full mr-3">
+<i class="ri-store-fill text-green-500"></i>
+</div>
+<div class="text-sm font-medium text-gray-900">dbfay.com</div>
+</div>
+</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Shopify</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">dbfay</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">FR</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">840</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">35.56</td>
+</tr>
+<tr class="hover:bg-gray-50">
+<td class="px-6 py-4 whitespace-nowrap">
+<div class="flex items-center">
+<div class="w-8 h-8 flex items-center justify-center bg-yellow-100 rounded-full mr-3">
+<i class="ri-emotion-laugh-fill text-yellow-500"></i>
+</div>
+<div class="text-sm font-medium text-gray-900">epicfalls.legendary-laughs.shop</div>
+</div>
+</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Shopify</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Epic Falls: Legendary Laughs! – EpicFalls</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">US</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">3</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">1623.08</td>
+</tr>
+<tr class="hover:bg-gray-50">
+<td class="px-6 py-4 whitespace-nowrap">
+<div class="flex items-center">
+<div class="w-8 h-8 flex items-center justify-center bg-indigo-100 rounded-full mr-3">
+<i class="ri-store-2-fill text-indigo-500"></i>
+</div>
+<div class="text-sm font-medium text-gray-900">akitada.com</div>
+</div>
+</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Shopify</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">akitada</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">DE</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">165</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">29.96</td>
+</tr>
+<tr class="hover:bg-gray-50">
+<td class="px-6 py-4 whitespace-nowrap">
+<div class="flex items-center">
+<div class="w-8 h-8 flex items-center justify-center bg-pink-100 rounded-full mr-3">
+<i class="ri-shopping-bag-fill text-pink-500"></i>
+</div>
+<div class="text-sm font-medium text-gray-900">avapros.com</div>
+</div>
+</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Shopify</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">avapros</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">ID</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">1181</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">35.73</td>
+</tr>
+<tr class="hover:bg-gray-50">
+<td class="px-6 py-4 whitespace-nowrap">
+<div class="flex items-center">
+<div class="w-8 h-8 flex items-center justify-center bg-teal-100 rounded-full mr-3">
+<i class="ri-building-2-fill text-teal-500"></i>
+</div>
+<div class="text-sm font-medium text-gray-900">blackrow.com</div>
+</div>
+</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Shopify</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">blackrow</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">VN</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">1385</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">43.57</td>
+</tr>
+<tr class="hover:bg-gray-50">
+<td class="px-6 py-4 whitespace-nowrap">
+<div class="flex items-center">
+<div class="w-8 h-8 flex items-center justify-center bg-orange-100 rounded-full mr-3">
+<i class="ri-fox-fill text-orange-500"></i>
+</div>
+<div class="text-sm font-medium text-gray-900">foxness.com</div>
+</div>
+</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Shopify</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">foxness</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">NL</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">610</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">31.95</td>
+</tr>
+<tr class="hover:bg-gray-50">
+<td class="px-6 py-4 whitespace-nowrap">
+<div class="flex items-center">
+<div class="w-8 h-8 flex items-center justify-center bg-blue-100 rounded-full mr-3">
+<i class="ri-building-fill text-blue-500"></i>
+</div>
+<div class="text-sm font-medium text-gray-900">cofuze.com</div>
+</div>
+</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Shopify</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">cofuze.com - CoFuze™</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">IN</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">90</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">87.64</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="px-6 py-4 flex items-center justify-between border-t border-gray-200">
+<div class="flex items-center">
+<p class="text-sm text-gray-700">
+Showing <span class="font-medium">1</span> to <span class="font-medium">10</span> of <span class="font-medium">317,455</span> results
+</p>
+</div>
+<div class="flex items-center space-x-2">
+<button class="bg-primary text-white w-8 h-8 rounded flex items-center justify-center">
+<span>1</span>
+</button>
+<button class="text-gray-500 hover:bg-gray-100 w-8 h-8 rounded flex items-center justify-center">
+<span>2</span>
+</button>
+<button class="text-gray-500 hover:bg-gray-100 w-8 h-8 rounded flex items-center justify-center">
+<span>3</span>
+</button>
+<span class="text-gray-500">...</span>
+<button class="text-gray-500 hover:bg-gray-100 w-8 h-8 rounded flex items-center justify-center">
+<span>233</span>
+</button>
+<button class="text-gray-500 hover:bg-gray-100 w-8 h-8 rounded flex items-center justify-center">
+<span>234</span>
+</button>
+<button class="text-gray-500 hover:bg-gray-100 w-8 h-8 rounded flex items-center justify-center">
+<div class="w-4 h-4 flex items-center justify-center">
+<i class="ri-arrow-right-s-line"></i>
+</div>
+</button>
+</div>
+</div>
+</div>
+</main>
         </div>
     </div>
 

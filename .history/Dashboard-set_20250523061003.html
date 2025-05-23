@@ -1338,8 +1338,8 @@ document.addEventListener('DOMContentLoaded', function() {
   // --- Subscription & Billing Section Functionality ---
   // Pricing section HTML (from index.html, only the inner pricing cards)
   const pricingSectionHTML = `
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-full mx-auto">
-      <div class="bg-white rounded-lg shadow-md p-4 border border-gray-200 flex flex-col min-w-0 max-w-xl ">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-lg mx-auto">
+      <div class="bg-white rounded-lg shadow-md p-4 border border-gray-200 flex flex-col min-w-0 max-w-xs mx-auto">
         <h3 class="text-lg font-bold mb-2">Basic</h3>
         <div class="text-2xl font-bold mb-1">$115<span class="text-gray-500 text-base font-normal">/mo</span></div>
         <p class="text-gray-600 mb-3 text-sm">Perfect for small businesses just getting started with lead generation</p>
@@ -1351,7 +1351,7 @@ document.addEventListener('DOMContentLoaded', function() {
         </ul>
         <a href="#" class="bg-white border border-primary text-primary px-4 py-2 !rounded-button whitespace-nowrap font-medium hover:bg-primary hover:text-white transition-all text-center text-sm">Get started</a>
       </div>
-      <div class="bg-white rounded-lg shadow-lg p-4 border-2 border-primary flex flex-col relative min-w-0 max-w-xs ">
+      <div class="bg-white rounded-lg shadow-lg p-4 border-2 border-primary flex flex-col relative min-w-0 max-w-xs mx-auto">
         <div class="absolute top-2 right-2 bg-primary text-white text-xs font-bold px-2 py-1 rounded-bl-lg rounded-tr-lg">POPULAR</div>
         <h3 class="text-lg font-bold mb-2">Pro</h3>
         <div class="text-2xl font-bold mb-1">$225<span class="text-gray-500 text-base font-normal">/mo</span></div>
@@ -1366,7 +1366,7 @@ document.addEventListener('DOMContentLoaded', function() {
         </ul>
         <a href="#" class="bg-primary text-white px-4 py-2 !rounded-button whitespace-nowrap font-medium hover:bg-opacity-90 transition-all text-center text-sm">Get started</a>
       </div>
-      <div class="bg-white rounded-lg shadow-md p-4 border border-gray-200 flex flex-col min-w-0 max-w- ">
+      <div class="bg-white rounded-lg shadow-md p-4 border border-gray-200 flex flex-col min-w-0 max-w-xs mx-auto">
         <h3 class="text-lg font-bold mb-2">Enterprise</h3>
         <div class="text-2xl font-bold mb-1">Custom<span class="text-gray-500 text-base font-normal"></span></div>
         <p class="text-gray-600 mb-3 text-sm">For large organizations with custom lead generation requirements</p>
@@ -1432,7 +1432,7 @@ document.addEventListener('DOMContentLoaded', function() {
       modal.id = 'pricing-modal';
       modal.className = 'fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40 hidden';
       modal.innerHTML = `
-        <div class="bg-white rounded-lg shadow-xl w-full max-w-4xl h-auto max-h-[90vh] overflow-y-auto p-4 text-center relative">
+        <div class="bg-white rounded-lg shadow-xl w-full max-w-sm h-auto max-h-[90vh] overflow-y-auto p-4 text-center relative">
           <button id="close-pricing-modal" class="absolute top-2 right-2 text-gray-400 hover:text-primary text-2xl font-bold">&times;</button>
           <h4 class="text-xl font-bold mb-4" id="pricing-modal-title"></h4>
           <div id="pricing-modal-content"></div>
@@ -1722,33 +1722,6 @@ document.addEventListener('DOMContentLoaded', function() {
   const verifyBtn = twoFASetup ? twoFASetup.querySelector('button') : null;
   const codeInput = twoFASetup ? twoFASetup.querySelector('input[type="text"][maxlength="6"]') : null;
 
-  // 2FA Success Modal
-  let twoFAModal = document.getElementById('twofa-success-modal');
-  if (!twoFAModal) {
-    twoFAModal = document.createElement('div');
-    twoFAModal.id = 'twofa-success-modal';
-    twoFAModal.className = 'fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40 hidden';
-    twoFAModal.innerHTML = `
-      <div class="bg-white rounded-lg shadow-xl max-w-xs w-full p-6 text-center">
-        <div class="w-12 h-12 mx-auto mb-4 flex items-center justify-center text-green-500 bg-green-100 rounded-full">
-          <i class="ri-checkbox-circle-line ri-2x"></i>
-        </div>
-        <h4 class="text-lg font-medium mb-2">Two-Factor Authentication Enabled</h4>
-        <p class="text-sm text-gray-600 mb-4">Two-Factor Authentication has been enabled successfully!</p>
-        <button id="close-twofa-success-modal" class="px-4 py-2 bg-primary text-white rounded-button text-sm font-medium hover:bg-blue-600 transition-colors">OK</button>
-      </div>
-    `;
-    document.body.appendChild(twoFAModal);
-  }
-  function showTwoFAModal() {
-    twoFAModal.classList.remove('hidden');
-  }
-  twoFAModal.addEventListener('click', function(e) {
-    if (e.target.id === 'close-twofa-success-modal' || e.target === twoFAModal) {
-      twoFAModal.classList.add('hidden');
-    }
-  });
-
   if (twoFAToggle && twoFASetup) {
     // Show/hide setup instructions
     twoFAToggle.addEventListener('change', function() {
@@ -1773,14 +1746,16 @@ document.addEventListener('DOMContentLoaded', function() {
           verifyBtn.classList.add('bg-green-500');
           verifyBtn.disabled = true;
           codeInput.disabled = true;
+          // Optionally, show a toast or modal here
           setTimeout(() => {
             verifyBtn.innerHTML = 'Verify & Enable';
             verifyBtn.classList.remove('bg-green-500');
             verifyBtn.disabled = false;
             codeInput.disabled = false;
             codeInput.value = '';
+            twoFAToggle.checked = false;
             twoFASetup.classList.add('hidden');
-            showTwoFAModal();
+            alert('Two-Factor Authentication enabled!');
           }, 1200);
         }, 1200);
       } else {
@@ -1842,11 +1817,36 @@ document.addEventListener('DOMContentLoaded', function() {
       confirmDeleteBtn.innerHTML = '<div class="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin mr-2 inline-block"></div> Deleting...';
       setTimeout(() => {
         closeModal();
-        // Show a success modal or alert
-        alert('Your account has been deleted. (Demo: No real deletion performed)');
-        // Optionally redirect or clear session here
+        showDeleteSuccessModal();
       }, 1500);
     });
+  }
+
+  // Success modal for account deletion
+  function showDeleteSuccessModal() {
+    let modal = document.getElementById('delete-success-modal');
+    if (!modal) {
+      modal = document.createElement('div');
+      modal.id = 'delete-success-modal';
+      modal.className = 'fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40';
+      modal.innerHTML = `
+        <div class="bg-white rounded-lg shadow-xl max-w-xs w-full p-6 text-center">
+          <div class="w-12 h-12 mx-auto mb-4 flex items-center justify-center text-green-500 bg-green-100 rounded-full">
+            <i class="ri-checkbox-circle-line ri-2x"></i>
+          </div>
+          <h4 class="text-lg font-medium mb-2">Account Deleted</h4>
+          <p class="text-sm text-gray-600 mb-4">Your account has been deleted. (Demo: No real deletion performed)</p>
+          <button id="close-delete-success-modal" class="px-4 py-2 bg-primary text-white rounded-button text-sm font-medium hover:bg-blue-600 transition-colors">OK</button>
+        </div>
+      `;
+      document.body.appendChild(modal);
+    }
+    modal.classList.remove('hidden');
+    modal.onclick = function(ev) {
+      if (ev.target.id === 'close-delete-success-modal' || ev.target === modal) {
+        modal.classList.add('hidden');
+      }
+    };
   }
 });
 </script>

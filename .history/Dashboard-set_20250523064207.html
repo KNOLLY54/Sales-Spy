@@ -1338,8 +1338,8 @@ document.addEventListener('DOMContentLoaded', function() {
   // --- Subscription & Billing Section Functionality ---
   // Pricing section HTML (from index.html, only the inner pricing cards)
   const pricingSectionHTML = `
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-full mx-auto">
-      <div class="bg-white rounded-lg shadow-md p-4 border border-gray-200 flex flex-col min-w-0 max-w-xl ">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-lg mx-auto">
+      <div class="bg-white rounded-lg shadow-md p-4 border border-gray-200 flex flex-col min-w-0 max-w-xs mx-auto">
         <h3 class="text-lg font-bold mb-2">Basic</h3>
         <div class="text-2xl font-bold mb-1">$115<span class="text-gray-500 text-base font-normal">/mo</span></div>
         <p class="text-gray-600 mb-3 text-sm">Perfect for small businesses just getting started with lead generation</p>
@@ -1351,7 +1351,7 @@ document.addEventListener('DOMContentLoaded', function() {
         </ul>
         <a href="#" class="bg-white border border-primary text-primary px-4 py-2 !rounded-button whitespace-nowrap font-medium hover:bg-primary hover:text-white transition-all text-center text-sm">Get started</a>
       </div>
-      <div class="bg-white rounded-lg shadow-lg p-4 border-2 border-primary flex flex-col relative min-w-0 max-w-xs ">
+      <div class="bg-white rounded-lg shadow-lg p-4 border-2 border-primary flex flex-col relative min-w-0 max-w-xs mx-auto">
         <div class="absolute top-2 right-2 bg-primary text-white text-xs font-bold px-2 py-1 rounded-bl-lg rounded-tr-lg">POPULAR</div>
         <h3 class="text-lg font-bold mb-2">Pro</h3>
         <div class="text-2xl font-bold mb-1">$225<span class="text-gray-500 text-base font-normal">/mo</span></div>
@@ -1366,7 +1366,7 @@ document.addEventListener('DOMContentLoaded', function() {
         </ul>
         <a href="#" class="bg-primary text-white px-4 py-2 !rounded-button whitespace-nowrap font-medium hover:bg-opacity-90 transition-all text-center text-sm">Get started</a>
       </div>
-      <div class="bg-white rounded-lg shadow-md p-4 border border-gray-200 flex flex-col min-w-0 max-w- ">
+      <div class="bg-white rounded-lg shadow-md p-4 border border-gray-200 flex flex-col min-w-0 max-w-xs mx-auto">
         <h3 class="text-lg font-bold mb-2">Enterprise</h3>
         <div class="text-2xl font-bold mb-1">Custom<span class="text-gray-500 text-base font-normal"></span></div>
         <p class="text-gray-600 mb-3 text-sm">For large organizations with custom lead generation requirements</p>
@@ -1432,7 +1432,7 @@ document.addEventListener('DOMContentLoaded', function() {
       modal.id = 'pricing-modal';
       modal.className = 'fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40 hidden';
       modal.innerHTML = `
-        <div class="bg-white rounded-lg shadow-xl w-full max-w-4xl h-auto max-h-[90vh] overflow-y-auto p-4 text-center relative">
+        <div class="bg-white rounded-lg shadow-xl w-full max-w-sm h-auto max-h-[90vh] overflow-y-auto p-4 text-center relative">
           <button id="close-pricing-modal" class="absolute top-2 right-2 text-gray-400 hover:text-primary text-2xl font-bold">&times;</button>
           <h4 class="text-xl font-bold mb-4" id="pricing-modal-title"></h4>
           <div id="pricing-modal-content"></div>
@@ -1480,10 +1480,7 @@ document.addEventListener('DOMContentLoaded', function() {
       const cancelBtn = document.createElement('button');
       cancelBtn.className = 'px-4 py-2 border border-gray-300 text-gray-700 rounded-button text-sm font-medium hover:bg-gray-50 transition-colors';
       cancelBtn.textContent = cancelText;
-      cancelBtn.onclick = () => {
-        modal.classList.add('hidden');
-        if (onCancel) onCancel();
-      };
+      cancelBtn.onclick = () => modal.classList.add('hidden');
       actions.appendChild(cancelBtn);
     }
     if (confirmText) {
@@ -1497,7 +1494,6 @@ document.addEventListener('DOMContentLoaded', function() {
       actions.appendChild(confirmBtn);
     }
     modal.classList.remove('hidden');
-    // Dismiss on backdrop click
     modal.onclick = (e) => { if (e.target === modal) modal.classList.add('hidden'); };
   }
 
@@ -1716,138 +1712,134 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   }
 
-  // 2FA Toggle and Setup
-  const twoFAToggle = document.getElementById('2fa-toggle');
-  const twoFASetup = document.getElementById('2fa-setup');
-  const verifyBtn = twoFASetup ? twoFASetup.querySelector('button') : null;
-  const codeInput = twoFASetup ? twoFASetup.querySelector('input[type="text"][maxlength="6"]') : null;
-
-  // 2FA Success Modal
-  let twoFAModal = document.getElementById('twofa-success-modal');
-  if (!twoFAModal) {
-    twoFAModal = document.createElement('div');
-    twoFAModal.id = 'twofa-success-modal';
-    twoFAModal.className = 'fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40 hidden';
-    twoFAModal.innerHTML = `
-      <div class="bg-white rounded-lg shadow-xl max-w-xs w-full p-6 text-center">
-        <div class="w-12 h-12 mx-auto mb-4 flex items-center justify-center text-green-500 bg-green-100 rounded-full">
-          <i class="ri-checkbox-circle-line ri-2x"></i>
+  // --- Active Sessions: Sign Out Functionality ---
+  // Utility for modals (re-use if already present)
+  function showSessionModal({title, message, iconClass, iconBg, confirmText, cancelText, onConfirm}) {
+    let modal = document.getElementById('session-modal');
+    if (!modal) {
+      modal = document.createElement('div');
+      modal.id = 'session-modal';
+      modal.className = 'fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40 hidden';
+      modal.innerHTML = `
+        <div class="bg-white rounded-lg shadow-xl max-w-xs w-full p-6 text-center">
+          <div id="session-modal-icon" class="w-12 h-12 mx-auto mb-4 flex items-center justify-center rounded-full"></div>
+          <h4 id="session-modal-title" class="text-lg font-medium mb-2"></h4>
+          <p id="session-modal-message" class="text-sm text-gray-600 mb-4"></p>
+          <div class="flex justify-center gap-2" id="session-modal-actions"></div>
         </div>
-        <h4 class="text-lg font-medium mb-2">Two-Factor Authentication Enabled</h4>
-        <p class="text-sm text-gray-600 mb-4">Two-Factor Authentication has been enabled successfully!</p>
-        <button id="close-twofa-success-modal" class="px-4 py-2 bg-primary text-white rounded-button text-sm font-medium hover:bg-blue-600 transition-colors">OK</button>
-      </div>
-    `;
-    document.body.appendChild(twoFAModal);
+      `;
+      document.body.appendChild(modal);
+    }
+    // Set content
+    const iconDiv = modal.querySelector('#session-modal-icon');
+    iconDiv.className = `w-12 h-12 mx-auto mb-4 flex items-center justify-center rounded-full ${iconBg}`;
+    iconDiv.innerHTML = `<i class="${iconClass} ri-2x"></i>`;
+    modal.querySelector('#session-modal-title').textContent = title;
+    modal.querySelector('#session-modal-message').textContent = message;
+    const actions = modal.querySelector('#session-modal-actions');
+    actions.innerHTML = '';
+    if (cancelText) {
+      const cancelBtn = document.createElement('button');
+      cancelBtn.className = 'px-4 py-2 border border-gray-300 text-gray-700 rounded-button text-sm font-medium hover:bg-gray-50 transition-colors';
+      cancelBtn.textContent = cancelText;
+      cancelBtn.onclick = () => modal.classList.add('hidden');
+      actions.appendChild(cancelBtn);
+    }
+    if (confirmText) {
+      const confirmBtn = document.createElement('button');
+      confirmBtn.className = 'px-4 py-2 bg-primary text-white rounded-button text-sm font-medium hover:bg-blue-600 transition-colors';
+      confirmBtn.textContent = confirmText;
+      confirmBtn.onclick = () => {
+        modal.classList.add('hidden');
+        if (onConfirm) onConfirm();
+      };
+      actions.appendChild(confirmBtn);
+    }
+    modal.classList.remove('hidden');
+    modal.onclick = (e) => { if (e.target === modal) modal.classList.add('hidden'); };
   }
-  function showTwoFAModal() {
-    twoFAModal.classList.remove('hidden');
+
+  // Success modal for session sign out
+  function showSessionSuccessModal(message) {
+    let modal = document.getElementById('session-success-modal');
+    if (!modal) {
+      modal = document.createElement('div');
+      modal.id = 'session-success-modal';
+      modal.className = 'fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40 hidden';
+      modal.innerHTML = `
+        <div class="bg-white rounded-lg shadow-xl max-w-xs w-full p-6 text-center">
+          <div class="w-12 h-12 mx-auto mb-4 flex items-center justify-center text-green-500 bg-green-100 rounded-full">
+            <i class="ri-checkbox-circle-line ri-2x"></i>
+          </div>
+          <h4 class="text-lg font-medium mb-2">Signed Out</h4>
+          <p class="text-sm text-gray-600 mb-4" id="session-success-message"></p>
+          <button id="close-session-success-modal" class="px-4 py-2 bg-primary text-white rounded-button text-sm font-medium hover:bg-blue-600 transition-colors">OK</button>
+        </div>
+      `;
+      document.body.appendChild(modal);
+    }
+    modal.querySelector('#session-success-message').textContent = message;
+    modal.classList.remove('hidden');
+    modal.onclick = function(ev) {
+      if (ev.target.id === 'close-session-success-modal' || ev.target === modal) {
+        modal.classList.add('hidden');
+      }
+    };
   }
-  twoFAModal.addEventListener('click', function(e) {
-    if (e.target.id === 'close-twofa-success-modal' || e.target === twoFAModal) {
-      twoFAModal.classList.add('hidden');
+
+  // Attach event listeners to all "Sign Out" buttons in Active Sessions
+  document.querySelectorAll('.border.border-gray-200.rounded-lg.p-4 .rounded-button.text-xs').forEach(function(btn) {
+    if (btn.textContent.trim().toLowerCase() === 'sign out') {
+      btn.addEventListener('click', function(e) {
+        e.preventDefault();
+        const sessionCard = btn.closest('.border.border-gray-200.rounded-lg.p-4');
+        const deviceName = sessionCard ? sessionCard.querySelector('p.text-sm.font-medium')?.textContent.trim() : 'this device';
+        showSessionModal({
+          title: 'Sign Out Device',
+          message: `Are you sure you want to sign out of <b>${deviceName}</b>?`,
+          iconClass: 'ri-logout-box-line',
+          iconBg: 'bg-red-100 text-red-500',
+          confirmText: 'Sign Out',
+          cancelText: 'Cancel',
+          onConfirm: () => {
+            // Simulate sign out (remove card except for current session)
+            if (sessionCard && !deviceName.toLowerCase().includes('current session')) {
+              sessionCard.remove();
+            }
+            showSessionSuccessModal(`${deviceName} has been signed out.`);
+          }
+        });
+      });
     }
   });
 
-  if (twoFAToggle && twoFASetup) {
-    // Show/hide setup instructions
-    twoFAToggle.addEventListener('change', function() {
-      if (this.checked) {
-        twoFASetup.classList.remove('hidden');
-      } else {
-        twoFASetup.classList.add('hidden');
-      }
-    });
-  }
-
-  // Simulate verification
-  if (verifyBtn && codeInput) {
-    verifyBtn.addEventListener('click', function(e) {
+  // "Sign Out From All Devices" button
+  const signOutAllBtn = document.querySelector('.mt-4 .rounded-button.text-sm');
+  if (signOutAllBtn && signOutAllBtn.textContent.trim().toLowerCase().includes('sign out from all devices')) {
+    signOutAllBtn.addEventListener('click', function(e) {
       e.preventDefault();
-      const code = codeInput.value.trim();
-      if (/^\d{6}$/.test(code)) {
-        verifyBtn.disabled = true;
-        verifyBtn.innerHTML = '<div class="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin mr-2 inline-block"></div> Verifying...';
-        setTimeout(() => {
-          verifyBtn.innerHTML = 'Verified!';
-          verifyBtn.classList.add('bg-green-500');
-          verifyBtn.disabled = true;
-          codeInput.disabled = true;
-          setTimeout(() => {
-            verifyBtn.innerHTML = 'Verify & Enable';
-            verifyBtn.classList.remove('bg-green-500');
-            verifyBtn.disabled = false;
-            codeInput.disabled = false;
-            codeInput.value = '';
-            twoFASetup.classList.add('hidden');
-            showTwoFAModal();
-          }, 1200);
-        }, 1200);
-      } else {
-        codeInput.classList.add('border-red-500');
-        setTimeout(() => codeInput.classList.remove('border-red-500'), 1200);
-      }
-    });
-  }
-});
-</script>
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-  // Delete Account Modal functionality
-  const deleteBtn = document.getElementById('delete-account-btn');
-  const deleteModal = document.getElementById('delete-modal');
-  const closeDeleteModal = document.getElementById('close-delete-modal');
-  const cancelDeleteModal = document.getElementById('cancel-delete-modal');
-  const confirmDeleteBtn = document.getElementById('confirm-delete-btn');
-  const deleteConfirmInput = document.getElementById('delete-confirm');
-  const deletePasswordInput = document.getElementById('delete-password');
-
-  // Show modal
-  if (deleteBtn && deleteModal) {
-    deleteBtn.addEventListener('click', function() {
-      deleteModal.classList.remove('hidden');
-      confirmDeleteBtn.disabled = true;
-      deleteConfirmInput.value = '';
-      deletePasswordInput.value = '';
+      showSessionModal({
+        title: 'Sign Out From All Devices',
+        message: 'Are you sure you want to sign out from all devices? This will end all active sessions except your current one.',
+        iconClass: 'ri-logout-box-r-line',
+        iconBg: 'bg-red-100 text-red-500',
+        confirmText: 'Sign Out All',
+        cancelText: 'Cancel',
+        onConfirm: () => {
+          // Remove all session cards except "Current Session"
+          document.querySelectorAll('.border.border-gray-200.rounded-lg.p-4').forEach(card => {
+            const label = card.querySelector('p.text-sm.font-medium');
+            if (label && !label.textContent.toLowerCase().includes('current session')) {
+              card.remove();
+            }
+          });
+          showSessionSuccessModal('You have been signed out from all devices except your current session.');
+        }
+      });
     });
   }
 
-  // Hide modal
-  function closeModal() {
-    deleteModal.classList.add('hidden');
-  }
-  if (closeDeleteModal) closeDeleteModal.addEventListener('click', closeModal);
-  if (cancelDeleteModal) cancelDeleteModal.addEventListener('click', closeModal);
-  if (deleteModal) {
-    deleteModal.addEventListener('click', function(e) {
-      if (e.target === deleteModal) closeModal();
-    });
-  }
-
-  // Enable confirm button only if both fields are valid
-  function validateDeleteFields() {
-    const phraseOk = deleteConfirmInput.value.trim().toLowerCase() === 'delete my account';
-    const passOk = deletePasswordInput.value.length > 0;
-    confirmDeleteBtn.disabled = !(phraseOk && passOk);
-  }
-  if (deleteConfirmInput && deletePasswordInput) {
-    deleteConfirmInput.addEventListener('input', validateDeleteFields);
-    deletePasswordInput.addEventListener('input', validateDeleteFields);
-  }
-
-  // Handle delete confirmation
-  if (confirmDeleteBtn) {
-    confirmDeleteBtn.addEventListener('click', function() {
-      confirmDeleteBtn.disabled = true;
-      confirmDeleteBtn.innerHTML = '<div class="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin mr-2 inline-block"></div> Deleting...';
-      setTimeout(() => {
-        closeModal();
-        // Show a success modal or alert
-        alert('Your account has been deleted. (Demo: No real deletion performed)');
-        // Optionally redirect or clear session here
-      }, 1500);
-    });
-  }
+  // ...rest of your code...
 });
 </script>
 </body>

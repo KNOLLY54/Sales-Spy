@@ -1058,72 +1058,6 @@ document.addEventListener('DOMContentLoaded', function() {
 </script>
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-  // Sidebar collapse/expand for desktop and mobile
-  const sidebar = document.getElementById('sidebar');
-  const sidebarToggle = document.getElementById('sidebar-toggle');
-  const sidebarBackdrop = document.getElementById('sidebar-backdrop');
-  const mq = window.matchMedia('(max-width: 1024px)');
-  // Hide/show sidebar text for collapse/expand
-  function updateSidebarText() {
-    const sidebarTexts = sidebar.querySelectorAll('.sidebar-text');
-    if (sidebar.classList.contains('sidebar-collapsed')) {
-      sidebarTexts.forEach(el => el.style.display = 'none');
-    } else {
-      sidebarTexts.forEach(el => el.style.display = '');
-    }
-  }
-  function openSidebarMobile() {
-    sidebar.classList.add('open');
-    sidebarBackdrop.classList.remove('hidden');
-    sidebar.classList.remove('sidebar-collapsed');
-    updateSidebarText();
-  }
-  function closeSidebarMobile() {
-    sidebar.classList.remove('open');
-    sidebarBackdrop.classList.add('hidden');
-    sidebar.classList.add('sidebar-collapsed');
-    updateSidebarText();
-  }
-  function toggleSidebarDesktop() {
-    sidebar.classList.toggle('sidebar-collapsed');
-    updateSidebarText();
-  }
-  function handleSidebarToggle() {
-    if (mq.matches) {
-      if (!sidebar.classList.contains('open')) {
-        openSidebarMobile();
-      } else {
-        closeSidebarMobile();
-      }
-    } else {
-      toggleSidebarDesktop();
-    }
-  }
-  if (sidebarToggle) {
-    sidebarToggle.addEventListener('click', handleSidebarToggle);
-  }
-  if (sidebarBackdrop) {
-    sidebarBackdrop.addEventListener('click', closeSidebarMobile);
-  }
-  function handleResize() {
-    if (mq.matches) {
-      sidebar.classList.add('sidebar-collapsed');
-      sidebar.classList.remove('open');
-      sidebarBackdrop.classList.add('hidden');
-      updateSidebarText();
-    } else {
-      sidebar.classList.remove('open');
-      sidebarBackdrop.classList.add('hidden');
-      updateSidebarText();
-    }
-  }
-  window.addEventListener('resize', handleResize);
-  handleResize();
-  updateSidebarText();
-});
-</script>
-<script>
-document.addEventListener('DOMContentLoaded', function() {
   // Profile image upload functionality
   const profileUpload = document.getElementById('profile-upload');
   const dropzone = document.getElementById('dropzone');
@@ -1336,10 +1270,13 @@ document.addEventListener('DOMContentLoaded', function() {
 <script>
 document.addEventListener('DOMContentLoaded', function() {
   // --- Subscription & Billing Section Functionality ---
-  // Pricing section HTML (from index.html, only the inner pricing cards)
+  // Consistent card size utility class
+  const planCardClass = "bg-white rounded-lg shadow-md p-4 border border-gray-200 flex flex-col min-w-0 max-w-xs w-[700px] h-[420px] mx-auto";
+
+  // Pricing section HTML (for Upgrade Plan modal)
   const pricingSectionHTML = `
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-full mx-auto">
-      <div class="bg-white rounded-lg shadow-md p-4 border border-gray-200 flex flex-col min-w-0 max-w-xl ">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto"> <!-- Increased gap and parent width -->
+      <div class="${planCardClass}">
         <h3 class="text-lg font-bold mb-2">Basic</h3>
         <div class="text-2xl font-bold mb-1">$115<span class="text-gray-500 text-base font-normal">/mo</span></div>
         <p class="text-gray-600 mb-3 text-sm">Perfect for small businesses just getting started with lead generation</p>
@@ -1351,7 +1288,7 @@ document.addEventListener('DOMContentLoaded', function() {
         </ul>
         <a href="#" class="bg-white border border-primary text-primary px-4 py-2 !rounded-button whitespace-nowrap font-medium hover:bg-primary hover:text-white transition-all text-center text-sm">Get started</a>
       </div>
-      <div class="bg-white rounded-lg shadow-lg p-4 border-2 border-primary flex flex-col relative min-w-0 max-w-xs ">
+      <div class="${planCardClass} border-2 border-primary shadow-lg relative">
         <div class="absolute top-2 right-2 bg-primary text-white text-xs font-bold px-2 py-1 rounded-bl-lg rounded-tr-lg">POPULAR</div>
         <h3 class="text-lg font-bold mb-2">Pro</h3>
         <div class="text-2xl font-bold mb-1">$225<span class="text-gray-500 text-base font-normal">/mo</span></div>
@@ -1366,7 +1303,7 @@ document.addEventListener('DOMContentLoaded', function() {
         </ul>
         <a href="#" class="bg-primary text-white px-4 py-2 !rounded-button whitespace-nowrap font-medium hover:bg-opacity-90 transition-all text-center text-sm">Get started</a>
       </div>
-      <div class="bg-white rounded-lg shadow-md p-4 border border-gray-200 flex flex-col min-w-0 max-w- ">
+      <div class="${planCardClass}">
         <h3 class="text-lg font-bold mb-2">Enterprise</h3>
         <div class="text-2xl font-bold mb-1">Custom<span class="text-gray-500 text-base font-normal"></span></div>
         <p class="text-gray-600 mb-3 text-sm">For large organizations with custom lead generation requirements</p>
@@ -1383,12 +1320,13 @@ document.addEventListener('DOMContentLoaded', function() {
     </div>
   `;
 
-  // Helper: get next plan HTML (assume current is "Professional Plan" -> show "Enterprise")
+  // Helper: get next plan HTML (for Change Plan modal)
   function getNextPlanHTML(currentPlan) {
+    // Always use the same card class for consistency
     if (currentPlan === 'Professional Plan' || currentPlan === 'Pro') {
       // Show Enterprise
       return `
-        <div class="bg-white rounded-lg shadow-md p-4 border border-gray-200 flex flex-col min-w-0 max-w-xs mx-auto">
+        <div class="${planCardClass}">
           <h3 class="text-lg font-bold mb-2">Enterprise</h3>
           <div class="text-2xl font-bold mb-1">Custom<span class="text-gray-500 text-base font-normal"></span></div>
           <p class="text-gray-600 mb-3 text-sm">For large organizations with custom lead generation requirements</p>
@@ -1406,7 +1344,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     // Default: show Pro if current is Basic
     return `
-      <div class="bg-white rounded-lg shadow-lg p-4 border-2 border-primary flex flex-col relative min-w-0 max-w-xs mx-auto">
+      <div class="${planCardClass} border-2 border-primary shadow-lg relative">
         <div class="absolute top-2 right-2 bg-primary text-white text-xs font-bold px-2 py-1 rounded-bl-lg rounded-tr-lg">POPULAR</div>
         <h3 class="text-lg font-bold mb-2">Pro</h3>
         <div class="text-2xl font-bold mb-1">$225<span class="text-gray-500 text-base font-normal">/mo</span></div>
@@ -1425,14 +1363,14 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 
   // Modal utility for HTML content
-  function showHtmlModal({title, html, widthClass = 'max-w-3xl', onClose}) {
+  function showHtmlModal({title, html, widthClass = 'max-w-6xl', onClose}) {
     let modal = document.getElementById('pricing-modal');
     if (!modal) {
       modal = document.createElement('div');
       modal.id = 'pricing-modal';
       modal.className = 'fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40 hidden';
       modal.innerHTML = `
-        <div class="bg-white rounded-lg shadow-xl w-full max-w-4xl h-auto max-h-[90vh] overflow-y-auto p-4 text-center relative">
+        <div class="bg-white rounded-lg shadow-xl w-full max-w-sm h-auto max-h-[90vh] overflow-y-auto p-4 text-center relative">
           <button id="close-pricing-modal" class="absolute top-2 right-2 text-gray-400 hover:text-primary text-2xl font-bold">&times;</button>
           <h4 class="text-xl font-bold mb-4" id="pricing-modal-title"></h4>
           <div id="pricing-modal-content"></div>
@@ -1842,11 +1780,36 @@ document.addEventListener('DOMContentLoaded', function() {
       confirmDeleteBtn.innerHTML = '<div class="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin mr-2 inline-block"></div> Deleting...';
       setTimeout(() => {
         closeModal();
-        // Show a success modal or alert
-        alert('Your account has been deleted. (Demo: No real deletion performed)');
-        // Optionally redirect or clear session here
+        showDeleteSuccessModal();
       }, 1500);
     });
+  }
+
+  // Success modal for account deletion
+  function showDeleteSuccessModal() {
+    let modal = document.getElementById('delete-success-modal');
+    if (!modal) {
+      modal = document.createElement('div');
+      modal.id = 'delete-success-modal';
+      modal.className = 'fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40';
+      modal.innerHTML = `
+        <div class="bg-white rounded-lg shadow-xl max-w-xs w-full p-6 text-center">
+          <div class="w-12 h-12 mx-auto mb-4 flex items-center justify-center text-green-500 bg-green-100 rounded-full">
+            <i class="ri-checkbox-circle-line ri-2x"></i>
+          </div>
+          <h4 class="text-lg font-medium mb-2">Account Deleted</h4>
+          <p class="text-sm text-gray-600 mb-4">Your account has been deleted. (Demo: No real deletion performed)</p>
+          <button id="close-delete-success-modal" class="px-4 py-2 bg-primary text-white rounded-button text-sm font-medium hover:bg-blue-600 transition-colors">OK</button>
+        </div>
+      `;
+      document.body.appendChild(modal);
+    }
+    modal.classList.remove('hidden');
+    modal.onclick = function(ev) {
+      if (ev.target.id === 'close-delete-success-modal' || ev.target === modal) {
+        modal.classList.add('hidden');
+      }
+    };
   }
 });
 </script>

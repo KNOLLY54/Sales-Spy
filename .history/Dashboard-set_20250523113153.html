@@ -1,0 +1,1225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Settings - Admin Dashboard</title>
+<script src="https://cdn.tailwindcss.com/3.4.16"></script>
+<script>tailwind.config={theme:{extend:{colors:{primary:'#1E3A8A',secondary:'#5BC0EB'},borderRadius:{'none':'0px','sm':'4px',DEFAULT:'8px','md':'12px','lg':'16px','xl':'20px','2xl':'24px','3xl':'32px','full':'9999px','button':'8px'}}}}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css" rel="stylesheet">
+<style>
+:where([class^="ri-"])::before { content: "\f3c2"; }
+body {
+font-family: 'Inter', sans-serif;
+background-color: #f8f9fa;
+}
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+-webkit-appearance: none;
+margin: 0;
+}
+.custom-checkbox {
+position: relative;
+display: inline-block;
+width: 20px;
+height: 20px;
+background-color: white;
+border: 2px solid #e2e8f0;
+border-radius: 4px;
+cursor: pointer;
+transition: all 0.2s;
+}
+.custom-checkbox.checked {
+background-color: #3b82f6;
+border-color: #3b82f6;
+}
+.custom-checkbox.checked::after {
+content: '';
+position: absolute;
+left: 6px;
+top: 2px;
+width: 6px;
+height: 10px;
+border: solid white;
+border-width: 0 2px 2px 0;
+transform: rotate(45deg);
+}
+.custom-switch {
+position: relative;
+display: inline-block;
+width: 44px;
+height: 24px;
+}
+.custom-switch input {
+opacity: 0;
+width: 0;
+height: 0;
+}
+.switch-slider {
+position: absolute;
+cursor: pointer;
+top: 0;
+left: 0;
+right: 0;
+bottom: 0;
+background-color: #e2e8f0;
+transition: .4s;
+border-radius: 24px;
+}
+.switch-slider:before {
+position: absolute;
+content: "";
+height: 18px;
+width: 18px;
+left: 3px;
+bottom: 3px;
+background-color: white;
+transition: .4s;
+border-radius: 50%;
+}
+input:checked + .switch-slider {
+background-color: #3b82f6;
+}
+input:checked + .switch-slider:before {
+transform: translateX(20px);
+}
+.dropdown {
+position: relative;
+display: inline-block;
+}
+.dropdown-content {
+display: none;
+position: absolute;
+background-color: white;
+min-width: 160px;
+box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+z-index: 1;
+border-radius: 8px;
+right: 0;
+}
+.dropdown-content a {
+color: black;
+padding: 12px 16px;
+text-decoration: none;
+display: block;
+}
+.dropdown-content a:hover {
+background-color: #f8f9fa;
+}
+.dropdown:hover .dropdown-content {
+display: block;
+}
+
+/* Sidebar transition for smooth expand/collapse (match Dashboard-home.html) */
+#sidebar {
+  width: 240px;
+  min-width: 240px;
+  max-width: 240px;
+  transition: width 0.6s cubic-bezier(0.4,0,0.2,1), min-width 0.6s cubic-bezier(0.4,0,0.2,1), max-width 0.6s cubic-bezier(0.4,0,0.2,1);
+  overflow-x: hidden;
+}
+#sidebar.sidebar-collapsed {
+  width: 80px;
+  min-width: 80px;
+  max-width: 80px;
+}
+#sidebar .sidebar-logo-text {
+  transition: opacity 0.3s;
+}
+#sidebar.sidebar-collapsed .sidebar-logo-text {
+  opacity: 0;
+  pointer-events: none;
+}
+#sidebar .sidebar-logo-img {
+  display: none;
+}
+#sidebar.sidebar-collapsed .sidebar-logo-img {
+  display: block !important;
+}
+#sidebar .sidebar-logo-img {
+  transition: opacity 0.3s;
+}
+#sidebar.sidebar-collapsed .sidebar-logo-img {
+  opacity: 1;
+}
+#sidebar .sidebar-logo-img:not(.sidebar-collapsed) {
+  opacity: 0;
+}
+.sidebar-collapsed .sidebar-text {
+  display: none !important;
+}
+.sidebar-collapsed .mr-3,
+.sidebar-collapsed .sidebar-icon {
+  margin-right: 0 !important;
+}
+.sidebar-collapsed nav ul li a {
+  justify-content: center;
+  padding-left: 0.5rem !important;
+  padding-right: 0.5rem !important;
+}
+.sidebar-collapsed .rounded-r-lg {
+  border-radius: 8px !important;
+}
+.sidebar-collapsed .border-l-4 {
+  border-left-width: 0 !important;
+}
+.sidebar-collapsed .sidebar-logo {
+  justify-content: center !important;
+}
+.sidebar-collapsed .sidebar-logo-text {
+  display: none !important;
+}
+.sidebar-collapsed .sidebar-logo-img {
+  display: block !important;
+}
+.sidebar-logo-img {
+  display: none;
+}
+.sidebar-logo-text {
+  display: block;
+}
+@media (max-width: 1024px) {
+  #sidebar {
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 40;
+    height: 100vh;
+    transform: translateX(-100%);
+    transition: transform 0.6s cubic-bezier(0.4,0,0.2,1), width 0.6s cubic-bezier(0.4,0,0.2,1), min-width 0.6s cubic-bezier(0.4,0,0.2,1), max-width 0.6s cubic-bezier(0.4,0,0.2,1);
+  }
+  #sidebar.open {
+    transform: translateX(0);
+  }
+  .sidebar-backdrop {
+    display: block;
+  }
+}
+@media (min-width: 1025px) {
+  .sidebar-backdrop {
+    display: none !important;
+  }
+}
+.sidebar-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.3);
+  z-index: 30;
+  display: none;
+}
+</style>
+</head>
+<body class="flex h-screen bg-gray-50">
+<!-- Sidebar Backdrop for mobile -->
+<div class="sidebar-backdrop hidden" id="sidebar-backdrop"></div>
+<!-- Sidebar -->
+<div id="sidebar" class="sidebar-collapsed bg-white shadow-lg z-20 flex flex-col transition-all duration-700 ease-in-out">
+  <div class="p-4 border-b flex items-center justify-center sidebar-logo">
+    <img src="logo-icon.png" alt="Logo" id="sidebar-logo-img" class="sidebar-logo-img w-8 h-8 mr-0">
+    <h1 id="sidebar-logo-text" class="sidebar-logo-text font-['Pacifico'] text-2xl text-primary ml-2 transition-opacity duration-300">Sales-Spy</h1>
+  </div>
+  <nav class="flex-1 overflow-y-auto py-4">
+    <ul>
+      <li class="mb-2">
+        <a href="Dashboard-home.html" class="flex items-center px-4 py-3 text-gray-600 hover:bg-gray-100 rounded-r-lg hover:text-primary transition-colors">
+          <div class="w-6 h-6 flex items-center justify-center mr-3 sidebar-icon">
+            <i class="ri-dashboard-line"></i>
+          </div>
+          <span class="sidebar-text">Dashboard</span>
+        </a>
+      </li>
+      <li class="mb-2">
+        <a href="Dashboard-web.html" class="flex items-center px-4 py-3 text-gray-600 hover:bg-gray-100 rounded-r-lg hover:text-primary transition-colors">
+          <div class="w-6 h-6 flex items-center justify-center mr-3 sidebar-icon">
+            <i class="ri-global-line"></i>
+          </div>
+          <span class="sidebar-text">Websites</span>
+        </a>
+      </li> 
+      <li class="mb-2">
+        <a href="#" class="flex items-center px-4 py-3 text-gray-600 hover:bg-gray-100 rounded-r-lg hover:text-primary transition-colors">
+          <div class="w-6 h-6 flex items-center justify-center mr-3 sidebar-icon">
+            <i class="ri-shopping-cart-line"></i>
+          </div>
+          <span class="sidebar-text">E-commerce</span>
+        </a>
+      </li>
+      <li class="mb-2">
+        <a href="#" class="flex items-center px-4 py-3 text-primary bg-blue-50 rounded-r-lg border-l-4 border-primary">
+          <div class="w-6 h-6 flex items-center justify-center mr-3 sidebar-icon">
+            <i class="ri-settings-line"></i>
+          </div>
+          <span class="sidebar-text">Settings</span>
+        </a>
+      </li>
+    </ul>
+  </nav>
+  <!-- Upgrade section (unchanged) -->
+  <div id="upgrade-section" class="p-4 border-t">
+                    <div id="upgrade-expanded" class="bg-gray-50 rounded-lg p-4 mb-3">
+                        <p class="text-sm text-gray-600 mb-2">Credits remaining</p>
+                        <div class="flex items-center justify-between">
+                            <span class="font-semibold text-lg">1,250</span>
+                            <span class="text-xs text-gray-500">of 2,000</span>
+                        </div>
+                        <div class="w-full bg-gray-200 rounded-full h-2 mt-2">
+                            <div class="bg-primary rounded-full h-2" style="width: 62.5%"></div>
+                        </div>
+                    </div>
+                    <button id="upgrade-btn-expanded" class="w-full bg-primary text-white py-2 px-4 rounded-button flex items-center justify-center whitespace-nowrap hover:bg-blue-600 transition-colors">
+                        <div class="w-5 h-5 flex items-center justify-center mr-2">
+                            <i class="ri-arrow-up-line"></i>
+                        </div>
+                        <span>Upgrade Plan</span>
+                    </button>
+                    <button id="upgrade-btn-collapsed" class="hidden bg-primary text-white w-10 h-10 rounded-full flex items-center justify-center mx-auto mt-2 hover:bg-blue-600 transition-colors" title="Upgrade">
+                        <i class="ri-arrow-up-line"></i>
+                    </button>
+                </div>
+                <script>
+                    document.addEventListener('DOMContentLoaded', function() {
+                        const sidebar = document.getElementById('sidebar');
+                        const upgradeExpanded = document.getElementById('upgrade-expanded');
+                        const upgradeBtnExpanded = document.getElementById('upgrade-btn-expanded');
+                        const upgradeBtnCollapsed = document.getElementById('upgrade-btn-collapsed');
+                        const logoImg = document.getElementById('sidebar-logo-img');
+                        const logoText = document.getElementById('sidebar-logo-text');
+
+                        function updateUpgradeSection() {
+                            if (sidebar.classList.contains('sidebar-collapsed')) {
+                                upgradeExpanded.style.display = 'none';
+                                upgradeBtnExpanded.style.display = 'none';
+                                upgradeBtnCollapsed.classList.remove('hidden'); 
+                            } else {
+                                upgradeExpanded.style.display = '';
+                                upgradeBtnExpanded.style.display = '';
+                                upgradeBtnCollapsed.classList.add('hidden');
+                            }
+                        }
+
+                        function updateLogo() {
+                            if (sidebar.classList.contains('sidebar-collapsed')) {
+                                logoImg.classList.remove('hidden');
+                                logoText.classList.add('hidden');
+                            } else {
+                                logoImg.classList.add('hidden');
+                                logoText.classList.remove('hidden');
+                            }
+                        }
+
+                        // Initial state
+                        updateUpgradeSection();
+                        updateLogo();
+
+                        // Listen for sidebar toggle
+                        const sidebarToggle = document.getElementById('sidebar-toggle');
+                        sidebarToggle.addEventListener('click', function() {
+                            setTimeout(() => {
+                                updateUpgradeSection();
+                                updateLogo();
+                            }, 310); // Wait for transition
+                        });
+
+                        // Also update on resize (for responsive)
+                        window.addEventListener('resize', function() {
+                            setTimeout(() => {
+                                updateUpgradeSection();
+                                updateLogo();
+                            }, 310);
+                        });
+                    });
+                </script>
+</div>
+<!-- Main content -->
+<div class="flex-1 flex flex-col min-h-screen">
+  <!-- Header -->
+  <header class="bg-white shadow-sm sticky top-0 z-10">
+    <div class="flex items-center justify-between px-6 py-4">
+      <div class="flex items-center">
+        <!-- Hamburger menu for mobile/desktop collapse (move here, match Dashboard-home.html) -->
+        <button id="sidebar-toggle" class="p-2 rounded-full hover:bg-gray-100 mr-4">
+          <i class="ri-menu-line"></i>
+        </button>
+        <script>
+          document.addEventListener('DOMContentLoaded', function() {
+            const sidebar = document.getElementById('sidebar');
+            const sidebarToggle = document.getElementById('sidebar-toggle');
+            const sidebarBackdrop = document.getElementById('sidebar-backdrop');
+            const mq = window.matchMedia('(max-width: 1024px)');
+            function updateSidebarText() {
+              const sidebarTexts = sidebar.querySelectorAll('.sidebar-text');
+              if (sidebar.classList.contains('sidebar-collapsed')) {
+          sidebarTexts.forEach(el => el.style.display = 'none');
+              } else {
+          sidebarTexts.forEach(el => el.style.display = '');
+              }
+            }
+            function openSidebarMobile() {
+              sidebar.classList.add('open');
+              sidebarBackdrop.classList.remove('hidden');
+              sidebar.classList.remove('sidebar-collapsed');
+              updateSidebarText();
+            }
+            function closeSidebarMobile() {
+              sidebar.classList.remove('open');
+              sidebarBackdrop.classList.add('hidden');
+              sidebar.classList.add('sidebar-collapsed');
+              updateSidebarText();
+            }
+            function toggleSidebarDesktop() {
+              sidebar.classList.toggle('sidebar-collapsed');
+              updateSidebarText();
+            }
+            function handleSidebarToggle() {
+              if (mq.matches) {
+          if (!sidebar.classList.contains('open')) {
+            openSidebarMobile();
+          } else {
+            closeSidebarMobile();
+          }
+              } else {
+          toggleSidebarDesktop();
+              }
+            }
+            if (sidebarToggle) {
+              sidebarToggle.addEventListener('click', handleSidebarToggle);
+            }
+            if (sidebarBackdrop) {
+              sidebarBackdrop.addEventListener('click', closeSidebarMobile);
+            }
+            function handleResize() {
+              if (mq.matches) {
+          sidebar.classList.add('sidebar-collapsed');
+          sidebar.classList.remove('open');
+          sidebarBackdrop.classList.add('hidden');
+          updateSidebarText();
+              } else {
+          sidebar.classList.remove('open');
+          sidebarBackdrop.classList.add('hidden');
+          updateSidebarText();
+              }
+            }
+            window.addEventListener('resize', handleResize);
+            handleResize();
+            updateSidebarText();
+          });
+        </script>
+        <span class="hidden lg:block font-semibold text-xl text-primary">Settings</span>
+      </div>
+      <div class="flex items-center space-x-4">
+        <div class="flex items-center bg-gray-100 rounded-full px-3 py-1">
+          <div class="w-5 h-5 flex items-center justify-center mr-2 text-primary">
+            <i class="ri-coin-line"></i>
+          </div>
+          <span class="text-sm font-medium">1,250 credits</span>
+        </div>
+        <button class="bg-primary text-white py-2 px-4 rounded-button whitespace-nowrap hover:bg-blue-600 transition-colors">
+          <span>Upgrade</span>
+        </button>
+        <div class="dropdown">
+          <button class="flex items-center space-x-2 focus:outline-none">
+            <div class="w-10 h-10 rounded-full bg-gray-200 flex items-center justify-center overflow-hidden">
+              <img src="https://readdy.ai/api/search-image?query=professional%20headshot%20of%20a%20young%20business%20person%2C%20neutral%20expression%2C%20high%20quality%20portrait%2C%20business%20attire&width=200&height=200&seq=1&orientation=squarish" alt="User avatar" class="w-full h-full object-cover">
+            </div>
+            <i class="ri-arrow-down-s-line text-gray-500"></i>
+          </button>
+          <div class="dropdown-content right-0 mt-2">
+            <a href="#">Profile</a>
+            <a href="#">Settings</a>
+            <a href="#">Logout</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+  <!-- Main content scrollable area -->
+<main class="flex-1 overflow-y-auto p-6">
+<div class="max-w-5xl mx-auto">
+<h1 class="text-2xl font-bold text-gray-900 mb-6">Settings</h1>
+<!-- Profile Image Section -->
+<section class="bg-white rounded-lg shadow-sm mb-6 overflow-hidden">
+<div class="px-6 py-4 border-b border-gray-100 flex justify-between items-center">
+<h2 class="text-lg font-medium text-gray-900">Profile Image</h2>
+<button class="flex items-center text-gray-500" id="toggle-profile">
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  // Profile Image Section collapse/expand
+  const toggleProfile = document.getElementById('toggle-profile');
+  const profileContent = document.getElementById('profile-content');
+  const profileIcon = document.getElementById('profile-icon');
+  if (toggleProfile && profileContent && profileIcon) {
+    toggleProfile.addEventListener('click', function() {
+      if (profileContent.classList.contains('hidden')) {
+        profileContent.classList.remove('hidden');
+        profileIcon.classList.remove('ri-arrow-down-s-line');
+        profileIcon.classList.add('ri-arrow-up-s-line');
+      } else {
+        profileContent.classList.add('hidden');
+        profileIcon.classList.remove('ri-arrow-up-s-line');
+        profileIcon.classList.add('ri-arrow-down-s-line');
+      }
+    });
+  }
+});
+</script>
+<div class="w-5 h-5 flex items-center justify-center">
+<i class="ri-arrow-up-s-line" id="profile-icon"></i>
+</div>
+</button>
+</div>
+<div class="p-6" id="profile-content">
+<div class="flex flex-col md:flex-row items-center gap-8">
+<div class="w-40 h-40 rounded-full bg-gray-100 overflow-hidden flex items-center justify-center relative">
+<img src="https://readdy.ai/api/search-image?query=professional%20headshot%20of%20a%20young%20business%20person%20with%20neutral%20expression%2C%20high%20quality%20portrait%20photo%2C%20professional%20lighting%2C%20office%20background&width=400&height=400&seq=2&orientation=squarish" alt="Current profile" class="w-full h-full object-cover" id="profile-preview">
+</div>
+<div class="flex-1">
+<div class="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center hover:border-primary transition-colors cursor-pointer" id="dropzone">
+<div class="w-12 h-12 mx-auto mb-4 flex items-center justify-center text-gray-400">
+<i class="ri-upload-cloud-line ri-2x"></i>
+</div>
+<p class="text-sm text-gray-600 mb-2">Drag and drop your image here, or</p>
+<button class="px-4 py-2 bg-primary text-white rounded-button text-sm font-medium hover:bg-blue-600 transition-colors whitespace-nowrap">Choose File</button>
+<input type="file" id="profile-upload" class="hidden" accept=".jpg,.jpeg,.png,.webp">
+<p class="text-xs text-gray-500 mt-3">Accepted formats: JPG, PNG, WEBP (max 5MB)</p>
+</div>
+<div class="mt-4 flex justify-end">
+<button class="px-4 py-2 bg-primary text-white rounded-button text-sm font-medium hover:bg-blue-600 transition-colors whitespace-nowrap disabled:opacity-50 disabled:cursor-not-allowed" id="save-profile" disabled>Save Changes</button>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Account Information Section -->
+<section class="bg-white rounded-lg shadow-sm mb-6 overflow-hidden">
+<div class="px-6 py-4 border-b border-gray-100 flex justify-between items-center">
+<h2 class="text-lg font-medium text-gray-900">Account Information</h2>
+<button class="flex items-center text-gray-500" id="toggle-account">
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  // Account Information Section collapse/expand
+  const toggleAccount = document.getElementById('toggle-account');
+  const accountContent = document.getElementById('account-content');
+  const accountIcon = document.getElementById('account-icon');
+  if (toggleAccount && accountContent && accountIcon) {
+    toggleAccount.addEventListener('click', function() {
+      if (accountContent.classList.contains('hidden')) {
+        accountContent.classList.remove('hidden');
+        accountIcon.classList.remove('ri-arrow-down-s-line');
+        accountIcon.classList.add('ri-arrow-up-s-line');
+      } else {
+        accountContent.classList.add('hidden');
+        accountIcon.classList.remove('ri-arrow-up-s-line');
+        accountIcon.classList.add('ri-arrow-down-s-line');
+      }
+    });
+  }
+});
+</script>
+<div class="w-5 h-5 flex items-center justify-center">
+<i class="ri-arrow-up-s-line" id="account-icon"></i>
+</div>
+</button>
+</div>
+<div class="p-6" id="account-content">
+<form id="account-form">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+<div>
+<label for="full-name" class="block text-sm font-medium text-gray-700 mb-1">Full Name</label>
+<input type="text" id="full-name" class="w-full px-4 py-2 border border-gray-300 rounded focus:ring-2 focus:ring-primary focus:border-primary outline-none transition" value="Jonathan Wilson">
+</div>
+<div>
+<label for="email" class="block text-sm font-medium text-gray-700 mb-1">Email Address</label>
+<input type="email" id="email" class="w-full px-4 py-2 border border-gray-300 rounded focus:ring-2 focus:ring-primary focus:border-primary outline-none transition" value="jonathan.wilson@example.com">
+</div>
+<div>
+<label for="phone" class="block text-sm font-medium text-gray-700 mb-1">Phone Number (optional)</label>
+<input type="tel" id="phone" class="w-full px-4 py-2 border border-gray-300 rounded focus:ring-2 focus:ring-primary focus:border-primary outline-none transition" value="+1 (555) 123-4567">
+</div>
+</div>
+<div class="border-t border-gray-100 pt-6 mt-6">
+<h3 class="text-md font-medium text-gray-900 mb-4">Change Password</h3>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div>
+<label for="current-password" class="block text-sm font-medium text-gray-700 mb-1">Current Password</label>
+<input type="password" id="current-password" class="w-full px-4 py-2 border border-gray-300 rounded focus:ring-2 focus:ring-primary focus:border-primary outline-none transition">
+</div>
+<div></div>
+<div>
+<label for="new-password" class="block text-sm font-medium text-gray-700 mb-1">New Password</label>
+<input type="password" id="new-password" class="w-full px-4 py-2 border border-gray-300 rounded focus:ring-2 focus:ring-primary focus:border-primary outline-none transition">
+<div class="mt-1 h-1 w-full bg-gray-200 rounded-full overflow-hidden">
+<div class="h-full bg-gray-400 rounded-full" style="width: 0%" id="password-strength"></div>
+</div>
+</div>
+<div>
+<label for="confirm-password" class="block text-sm font-medium text-gray-700 mb-1">Confirm New Password</label>
+<input type="password" id="confirm-password" class="w-full px-4 py-2 border border-gray-300 rounded focus:ring-2 focus:ring-primary focus:border-primary outline-none transition">
+</div>
+</div>
+</div>
+<div class="border-t border-gray-100 pt-6 mt-6">
+<h3 class="text-md font-medium text-gray-900 mb-4">Notifications</h3>
+<div class="flex items-center justify-between py-2">
+<div>
+<p class="text-sm font-medium text-gray-700">Email Notifications</p>
+<p class="text-xs text-gray-500">Receive emails about your account activity</p>
+</div>
+<label class="custom-switch">
+<input type="checkbox" checked>
+<span class="switch-slider"></span>
+</label>
+</div>
+<div class="flex items-center justify-between py-2">
+<div>
+<p class="text-sm font-medium text-gray-700">Marketing Emails</p>
+<p class="text-xs text-gray-500">Receive emails about new features and offers</p>
+</div>
+<label class="custom-switch">
+<input type="checkbox">
+<span class="switch-slider"></span>
+</label>
+</div>
+</div>
+<div class="flex justify-end space-x-3 mt-6">
+<button type="button" class="px-4 py-2 border border-gray-300 text-gray-700 rounded-button text-sm font-medium hover:bg-gray-50 transition-colors whitespace-nowrap">Cancel</button>
+<button type="submit" class="px-4 py-2 bg-primary text-white rounded-button text-sm font-medium hover:bg-blue-600 transition-colors whitespace-nowrap">Save Changes</button>
+</div>
+</form>
+</div>
+</section>
+<!-- Subscription & Billing Section -->
+<section class="bg-white rounded-lg shadow-sm mb-6 overflow-hidden">
+<div class="px-6 py-4 border-b border-gray-100 flex justify-between items-center">
+<h2 class="text-lg font-medium text-gray-900">Subscription & Billing</h2>
+<button class="flex items-center text-gray-500" id="toggle-subscription">
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  // Subscription & Billing Section collapse/expand
+  const toggleSubscription = document.getElementById('toggle-subscription');
+  const subscriptionContent = document.getElementById('subscription-content');
+  const subscriptionIcon = document.getElementById('subscription-icon');
+  if (toggleSubscription && subscriptionContent && subscriptionIcon) {
+    toggleSubscription.addEventListener('click', function() {
+      if (subscriptionContent.classList.contains('hidden')) {
+        subscriptionContent.classList.remove('hidden');
+        subscriptionIcon.classList.remove('ri-arrow-down-s-line');
+        subscriptionIcon.classList.add('ri-arrow-up-s-line');
+      } else {
+        subscriptionContent.classList.add('hidden');
+        subscriptionIcon.classList.remove('ri-arrow-up-s-line');
+        subscriptionIcon.classList.add('ri-arrow-down-s-line');
+      }
+    });
+  }
+});
+</script>
+<div class="w-5 h-5 flex items-center justify-center">
+<i class="ri-arrow-up-s-line" id="subscription-icon"></i>
+</div>
+</button>
+</div>
+<div class="p-6" id="subscription-content">
+<div class="mb-6">
+<div class="border border-gray-200 rounded-lg p-6">
+<div class="flex flex-col md:flex-row md:items-center md:justify-between mb-4">
+<div>
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800 mb-2">Current Plan</span>
+<h3 class="text-xl font-bold text-gray-900">Professional Plan</h3>
+</div>
+<div class="mt-2 md:mt-0">
+<span class="text-2xl font-bold text-gray-900">$49</span>
+<span class="text-gray-500">/month</span>
+</div>
+</div>
+<div class="flex flex-wrap gap-2 mb-4">
+<div class="flex items-center text-sm text-gray-600">
+<div class="w-4 h-4 flex items-center justify-center mr-1 text-green-500">
+<i class="ri-check-line"></i>
+</div>
+<span>Unlimited Projects</span>
+</div>
+<div class="flex items-center text-sm text-gray-600">
+<div class="w-4 h-4 flex items-center justify-center mr-1 text-green-500">
+<i class="ri-check-line"></i>
+</div>
+<span>Advanced Analytics</span>
+</div>
+<div class="flex items-center text-sm text-gray-600">
+<div class="w-4 h-4 flex items-center justify-center mr-1 text-green-500">
+<i class="ri-check-line"></i>
+</div>
+<span>24/7 Support</span>
+</div>
+</div>
+<div class="text-sm text-gray-600 mb-4">
+Your subscription will renew on <span class="font-medium">June 21, 2025</span>
+</div>
+<div class="flex flex-wrap gap-3">
+<button class="px-4 py-2 bg-primary text-white rounded-button text-sm font-medium hover:bg-blue-600 transition-colors whitespace-nowrap">Upgrade Plan</button>
+<button class="px-4 py-2 border border-gray-300 text-gray-700 rounded-button text-sm font-medium hover:bg-gray-50 transition-colors whitespace-nowrap">Change Plan</button>
+<button class="px-4 py-2 border border-red-300 text-red-600 rounded-button text-sm font-medium hover:bg-red-50 transition-colors whitespace-nowrap">Cancel Subscription</button>
+</div>
+</div>
+</div>
+<div class="mb-6">
+<h3 class="text-md font-medium text-gray-900 mb-4">Payment Methods</h3>
+<div class="space-y-4 mb-4">
+<div class="border border-gray-200 rounded-lg p-4 flex flex-col md:flex-row md:items-center md:justify-between">
+<div class="flex items-center">
+<div class="w-10 h-10 flex items-center justify-center mr-3 text-blue-500">
+<i class="ri-visa-fill ri-lg"></i>
+</div>
+<div>
+<p class="text-sm font-medium text-gray-900">Visa ending in 4242</p>
+<p class="text-xs text-gray-500">Expires 05/2026</p>
+</div>
+</div>
+<div class="flex items-center mt-3 md:mt-0">
+<span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800 mr-3">Default</span>
+<button class="text-gray-500 hover:text-gray-700">
+<div class="w-5 h-5 flex items-center justify-center">
+<i class="ri-delete-bin-line"></i>
+</div>
+</button>
+</div>
+</div>
+<div class="border border-gray-200 rounded-lg p-4 flex flex-col md:flex-row md:items-center md:justify-between">
+<div class="flex items-center">
+<div class="w-10 h-10 flex items-center justify-center mr-3 text-orange-500">
+<i class="ri-mastercard-fill ri-lg"></i>
+</div>
+<div>
+<p class="text-sm font-medium text-gray-900">Mastercard ending in 8888</p>
+<p class="text-xs text-gray-500">Expires 11/2025</p>
+</div>
+</div>
+<div class="flex items-center mt-3 md:mt-0">
+<button class="text-sm text-primary hover:text-blue-700 mr-3">Set as default</button>
+<button class="text-gray-500 hover:text-gray-700">
+<div class="w-5 h-5 flex items-center justify-center">
+<i class="ri-delete-bin-line"></i>
+</div>
+</button>
+</div>
+</div>
+</div>
+<div class="flex justify-end space-x-3">
+<button class="px-4 py-2 border border-gray-300 text-gray-700 rounded-button text-sm font-medium hover:bg-gray-50 transition-colors whitespace-nowrap">Cancel</button>
+<button class="px-4 py-2 bg-primary text-white rounded-button text-sm font-medium hover:bg-blue-600 transition-colors whitespace-nowrap">Save Changes</button>
+</div>
+<!-- Add Payment Button (text only, left bottom, always visible) -->
+<div class="flex mt-4">
+<button id="add-payment-btn" type="button" class="text-primary text-sm font-medium hover:underline focus:outline-none pl-0 pr-4 py-1 bg-transparent border-0 shadow-none">Add a payment</button>
+</div>
+</section>
+<!-- Security Section -->
+<section class="bg-white rounded-lg shadow-sm mb-6 overflow-hidden">
+<div class="px-6 py-4 border-b border-gray-100 flex justify-between items-center">
+<h2 class="text-lg font-medium text-gray-900">Security & Access</h2>
+<button class="flex items-center text-gray-500" id="toggle-security">
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  // Security & Access Section collapse/expand
+  const toggleSecurity = document.getElementById('toggle-security');
+  const securityContent = document.getElementById('security-content');
+  const securityIcon = document.getElementById('security-icon');
+  if (toggleSecurity && securityContent && securityIcon) {
+    toggleSecurity.addEventListener('click', function() {
+      if (securityContent.classList.contains('hidden')) {
+        securityContent.classList.remove('hidden');
+        securityIcon.classList.remove('ri-arrow-down-s-line');
+        securityIcon.classList.add('ri-arrow-up-s-line');
+      } else {
+        securityContent.classList.add('hidden');
+        securityIcon.classList.remove('ri-arrow-up-s-line');
+        securityIcon.classList.add('ri-arrow-down-s-line');
+      }
+    });
+  }
+});
+</script>
+<div class="w-5 h-5 flex items-center justify-center">
+<i class="ri-arrow-down-s-line" id="security-icon"></i>
+</div>
+</button>
+</div>
+<div class="p-6 hidden" id="security-content">
+  <!-- 2FA SECTION -->
+<div class="mb-6">
+<h3 class="text-md font-medium text-gray-900 mb-4">Two-Factor Authentication</h3>
+<div class="flex items-center justify-between py-2 border-b border-gray-100">
+<div>
+<p class="text-sm font-medium text-gray-700">Two-Factor Authentication</p>
+<p class="text-xs text-gray-500">Add an extra layer of security to your account</p>
+</div>
+<label class="custom-switch">
+<input type="checkbox" id="2fa-toggle">
+<span class="switch-slider"></span>
+</label>
+</div>
+<div class="py-4 hidden" id="2fa-setup">
+<div class="bg-gray-50 p-4 rounded-lg mb-4">
+<h4 class="text-sm font-medium text-gray-900 mb-2">Setup Instructions</h4>
+<ol class="text-xs text-gray-600 space-y-2 pl-4 list-decimal">
+<li>Download an authenticator app like Google Authenticator or Authy</li>
+<li>Scan the QR code below with the app</li>
+<li>Enter the 6-digit code from the app to verify</li>
+</ol>
+</div>
+<div class="flex flex-col md:flex-row md:items-center gap-6 mb-4">
+<div class="w-40 h-40 bg-white border border-gray-200 rounded-lg flex items-center justify-center p-2">
+<img src="https://readdy.ai/api/search-image?query=QR%20code%20on%20white%20background%2C%20simple%20black%20and%20white%20QR%20code%20pattern%2C%20clear%20and%20scannable&width=150&height=150&seq=3&orientation=squarish" alt="2FA QR Code" class="w-full h-full object-contain">
+</div>
+<div class="flex-1">
+<p class="text-sm text-gray-600 mb-4">After scanning the QR code, enter the 6-digit verification code from your authenticator app:</p>
+<div class="flex space-x-2 mb-4">
+<input type="text" maxlength="6" class="w-full px-4 py-2 border border-gray-300 rounded focus:ring-2 focus:ring-primary focus:border-primary outline-none transition" placeholder="000000">
+</div>
+<button class="px-4 py-2 bg-primary text-white rounded-button text-sm font-medium hover:bg-blue-600 transition-colors whitespace-nowrap">Verify & Enable</button>
+</div>
+</div>
+<div class="border-t border-gray-100 pt-4">
+<h4 class="text-sm font-medium text-gray-900 mb-2">Backup Codes</h4>
+<p class="text-xs text-gray-600 mb-3">Save these backup codes in a secure place. You can use them to sign in if you lose access to your authenticator app.</p>
+<div class="grid grid-cols-2 md:grid-cols-5 gap-2 mb-3">
+<div class="bg-gray-50 p-2 rounded text-xs font-mono text-center">ABCD-1234</div>
+<div class="bg-gray-50 p-2 rounded text-xs font-mono text-center">EFGH-5678</div>
+<div class="bg-gray-50 p-2 rounded text-xs font-mono text-center">IJKL-9012</div>
+<div class="bg-gray-50 p-2 rounded text-xs font-mono text-center">MNOP-3456</div>
+<div class="bg-gray-50 p-2 rounded text-xs font-mono text-center">QRST-7890</div>
+</div>
+<button class="text-sm text-primary hover:text-blue-700 font-medium">Download Codes</button>
+</div>
+</div>
+</div>
+<div>
+<h3 class="text-md font-medium text-gray-900 mb-4">Active Sessions</h3>
+<div class="space-y-4">
+<div class="border border-gray-200 rounded-lg p-4 flex flex-col md:flex-row md:items-center md:justify-between bg-blue-50 border-blue-200">
+<div class="flex items-center">
+<div class="w-10 h-10 flex items-center justify-center mr-3 text-blue-500 bg-blue-100 rounded-full">
+<i class="ri-computer-line"></i>
+</div>
+<div>
+<p class="text-sm font-medium text-gray-900">Current Session</p>
+<p class="text-xs text-gray-500">Windows 11 • Chrome • New York, USA</p>
+<p class="text-xs text-gray-500">IP: 192.168.1.1 • Last active: Just now</p>
+</div>
+</div>
+<div class="mt-3 md:mt-0">
+<button class="px-4 py-2 border border-gray-300 text-gray-700 rounded-button text-xs font-medium hover:bg-gray-50 transition-colors whitespace-nowrap">Sign Out</button>
+</div>
+</div>
+<div class="border border-gray-200 rounded-lg p-4 flex flex-col md:flex-row md:items-center md:justify-between">
+<div class="flex items-center">
+<div class="w-10 h-10 flex items-center justify-center mr-3 text-gray-500 bg-gray-100 rounded-full">
+<i class="ri-smartphone-line"></i>
+</div>
+<div>
+<p class="text-sm font-medium text-gray-900">iPhone 15 Pro</p>
+<p class="text-xs text-gray-500">iOS 18 • Safari • San Francisco, USA</p>
+<p class="text-xs text-gray-500">IP: 192.168.1.2 • Last active: 2 hours ago</p>
+</div>
+</div>
+<div class="mt-3 md:mt-0">
+<button class="px-4 py-2 border border-gray-300 text-gray-700 rounded-button text-xs font-medium hover:bg-gray-50 transition-colors whitespace-nowrap">Sign Out</button>
+</div>
+</div>
+<div class="border border-gray-200 rounded-lg p-4 flex flex-col md:flex-row md:items-center md:justify-between">
+<div class="flex items-center">
+<div class="w-10 h-10 flex items-center justify-center mr-3 text-gray-500 bg-gray-100 rounded-full">
+<i class="ri-tablet-line"></i>
+</div>
+<div>
+<p class="text-sm font-medium text-gray-900">iPad Air</p>
+<p class="text-xs text-gray-500">iPadOS 18 • Safari • Boston, USA</p>
+<p class="text-xs text-gray-500">IP: 192.168.1.3 • Last active: Yesterday</p>
+</div>
+</div>
+<div class="mt-3 md:mt-0">
+<button class="px-4 py-2 border border-gray-300 text-gray-700 rounded-button text-xs font-medium hover:bg-gray-50 transition-colors whitespace-nowrap">Sign Out</button>
+</div>
+</div>
+</div>
+<div class="mt-4">
+<button class="px-4 py-2 border border-gray-300 text-gray-700 rounded-button text-sm font-medium hover:bg-gray-50 transition-colors whitespace-nowrap">Sign Out From All Devices</button>
+</div>
+</div>
+</div>
+</section>
+<!-- Danger Zone Section -->
+<section class="bg-white rounded-lg shadow-sm mb-6 overflow-hidden">
+<div class="px-6 py-4 border-b border-gray-100 flex justify-between items-center">
+<h2 class="text-lg font-medium text-gray-900">Danger Zone</h2>
+<button class="flex items-center text-gray-500" id="toggle-danger">
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  // Danger Zone Section collapse/expand
+  const toggleDanger = document.getElementById('toggle-danger');
+  const dangerContent = document.getElementById('danger-content');
+  const dangerIcon = document.getElementById('danger-icon');
+  if (toggleDanger && dangerContent && dangerIcon) {
+    toggleDanger.addEventListener('click', function() {
+      if (dangerContent.classList.contains('hidden')) {
+        dangerContent.classList.remove('hidden');
+        dangerIcon.classList.remove('ri-arrow-down-s-line');
+        dangerIcon.classList.add('ri-arrow-up-s-line');
+      } else {
+        dangerContent.classList.add('hidden');
+        dangerIcon.classList.remove('ri-arrow-up-s-line');
+        dangerIcon.classList.add('ri-arrow-down-s-line');
+      }
+    });
+  }
+});
+</script>
+<div class="w-5 h-5 flex items-center justify-center">
+<i class="ri-arrow-down-s-line" id="danger-icon"></i>
+</div>
+</button>
+</div>
+<div class="p-6 hidden" id="danger-content">
+<div class="border border-red-200 rounded-lg p-6 bg-red-50">
+<div class="flex items-start mb-4">
+<div class="w-10 h-10 flex items-center justify-center mr-3 text-red-500">
+<i class="ri-alert-line ri-lg"></i>
+</div>
+<div>
+<h3 class="text-lg font-medium text-gray-900 mb-1">Delete Account</h3>
+<p class="text-sm text-gray-600">Once you delete your account, there is no going back. This action is permanent and cannot be undone.</p>
+</div>
+</div>
+<button class="px-4 py-2 bg-red-600 text-white rounded-button text-sm font-medium hover:bg-red-700 transition-colors whitespace-nowrap" id="delete-account-btn">Delete Account</button>
+</div>
+</div>
+</section>
+
+
+<!-- Delete Account Modal -->
+<div class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden flex items-center justify-center" id="delete-modal">
+<div class="bg-white rounded-lg shadow-xl max-w-md w-full mx-4">
+<div class="px-6 py-4 border-b border-gray-200 flex justify-between items-center">
+<h3 class="text-lg font-medium text-gray-900">Delete Account</h3>
+<button class="text-gray-500 hover:text-gray-700" id="close-delete-modal">
+<div class="w-5 h-5 flex items-center justify-center">
+<i class="ri-close-line"></i>
+</div>
+</button>
+</div>
+<div class="p-6">
+<div class="mb-4">
+<div class="w-12 h-12 mx-auto mb-4 flex items-center justify-center text-red-500 bg-red-100 rounded-full">
+<i class="ri-delete-bin-line ri-xl"></i>
+</div>
+<h4 class="text-lg font-medium text-center mb-2">Are you absolutely sure?</h4>
+<p class="text-sm text-gray-600 text-center">This action cannot be undone. This will permanently delete your account and remove all your data from our servers.</p>
+</div>
+<div class="mb-4">
+<label for="delete-confirm" class="block text-sm font-medium text-gray-700 mb-1">Please type "delete my account" to confirm</label>
+<input type="text" id="delete-confirm" class="w-full px-4 py-2 border border-gray-300 rounded focus:ring-2 focus:ring-primary focus:border-primary outline-none transition" placeholder="delete my account">
+</div>
+<div class="mb-4">
+<label for="delete-password" class="block text-sm font-medium text-gray-700 mb-1">Enter your password</label>
+<input type="password" id="delete-password" class="w-full px-4 py-2 border border-gray-300 rounded focus:ring-2 focus:ring-primary focus:border-primary outline-none transition">
+</div>
+<div class="flex justify-end space-x-3">
+<button class="px-4 py-2 border border-gray-300 text-gray-700 rounded-button text-sm font-medium hover:bg-gray-50 transition-colors whitespace-nowrap" id="cancel-delete-modal">Cancel</button>
+<button class="px-4 py-2 bg-red-600 text-white rounded-button text-sm font-medium hover:bg-red-700 transition-colors whitespace-nowrap disabled:opacity-50 disabled:cursor-not-allowed" id="confirm-delete-btn" disabled>Delete Account</button>
+</div>
+</div>
+</div>
+</div>
+
+
+<!-- Add Payment Modal (now Crypto Wallet Modal) -->
+<div class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden flex items-center justify-center" id="payment-modal" aria-modal="true" role="dialog">
+  <div class="bg-white rounded-lg shadow-xl max-w-md w-full mx-4">
+    <div class="px-6 py-4 border-b border-gray-200 flex justify-between items-center">
+      <h3 class="text-lg font-medium text-gray-900">Add Crypto Wallet</h3>
+      <button class="text-gray-500 hover:text-gray-700" id="close-payment-modal" aria-label="Close modal">
+        <div class="w-5 h-5 flex items-center justify-center">
+          <i class="ri-close-line"></i>
+        </div>
+      </button>
+    </div>
+    <div class="p-6">
+      <form id="crypto-wallet-form" autocomplete="off">
+        <!-- Select Cryptocurrency -->
+        <div class="mb-4">
+          <label for="crypto-coin" class="block text-sm font-medium text-gray-700 mb-1">Select Cryptocurrency</label>
+          <select id="crypto-coin" name="coin" class="w-full px-4 py-2 border border-gray-300 rounded focus:ring-2 focus:ring-primary focus:border-primary outline-none transition" aria-required="true">
+            <option value="">Select a coin</option>
+            <option value="BTC">Bitcoin (BTC)</option>
+            <option value="ETH">Ethereum (ETH)</option>
+            <option value="USDT">Tether (USDT)</option>
+            <option value="BNB">Binance Coin (BNB)</option>
+          </select>
+        </div>
+        <!-- Select Blockchain Type (conditional) -->
+        <div class="mb-4" id="blockchain-type-group" style="display:none;">
+          <label for="crypto-blockchain" class="block text-sm font-medium text-gray-700 mb-1">Select Blockchain Type
+            <span id="blockchain-tooltip" class="ml-1 text-gray-400 cursor-pointer" tabindex="0" aria-label="Blockchain info"> 
+              <i class="ri-information-line"></i>
+            </span>
+          </label>
+          <select id="crypto-blockchain" name="blockchain" class="w-full px-4 py-2 border border-gray-300 rounded focus:ring-2 focus:ring-primary focus:border-primary outline-none transition" aria-required="true">
+            <!-- Options populated by JS -->
+          </select>
+          <div id="blockchain-tooltip-content" class="hidden absolute bg-white border border-gray-200 rounded p-2 text-xs text-gray-700 shadow-lg mt-1 z-50"></div>
+        </div>
+        <!-- Wallet Address -->
+        <div class="mb-4">
+          <label for="crypto-address" class="block text-sm font-medium text-gray-700 mb-1">Wallet Address</label>
+          <input type="text" id="crypto-address" name="address" class="w-full px-4 py-2 border border-gray-300 rounded focus:ring-2 focus:ring-primary focus:border-primary outline-none transition" placeholder="Paste your wallet address" aria-required="true" autocomplete="off">
+          <span id="address-error" class="text-xs text-red-500 mt-1 hidden"></span>
+        </div>
+        <!-- Wallet Nickname (optional) -->
+        <div class="mb-4">
+          <label for="crypto-nickname" class="block text-sm font-medium text-gray-700 mb-1">Wallet Nickname <span class="text-gray-400 text-xs">(optional)</span></label>
+          <input type="text" id="crypto-nickname" name="nickname" class="w-full px-4 py-2 border border-gray-300 rounded focus:ring-2 focus:ring-primary focus:border-primary outline-none transition" placeholder="e.g. My Binance Wallet" autocomplete="off">
+        </div>
+        <!-- Set as Primary Wallet -->
+        <div class="mb-6 flex items-center">
+          <input type="checkbox" id="crypto-primary" name="primary" class="mr-2 h-4 w-4 text-primary border-gray-300 rounded focus:ring-primary" aria-checked="false">
+          <label for="crypto-primary" class="text-sm text-gray-700 select-none cursor-pointer">Set as Primary Wallet</label>
+        </div>
+        <!-- Buttons -->
+        <div class="flex justify-end space-x-3">
+          <button type="button" class="px-4 py-2 border border-gray-300 text-gray-700 rounded-button text-sm font-medium hover:bg-gray-50 transition-colors whitespace-nowrap" id="cancel-payment-modal">Cancel</button>
+          <button type="submit" id="save-wallet-btn" class="px-4 py-2 bg-primary text-white rounded-button text-sm font-medium hover:bg-blue-600 transition-colors whitespace-nowrap flex items-center" disabled>
+            <span id="save-wallet-spinner" class="hidden w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin mr-2"></span>
+            <span>Save Wallet</span>
+          </button>
+        </div>
+        <div id="crypto-wallet-error" class="text-xs text-red-500 mt-3 hidden"></div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<script>
+// filepath: c:\Users\HP\OneDrive\Desktop\Sales-spy\Dashboard-set.html
+// ...existing code...
+document.addEventListener('DOMContentLoaded', function() {
+  // --- Crypto Wallet Modal Logic ---
+  const paymentModal = document.getElementById('payment-modal');
+  const cryptoForm = document.getElementById('crypto-wallet-form');
+  const coinSelect = document.getElementById('crypto-coin');
+  const blockchainGroup = document.getElementById('blockchain-type-group');
+  const blockchainSelect = document.getElementById('crypto-blockchain');
+  const addressInput = document.getElementById('crypto-address');
+  const nicknameInput = document.getElementById('crypto-nickname');
+  const primaryCheckbox = document.getElementById('crypto-primary');
+  const saveBtn = document.getElementById('save-wallet-btn');
+  const spinner = document.getElementById('save-wallet-spinner');
+  const errorBox = document.getElementById('crypto-wallet-error');
+  const addressError = document.getElementById('address-error');
+  const blockchainTooltip = document.getElementById('blockchain-tooltip');
+  const blockchainTooltipContent = document.getElementById('blockchain-tooltip-content');
+
+  // Blockchain options and tooltips
+  const blockchainOptions = {
+    BTC: [{ value: 'Bitcoin', label: 'Bitcoin Mainnet', tip: 'Bitcoin Mainnet: Native BTC network' }],
+    ETH: [{ value: 'Ethereum Mainnet', label: 'Ethereum Mainnet', tip: 'Ethereum Mainnet: Native ETH network' }],
+    USDT: [
+      { value: 'ERC-20', label: 'ERC-20', tip: 'ERC-20: Ethereum-based USDT' },
+      { value: 'TRC-20', label: 'TRC-20', tip: 'TRC-20: Tron-based USDT' },
+      { value: 'BEP-20', label: 'BEP-20', tip: 'BEP-20: Binance Smart Chain USDT' }
+    ],
+    BNB: [{ value: 'BEP-20', label: 'BEP-20', tip: 'BEP-20: Binance Smart Chain' }]
+  };
+
+  // Show blockchain dropdown based on coin
+  coinSelect.addEventListener('change', function() {
+    blockchainSelect.innerHTML = '';
+    blockchainTooltipContent.classList.add('hidden');
+    if (!coinSelect.value || !blockchainOptions[coinSelect.value]) {
+      blockchainGroup.style.display = 'none';
+      saveBtn.disabled = true;
+      return;
+    }
+    blockchainGroup.style.display = '';
+    blockchainOptions[coinSelect.value].forEach(opt => {
+      const o = document.createElement('option');
+      o.value = opt.value;
+      o.textContent = opt.label;
+      o.setAttribute('data-tip', opt.tip);
+      blockchainSelect.appendChild(o);
+    });
+    saveBtn.disabled = true;
+  });
+
+  // Blockchain tooltip logic
+  blockchainTooltip.addEventListener('mouseenter', showTip);
+  blockchainTooltip.addEventListener('focus', showTip);
+  blockchainTooltip.addEventListener('mouseleave', hideTip);
+  blockchainTooltip.addEventListener('blur', hideTip);
+  blockchainSelect.addEventListener('change', showTip);
+
+  function showTip() {
+    const selected = blockchainSelect.options[blockchainSelect.selectedIndex];
+    if (selected && selected.dataset.tip) {
+      blockchainTooltipContent.textContent = selected.dataset.tip;
+      blockchainTooltipContent.classList.remove('hidden');
+      const rect = blockchainTooltip.getBoundingClientRect();
+      blockchainTooltipContent.style.position = 'absolute';
+      blockchainTooltipContent.style.left = rect.left + 'px';
+      blockchainTooltipContent.style.top = (rect.bottom + window.scrollY + 4) + 'px';
+    }
+  }
+  function hideTip() {
+    blockchainTooltipContent.classList.add('hidden');
+  }
+
+  // Basic wallet address validation by blockchain
+  function validateAddress(coin, blockchain, address) {
+    if (!address) return 'Wallet address is required.';
+    // Very basic checks, can be improved with regex for each blockchain
+    if (coin === 'BTC') {
+      if (!/^([13][a-km-zA-HJ-NP-Z1-9]{25,34}|bc1[a-z0-9]{39,59})$/.test(address)) return 'Invalid Bitcoin address.';
+    }
+    if (blockchain === 'ERC-20' || blockchain === 'Ethereum Mainnet') {
+      if (!/^0x[a-fA-F0-9]{40}$/.test(address)) return 'Invalid Ethereum address.';
+    }
+    if (blockchain === 'TRC-20') {
+      if (!/^T[1-9A-HJ-NP-Za-km-z]{33}$/.test(address)) return 'Invalid Tron address.';
+    }
+    if (blockchain === 'BEP-20') {
+      if (!/^0x[a-fA-F0-9]{40}$/.test(address)) return 'Invalid BEP-20 address.';
+    }
+    return '';
+  }
+
+  // Enable Save button only if all required fields are filled and valid
+  function checkFormValidity() {
+    errorBox.classList.add('hidden');
+    addressError.classList.add('hidden');
+    if (!coinSelect.value || !blockchainSelect.value || !addressInput.value.trim()) {
+      saveBtn.disabled = true;
+      return;
+    }
+    const err = validateAddress(coinSelect.value, blockchainSelect.value, addressInput.value.trim());
+    if (err) {
+      addressError.textContent = err;
+      addressError.classList.remove('hidden');
+      saveBtn.disabled = true;
+      return;
+    }
+    saveBtn.disabled = false;
+  }
+
+  coinSelect.addEventListener('change', checkFormValidity);
+  blockchainSelect.addEventListener('change', checkFormValidity);
+  addressInput.addEventListener('input', checkFormValidity);
+
+  // Reset form on modal open
+  function resetForm() {
+    cryptoForm.reset();
+    blockchainGroup.style.display = 'none';
+    blockchainSelect.innerHTML = '';
+    errorBox.classList.add('hidden');
+    addressError.classList.add('hidden');
+    saveBtn.disabled = true;
+    spinner.classList.add('hidden');
+    saveBtn.querySelector('span:last-child').textContent = 'Save Wallet';
+  }
+
+  // Show toast
+  function showWalletToast(msg) {
+    let toast = document.getElementById('wallet-toast');
+    if (!toast) {
+      toast = document.createElement('div');
+      toast.id = 'wallet-toast';
+      toast.className = 'fixed bottom-6 left-1/2 transform -translate-x-1/2 bg-green-600 text-white px-6 py-3 rounded-lg shadow-lg z-50 text-sm font-medium transition-opacity opacity-0 pointer-events-none';
+      document.body.appendChild(toast);
+    }
+    toast.textContent = msg;
+    toast.classList.remove('opacity-0');
+    toast.classList.add('opacity-100');
+    setTimeout(() => {
+      toast.classList.remove('opacity-100');
+      toast.classList.add('opacity-0');
+    }, 2200);
+  }
+
+  // Modal open/close logic
+  const addPaymentBtn = document.getElementById('add-payment-btn');
+  const closePaymentModal = document.getElementById('close-payment-modal');
+  const cancelPaymentModal = document.getElementById('cancel-payment-modal');
+  if (addPaymentBtn) addPaymentBtn.addEventListener('click', () => { paymentModal.classList.remove('hidden'); resetForm(); });
+  if (closePaymentModal) closePaymentModal.addEventListener('click', () => paymentModal.classList.add('hidden'));
+  if (cancelPaymentModal) cancelPaymentModal.addEventListener('click', () => paymentModal.classList.add('hidden'));
+  if (paymentModal) paymentModal.addEventListener('click', function(e) { if (e.target === paymentModal) paymentModal.classList.add('hidden'); });
+
+  // Form submit
+  cryptoForm.addEventListener('submit', function(e) {
+    e.preventDefault();
+    errorBox.classList.add('hidden');
+    addressError.classList.add('hidden');
+    saveBtn.disabled = true;
+    spinner.classList.remove('hidden');
+    saveBtn.querySelector('span:last-child').textContent = 'Saving...';
+
+    // Gather data
+    const data = {
+      coin: coinSelect.value,
+      blockchain: blockchainSelect.value,
+      address: addressInput.value.trim(),
+      nickname: nicknameInput.value.trim(),
+      primary: primaryCheckbox.checked
+    };
+
+    // Simulate API call
+    setTimeout(() => {
+      // Demo: duplicate detection (simulate if address ends with "abc")
+      if (data.address.endsWith('abc')) {
+        spinner.classList.add('hidden');
+        saveBtn.querySelector('span:last-child').textContent = 'Save Wallet';
+        errorBox.textContent = 'This wallet address is already saved.';
+        errorBox.classList.remove('hidden');
+        saveBtn.disabled = false;
+        return;
+      }
+      // Success
+      paymentModal.classList.add('hidden');
+      showWalletToast('Wallet saved successfully');
+      // Optionally: refresh wallet list here
+    }, 1200);
+
+    // In real use, replace above with:
+    /*
+    fetch('/api/user/wallets/save', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+    })
+    .then(async res => {
+      spinner.classList.add('hidden');
+      saveBtn.querySelector('span:last-child').textContent = 'Save Wallet';
+      if (!res.ok) {
+        const err = await res.json();
+        errorBox.textContent = err.message || 'Failed to save wallet.';
+        errorBox.classList.remove('hidden');
+        saveBtn.disabled = false;
+        return;
+      }
+      paymentModal.classList.add('hidden');
+      showWalletToast('Wallet saved successfully');
+      // Optionally: refresh wallet list here
+    })
+    .catch(() => {
+      spinner.classList.add('hidden');
+      saveBtn.querySelector('span:last-child').textContent = 'Save Wallet';
+      errorBox.textContent = 'Network error. Please try again.';
+      errorBox.classList.remove('hidden');
+      saveBtn.disabled = false;
+    });
+    */
+  });
+});
+</script>
+</body>
+</html>
