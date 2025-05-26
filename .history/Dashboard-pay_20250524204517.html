@@ -1,0 +1,1198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Crypto Payment Dashboard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css">
+<script src="https://cdn.tailwindcss.com/3.4.16"></script>
+<script>tailwind.config={theme:{extend:{colors:{primary:'#2D7FF9',secondary:'#6366F1'},borderRadius:{'none':'0px','sm':'4px',DEFAULT:'8px','md':'12px','lg':'16px','xl':'20px','2xl':'24px','3xl':'32px','full':'9999px','button':'8px'}}}}</script>
+<style>
+:where([class^="ri-"])::before { content: "\f3c2"; }
+body {
+font-family: 'Inter', sans-serif;
+background-color: #F5F7FA;
+}
+.sidebar-item:hover {
+background-color: rgba(45, 127, 249, 0.1);
+}
+.plan-card {
+transition: all 0.3s ease;
+}
+.plan-card:hover {
+transform: translateY(-4px);
+box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+.plan-card.active {
+border-color: #2D7FF9;
+background-color: rgba(45, 127, 249, 0.05);
+}
+.toggle {
+position: relative;
+display: inline-block;
+width: 48px;
+height: 24px;
+}
+.toggle input {
+opacity: 0;
+width: 0;
+height: 0;
+}
+.slider {
+position: absolute;
+cursor: pointer;
+top: 0;
+left: 0;
+right: 0;
+bottom: 0;
+background-color: #ccc;
+transition: .4s;
+border-radius: 24px;
+}
+.slider:before {
+position: absolute;
+content: "";
+height: 18px;
+width: 18px;
+left: 3px;
+bottom: 3px;
+background-color: white;
+transition: .4s;
+border-radius: 50%;
+}
+input:checked + .slider {
+background-color: #2D7FF9;
+}
+input:checked + .slider:before {
+transform: translateX(24px);
+}
+input[type="range"] {
+-webkit-appearance: none;
+width: 100%;
+height: 6px;
+background: #e5e7eb;
+border-radius: 5px;
+outline: none;
+}
+input[type="range"]::-webkit-slider-thumb {
+-webkit-appearance: none;
+appearance: none;
+width: 18px;
+height: 18px;
+background: #2D7FF9;
+cursor: pointer;
+border-radius: 50%;
+}
+input[type="range"]::-moz-range-thumb {
+width: 18px;
+height: 18px;
+background: #2D7FF9;
+cursor: pointer;
+border-radius: 50%;
+}
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+-webkit-appearance: none;
+margin: 0;
+}
+.custom-radio {
+display: flex;
+align-items: center;
+}
+.custom-radio input[type="radio"] {
+display: none;
+}
+.custom-radio label {
+position: relative;
+padding-left: 28px;
+cursor: pointer;
+display: inline-block;
+}
+.custom-radio label:before {
+content: "";
+position: absolute;
+left: 0;
+top: 50%;
+transform: translateY(-50%);
+width: 18px;
+height: 18px;
+border: 2px solid #d1d5db;
+border-radius: 50%;
+background-color: #fff;
+}
+.custom-radio input[type="radio"]:checked + label:before {
+border-color: #2D7FF9;
+}
+.custom-radio input[type="radio"]:checked + label:after {
+content: "";
+position: absolute;
+left: 5px;
+top: 50%;
+transform: translateY(-50%);
+width: 8px;
+height: 8px;
+border-radius: 50%;
+background-color: #2D7FF9;
+}
+.custom-checkbox {
+display: flex;
+align-items: center;
+}
+.custom-checkbox input[type="checkbox"] {
+display: none;
+}
+.custom-checkbox label {
+position: relative;
+padding-left: 28px;
+cursor: pointer;
+display: inline-block;
+}
+.custom-checkbox label:before {
+content: "";
+position: absolute;
+left: 0;
+top: 50%;
+transform: translateY(-50%);
+width: 18px;
+height: 18px;
+border: 2px solid #d1d5db;
+border-radius: 4px;
+background-color: #fff;
+}
+.custom-checkbox input[type="checkbox"]:checked + label:before {
+background-color: #2D7FF9;
+border-color: #2D7FF9;
+}
+.custom-checkbox input[type="checkbox"]:checked + label:after {
+content: "";
+position: absolute;
+left: 6px;
+top: 50%;
+transform: translateY(-65%) rotate(45deg);
+width: 6px;
+height: 10px;
+border: solid white;
+border-width: 0 2px 2px 0;
+}
+.tooltip {
+position: relative;
+display: inline-block;
+}
+.tooltip .tooltip-text {
+visibility: hidden;
+width: 200px;
+background-color: #333;
+color: #fff;
+text-align: center;
+border-radius: 6px;
+padding: 8px;
+position: absolute;
+z-index: 1;
+bottom: 125%;
+left: 50%;
+transform: translateX(-50%);
+opacity: 0;
+transition: opacity 0.3s;
+}
+.tooltip:hover .tooltip-text {
+visibility: visible;
+opacity: 1;
+}
+</style>
+</head>
+<body>
+<div class="flex h-screen bg-gray-50 overflow-hidden">
+  <!-- Sidebar -->
+  <div id="sidebar" class="sidebar-collapsed fixed h-full bg-white shadow-lg z-20 transition-all duration-700 ease-in-out flex flex-col overflow-y-auto">
+    <div class="flex flex-col h-full min-h-0">
+      <!-- Logo -->
+      <div class="p-4 border-b flex items-center justify-center">
+        <img src="logo-icon.png" alt="Logo" id="sidebar-logo-img" class="w-8 h-8 mr-0 hidden">
+        <h1 id="sidebar-logo-text" class="font-['Pacifico'] text-2xl text-primary">Sales-Spy</h1>
+      </div>
+      
+      <!-- Navigation -->
+      <nav class="flex-1 overflow-y-auto py-4">
+        <ul>
+          <li class="mb-2">
+            <a href="#" class="flex items-center px-4 py-3 text-primary bg-blue-50 rounded-r-lg border-l-4 border-primary">
+              <div class="w-6 h-6 flex items-center justify-center mr-3">
+                <i class="ri-dashboard-line"></i>
+              </div>
+              <span class="sidebar-text">Dashboard</span>
+            </a>
+          </li>
+          <li class="mb-2">
+            <a href="Dashboard-web.html" class="flex items-center px-4 py-3 text-gray-600 hover:bg-gray-100 rounded-r-lg hover:text-primary transition-colors">
+              <div class="w-6 h-6 flex items-center justify-center mr-3">
+                <i class="ri-global-line"></i>
+              </div>
+              <span class="sidebar-text">Websites</span>
+            </a>
+          </li>
+          <li class="mb-2">
+            <a href="#" class="flex items-center px-4 py-3 text-gray-600 hover:bg-gray-100 rounded-r-lg hover:text-primary transition-colors">
+              <div class="w-6 h-6 flex items-center justify-center mr-3">
+                <i class="ri-shopping-cart-line"></i>
+              </div>
+              <span class="sidebar-text">E-commerce</span>
+            </a>
+          </li>
+          <li class="mb-2">
+            <a href="Dashboard-set.html" class="flex items-center px-4 py-3 text-gray-600 hover:bg-gray-100 rounded-r-lg hover:text-primary transition-colors">
+              <div class="w-6 h-6 flex items-center justify-center mr-3">
+                <i class="ri-settings-line"></i>
+              </div>
+              <span class="sidebar-text">Settings</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
+      
+      <!-- Upgrade section -->
+      <div id="upgrade-section" class="p-4 border-t">
+        <div id="upgrade-expanded" class="bg-gray-50 rounded-lg p-4 mb-3">
+          <p class="text-sm text-gray-600 mb-2">Credits remaining</p>
+          <div class="flex items-center justify-between">
+            <span class="font-semibold text-lg">1,250</span>
+            <span class="text-xs text-gray-500">of 2,000</span>
+          </div>
+          <div class="w-full bg-gray-200 rounded-full h-2 mt-2">
+            <div class="bg-primary rounded-full h-2" style="width: 62.5%"></div>
+          </div>
+        </div>
+        <button id="upgrade-btn-expanded" class="w-full bg-primary text-white py-2 px-4 rounded-button flex items-center justify-center whitespace-nowrap hover:bg-blue-600 transition-colors">
+          <div class="w-5 h-5 flex items-center justify-center mr-2">
+            <i class="ri-arrow-up-line"></i>
+          </div>
+          <span>Upgrade Plan</span>
+        </button>
+        <button id="upgrade-btn-collapsed" class="hidden bg-primary text-white w-10 h-10 rounded-full flex items-center justify-center mx-auto mt-2 hover:bg-blue-600 transition-colors" title="Upgrade">
+          <i class="ri-arrow-up-line"></i>
+        </button>
+      </div>
+      <script>
+        document.addEventListener('DOMContentLoaded', function() {
+          const sidebar = document.getElementById('sidebar');
+          const upgradeExpanded = document.getElementById('upgrade-expanded');
+          const upgradeBtnExpanded = document.getElementById('upgrade-btn-expanded');
+          const upgradeBtnCollapsed = document.getElementById('upgrade-btn-collapsed');
+          const logoImg = document.getElementById('sidebar-logo-img');
+          const logoText = document.getElementById('sidebar-logo-text');
+
+          function updateUpgradeSection() {
+            if (sidebar.classList.contains('sidebar-collapsed')) {
+              upgradeExpanded.style.display = 'none';
+              upgradeBtnExpanded.style.display = 'none';
+              upgradeBtnCollapsed.classList.remove('hidden');
+            } else {
+              upgradeExpanded.style.display = '';
+              upgradeBtnExpanded.style.display = '';
+              upgradeBtnCollapsed.classList.add('hidden');
+            }
+          }
+
+          function updateLogo() {
+            if (sidebar.classList.contains('sidebar-collapsed')) {
+              logoImg.classList.remove('hidden');
+              logoText.classList.add('hidden');
+            } else {
+              logoImg.classList.add('hidden');
+              logoText.classList.remove('hidden');
+            }
+          }
+
+          // Initial state
+          updateUpgradeSection();
+          updateLogo();
+
+          // Listen for sidebar toggle
+          const sidebarToggle = document.getElementById('sidebar-toggle');
+          sidebarToggle.addEventListener('click', function() {
+            setTimeout(() => {
+              updateUpgradeSection();
+              updateLogo();
+            }, 310); // Wait for transition
+          });
+
+          // Also update on resize (for responsive)
+          window.addEventListener('resize', function() {
+            setTimeout(() => {
+              updateUpgradeSection();
+              updateLogo();
+            }, 310);
+          });
+        });
+      </script>
+    </div>
+  </div>
+  <!-- Main Content -->
+  <div id="main-content" class="main-content-expanded flex-1 transition-all duration-700 ease-in-out overflow-y-auto h-full  ml-50">
+    <!-- Header -->
+    <header class="bg-white shadow-sm sticky top-0 z-10">
+      <div class="flex items-center justify-between px-6 py-4">
+        <div class="flex items-center">
+          <button id="sidebar-toggle" class="p-2 rounded-full hover:bg-gray-100 mr-4">
+            <div class="w-5 h-5 flex items-center justify-center">
+              <i class="ri-menu-line"></i>
+            </div>
+          </button>
+        </div>
+        <div class="flex items-center space-x-4">
+          <div class="flex items-center bg-gray-100 rounded-full px-3 py-1">
+            <div class="w-5 h-5 flex items-center justify-center mr-2 text-primary">
+              <i class="ri-coin-line"></i>
+            </div>
+            <span class="text-sm font-medium">1,250 credits</span>
+          </div>
+          <button class="bg-primary text-white py-2 px-4 rounded-button whitespace-nowrap hover:bg-blue-600 transition-colors">
+            <span>Upgrade</span>
+          </button>
+          <div class="relative">
+            <button class="flex items-center space-x-2">
+              <div class="w-10 h-10 rounded-full bg-gray-200 flex items-center justify-center overflow-hidden">
+                <img src="https://readdy.ai/api/search-image?query=professional%20headshot%20of%20a%20young%20business%20person%2C%20neutral%20expression%2C%20high%20quality%20portrait%2C%20business%20attire&width=200&height=200&seq=1&orientation=squarish" alt="User avatar" class="w-full h-full object-cover">
+              </div>
+            </button>
+          </div>
+        </div>
+      </div>
+    </header>
+    <!-- Main Content Area -->
+    <div class="p-4 md:p-6 min-h-[calc(100vh-64px)] overflow-y-auto">
+      <div class="mb-6">
+        <h1 class="text-2xl font-bold text-gray-900">Crypto Payment Dashboard</h1>
+        <p class="text-gray-500 mt-1">Manage your subscription plans and payment methods</p>
+      </div>
+      <!-- Plan Selection Section -->
+      <section class="mb-8">
+        <div class="flex items-center justify-between mb-6">
+          <h2 class="text-xl font-semibold text-gray-900">Select a Plan</h2>
+          <div class="flex items-center space-x-2">
+            <span class="text-sm text-gray-600">Monthly</span>
+            <label class="toggle">
+              <input type="checkbox" id="billing-toggle">
+              <span class="slider"></span>
+            </label>
+            <span class="text-sm text-gray-600">Yearly <span class="text-xs text-primary">(Save 20%)</span></span>
+          </div>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <!-- Basic Plan -->
+          <div id="basic-plan" class="plan-card bg-white rounded-lg border border-gray-200 p-6 cursor-pointer">
+            <div class="mb-4">
+              <h3 class="text-xl font-semibold text-gray-900">Basic</h3>
+              <p class="text-sm text-gray-500 mt-1">Perfect for small businesses just getting started with lead generation</p>
+            </div>
+            <div class="mb-6">
+              <div class="flex items-baseline">
+                <span class="text-3xl font-bold text-gray-900">$115</span>
+                <span class="text-gray-500 ml-1">/mo</span>
+              </div>
+            </div>
+            <ul class="space-y-3 mb-8">
+              <li class="flex items-start">
+                <div class="w-5 h-5 flex items-center justify-center text-primary mt-0.5">
+                  <i class="ri-check-line"></i>
+                </div>
+                <span class="text-sm text-gray-700 ml-2">500 leads per month</span>
+              </li>
+              <li class="flex items-start">
+                <div class="w-5 h-5 flex items-center justify-center text-primary mt-0.5">
+                  <i class="ri-check-line"></i>
+                </div>
+                <span class="text-sm text-gray-700 ml-2">Basic filtering options</span>
+              </li>
+              <li class="flex items-start">
+                <div class="w-5 h-5 flex items-center justify-center text-primary mt-0.5">
+                  <i class="ri-check-line"></i>
+                </div>
+                <span class="text-sm text-gray-700 ml-2">Email and phone support</span>
+              </li>
+              <li class="flex items-start">
+                <div class="w-5 h-5 flex items-center justify-center text-primary mt-0.5">
+                  <i class="ri-check-line"></i>
+                </div>
+                <span class="text-sm text-gray-700 ml-2">Weekly database updates</span>
+              </li>
+            </ul>
+            <button class="w-full py-3 text-sm font-medium text-primary border border-primary rounded-button hover:bg-primary/5 transition-colors whitespace-nowrap">Get started</button>
+          </div>
+          <!-- Pro Plan -->
+          <div id="pro-plan" class="plan-card active bg-white rounded-lg border-2 border-primary p-6 cursor-pointer relative">
+            <div class="absolute -top-3 right-4 bg-primary text-white text-xs font-medium px-3 py-1 rounded-full">POPULAR</div>
+            <div class="mb-4">
+              <h3 class="text-xl font-semibold text-gray-900">Pro</h3>
+              <p class="text-sm text-gray-500 mt-1">Ideal for growing businesses with serious lead generation needs</p>
+            </div>
+            <div class="mb-6">
+              <div class="flex items-baseline">
+                <span class="text-3xl font-bold text-gray-900">$225</span>
+                <span class="text-gray-500 ml-1">/mo</span>
+              </div>
+            </div>
+            <ul class="space-y-3 mb-8">
+              <li class="flex items-start">
+                <div class="w-5 h-5 flex items-center justify-center text-primary mt-0.5">
+                  <i class="ri-check-line"></i>
+                </div>
+                <span class="text-sm text-gray-700 ml-2">2,000 leads per month</span>
+              </li>
+              <li class="flex items-start">
+                <div class="w-5 h-5 flex items-center justify-center text-primary mt-0.5">
+                  <i class="ri-check-line"></i>
+                </div>
+                <span class="text-sm text-gray-700 ml-2">Advanced filtering options</span>
+              </li>
+              <li class="flex items-start">
+                <div class="w-5 h-5 flex items-center justify-center text-primary mt-0.5">
+                  <i class="ri-check-line"></i>
+                </div>
+                <span class="text-sm text-gray-700 ml-2">Priority support</span>
+              </li>
+              <li class="flex items-start">
+                <div class="w-5 h-5 flex items-center justify-center text-primary mt-0.5">
+                  <i class="ri-check-line"></i>
+                </div>
+                <span class="text-sm text-gray-700 ml-2">Daily database updates</span>
+              </li>
+              <li class="flex items-start">
+                <div class="w-5 h-5 flex items-center justify-center text-primary mt-0.5">
+                  <i class="ri-check-line"></i>
+                </div>
+                <span class="text-sm text-gray-700 ml-2">CRM integration</span>
+              </li>
+              <li class="flex items-start">
+                <div class="w-5 h-5 flex items-center justify-center text-primary mt-0.5">
+                  <i class="ri-check-line"></i>
+                </div>
+                <span class="text-sm text-gray-700 ml-2">Email sequence automation</span>
+              </li>
+            </ul>
+            <button class="w-full py-3 text-sm font-medium bg-primary text-white rounded-button hover:bg-primary/90 transition-colors whitespace-nowrap">Get started</button>
+          </div>
+          <!-- Enterprise Plan -->
+          <div id="enterprise-plan" class="plan-card bg-white rounded-lg border border-gray-200 p-6 cursor-pointer">
+            <div class="mb-4">
+              <h3 class="text-xl font-semibold text-gray-900">Enterprise</h3>
+              <p class="text-sm text-gray-500 mt-1">For large organizations with custom lead generation requirements</p>
+            </div>
+            <div class="mb-6">
+              <div class="flex items-baseline">
+                <span class="text-3xl font-bold text-gray-900">Custom</span>
+              </div>
+            </div>
+            <ul class="space-y-3 mb-8">
+              <li class="flex items-start">
+                <div class="w-5 h-5 flex items-center justify-center text-primary mt-0.5">
+                  <i class="ri-check-line"></i>
+                </div>
+                <span class="text-sm text-gray-700 ml-2">Unlimited leads</span>
+              </li>
+              <li class="flex items-start">
+                <div class="w-5 h-5 flex items-center justify-center text-primary mt-0.5">
+                  <i class="ri-check-line"></i>
+                </div>
+                <span class="text-sm text-gray-700 ml-2">Custom filtering options</span>
+              </li>
+              <li class="flex items-start">
+                <div class="w-5 h-5 flex items-center justify-center text-primary mt-0.5">
+                  <i class="ri-check-line"></i>
+                </div>
+                <span class="text-sm text-gray-700 ml-2">Dedicated account manager</span>
+              </li>
+              <li class="flex items-start">
+                <div class="w-5 h-5 flex items-center justify-center text-primary mt-0.5">
+                  <i class="ri-check-line"></i>
+                </div>
+                <span class="text-sm text-gray-700 ml-2">Real-time database updates</span>
+              </li>
+              <li class="flex items-start">
+                <div class="w-5 h-5 flex items-center justify-center text-primary mt-0.5">
+                  <i class="ri-check-line"></i>
+                </div>
+                <span class="text-sm text-gray-700 ml-2">Advanced API access</span>
+              </li>
+              <li class="flex items-start">
+                <div class="w-5 h-5 flex items-center justify-center text-primary mt-0.5">
+                  <i class="ri-check-line"></i>
+                </div>
+                <span class="text-sm text-gray-700 ml-2">Custom integration development</span>
+              </li>
+            </ul>
+            <button class="w-full py-3 text-sm font-medium text-primary border border-primary rounded-button hover:bg-primary/5 transition-colors whitespace-nowrap">Contact sales</button>
+          </div>
+        </div>
+      </section>
+      <!-- Billing Summary Panel -->
+      <section class="mb-8">
+        <h2 class="text-lg font-semibold text-gray-800 mb-4">Billing Summary</h2>
+        <div class="bg-white rounded-lg border border-gray-200 p-6 relative">
+          <button class="absolute top-6 right-6 text-sm font-medium text-primary hover:text-primary/80 flex items-center whitespace-nowrap">
+            <div class="w-4 h-4 flex items-center justify-center mr-1">
+              <i class="ri-edit-line"></i>
+            </div>
+            Edit Plan
+          </button>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="space-y-4">
+              <div>
+                <h3 class="text-sm font-medium text-gray-500 mb-1">Selected Plan</h3>
+                <div class="flex items-center">
+                  <div class="w-5 h-5 flex items-center justify-center text-primary mr-2">
+                    <i class="ri-rocket-line"></i>
+                  </div>
+                  <span class="text-base font-medium text-gray-900">Pro Plan (0.005 ETH/month)</span>
+                </div>
+              </div>
+              <div>
+                <h3 class="text-sm font-medium text-gray-500 mb-1">Payment Method</h3>
+                <div class="flex items-center">
+                  <div class="w-5 h-5 flex items-center justify-center text-primary mr-2">
+                    <i class="ri-ethereum-line"></i>
+                  </div>
+                  <span class="text-base font-medium text-gray-900">Ethereum (ETH)</span>
+                </div>
+              </div>
+            </div>
+            <div class="space-y-4">
+              <div>
+                <h3 class="text-sm font-medium text-gray-500 mb-1">Billing Cycle</h3>
+                <div class="flex items-center">
+                  <div class="w-5 h-5 flex items-center justify-center text-primary mr-2">
+                    <i class="ri-calendar-line"></i>
+                  </div>
+                  <span class="text-base font-medium text-gray-900">Monthly (Renews every 30 days)</span>
+                </div>
+              </div>
+              <div>
+                <h3 class="text-sm font-medium text-gray-500 mb-1">Next Payment Date</h3>
+                <div class="flex items-center">
+                  <div class="w-5 h-5 flex items-center justify-center text-primary mr-2">
+                    <i class="ri-time-line"></i>
+                  </div>
+                  <span class="text-base font-medium text-gray-900">June 24, 2025</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <!-- Save Wallet Form -->
+        <section>
+          <h2 class="text-lg font-semibold text-gray-800 mb-4">Add Wallet</h2>
+          <div class="bg-white rounded-lg border border-gray-200 p-6">
+            <form id="wallet-form">
+              <div class="space-y-5">
+                <div>
+                  <label for="wallet-name" class="block text-sm font-medium text-gray-700 mb-1">Wallet Name</label>
+                  <input type="text" id="wallet-name" class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:border-primary focus:ring-2 focus:ring-primary/20 text-sm" placeholder="My Primary Wallet">
+                </div>
+                <div>
+                  <label for="blockchain" class="block text-sm font-medium text-gray-700 mb-1">Select Blockchain</label>
+                  <div class="relative">
+                    <select id="blockchain" class="w-full appearance-none px-4 py-2.5 pr-8 rounded-lg border border-gray-300 focus:border-primary focus:ring-2 focus:ring-primary/20 text-sm bg-white">
+                      <option value="ethereum">Ethereum</option>
+                      <option value="binance">Binance Smart Chain</option>
+                      <option value="polygon">Polygon</option>
+                      <option value="solana">Solana</option>
+                      <option value="avalanche">Avalanche</option>
+                    </select>
+                    <div class="absolute right-3 top-1/2 transform -translate-y-1/2 w-4 h-4 flex items-center justify-center text-gray-400 pointer-events-none">
+                      <i class="ri-arrow-down-s-line"></i>
+                    </div>
+                  </div>
+                </div>
+                <div>
+                  <label class="block text-sm font-medium text-gray-700 mb-2">Token Standard</label>
+                  <div class="grid grid-cols-2 gap-4">
+                    <div class="custom-radio">
+                      <input type="radio" id="erc20" name="token-standard" checked>
+                      <label for="erc20" class="text-sm text-gray-700">ERC-20</label>
+                    </div>
+                    <div class="custom-radio">
+                      <input type="radio" id="bep20" name="token-standard">
+                      <label for="bep20" class="text-sm text-gray-700">BEP-20</label>
+                    </div>
+                  </div>
+                </div>
+                <div>
+                  <label for="wallet-address" class="block text-sm font-medium text-gray-700 mb-1">Wallet Address</label>
+                  <div class="relative">
+                    <input type="text" id="wallet-address" class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:border-primary focus:ring-2 focus:ring-primary/20 text-sm" placeholder="0x...">
+                    <div class="absolute right-3 top-1/2 transform -translate-y-1/2 tooltip">
+                      <div class="w-5 h-5 flex items-center justify-center text-gray-400">
+                        <i class="ri-information-line"></i>
+                      </div>
+                      <span class="tooltip-text text-xs">Enter your full wallet address. Make sure it's correct before saving.</span>
+                    </div>
+                  </div>
+                  <p class="text-xs text-gray-500 mt-1">Please double-check your wallet address before saving</p>
+                </div>
+                <div class="flex items-center justify-between">
+                  <div class="flex items-center">
+                    <label class="toggle">
+                      <input type="checkbox" id="default-wallet">
+                      <span class="slider"></span>
+                    </label>
+                    <span class="text-sm text-gray-700 ml-2">Set as Default</span>
+                  </div>
+                  <button type="submit" class="px-5 py-2.5 text-sm font-medium bg-primary text-white rounded-button hover:bg-primary/90 transition-colors flex items-center whitespace-nowrap">
+                    <div class="w-4 h-4 flex items-center justify-center mr-1">
+                      <i class="ri-save-line"></i>
+                    </div>
+                    Save Wallet
+                  </button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </section>
+        <!-- Right Column -->
+        <div class="space-y-8">
+          <!-- Subscriptions Control Panel -->
+          <section>
+            <h2 class="text-lg font-semibold text-gray-800 mb-4">Subscription Settings</h2>
+            <div class="bg-white rounded-lg border border-gray-200 p-6">
+              <div class="space-y-5">
+                <div class="flex items-center justify-between">
+                  <div>
+                    <h3 class="text-sm font-medium text-gray-800">Auto Renew Subscription</h3>
+                    <p class="text-xs text-gray-500 mt-0.5">Automatically renew your subscription when it expires</p>
+                  </div>
+                  <label class="toggle">
+                    <input type="checkbox" id="auto-renew" checked>
+                    <span class="slider"></span>
+                  </label>
+                </div>
+                <div class="flex items-center justify-between">
+                  <div>
+                    <h3 class="text-sm font-medium text-gray-800">Receive Email Invoices</h3>
+                    <p class="text-xs text-gray-500 mt-0.5">Get invoice copies to your email after each payment</p>
+                  </div>
+                  <label class="toggle">
+                    <input type="checkbox" id="email-invoices" checked>
+                    <span class="slider"></span>
+                  </label>
+                </div>
+                <div class="flex items-center justify-between">
+                  <div>
+                    <h3 class="text-sm font-medium text-gray-800">Enable Alerts for Failed Payments</h3>
+                    <p class="text-xs text-gray-500 mt-0.5">Get notified when a payment fails to process</p>
+                  </div>
+                  <label class="toggle">
+                    <input type="checkbox" id="payment-alerts" checked>
+                    <span class="slider"></span>
+                  </label>
+                </div>
+              </div>
+            </div>
+          </section>
+          <!-- QR Code Payment Support -->
+          <section>
+            <h2 class="text-lg font-semibold text-gray-800 mb-4">Quick Connect</h2>
+            <div class="bg-white rounded-lg border border-gray-200 p-6">
+              <div class="flex flex-col items-center">
+                <div class="w-48 h-48 bg-gray-100 rounded-lg flex items-center justify-center mb-4 relative">
+                  <img src="https://readdy.ai/api/search-image?query=QR%20code%20for%20crypto%20wallet%20connection%2C%20minimalist%20design%2C%20clean%20lines%2C%20blue%20and%20white%20color%20scheme%2C%20professional%20fintech%20appearance%2C%20high%20quality&width=200&height=200&seq=qrcode1&orientation=squarish" alt="QR Code" class="w-40 h-40 object-contain">
+                  <div class="absolute inset-0 flex items-center justify-center bg-white/80 rounded-lg hidden" id="qr-loading">
+                    <div class="w-8 h-8 flex items-center justify-center text-primary animate-spin">
+                      <i class="ri-loader-4-line ri-2x"></i>
+                    </div>
+                  </div>
+                </div>
+                <h3 class="text-sm font-medium text-gray-800 mb-1">Scan to Connect Wallet</h3>
+                <p class="text-xs text-gray-500 text-center mb-4">Use your mobile wallet app to scan this QR code and connect instantly</p>
+                <div class="flex space-x-3">
+                  <button id="refresh-qr" class="px-4 py-2 text-sm font-medium text-gray-700 border border-gray-300 rounded-button hover:bg-gray-50 transition-colors flex items-center whitespace-nowrap">
+                    <div class="w-4 h-4 flex items-center justify-center mr-1">
+                      <i class="ri-refresh-line"></i>
+                    </div>
+                    Refresh
+                  </button>
+                  <button id="connect-wallet" class="px-4 py-2 text-sm font-medium bg-primary text-white rounded-button hover:bg-primary/90 transition-colors flex items-center whitespace-nowrap">
+                    <div class="w-4 h-4 flex items-center justify-center mr-1">
+                      <i class="ri-link-line"></i>
+                    </div>
+                    Connect
+                  </button>
+                </div>
+              </div>
+            </div>
+          </section>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Sidebar toggle
+            const sidebar = document.getElementById('sidebar');
+            const mainContent = document.getElementById('main-content');
+            const sidebarToggle = document.getElementById('sidebar-toggle');
+            const sidebarTexts = document.querySelectorAll('.sidebar-text');
+            
+            function toggleSidebar() {
+                const isExpanded = sidebar.classList.contains('sidebar-expanded');
+                if (isExpanded) {
+                    sidebar.classList.remove('sidebar-expanded');
+                    sidebar.classList.add('sidebar-collapsed');
+                    mainContent.classList.remove('main-content-expanded');
+                    mainContent.classList.add('main-content-collapsed');
+                    sidebarTexts.forEach(text => text.style.display = 'none');
+                } else {
+                    sidebar.classList.remove('sidebar-collapsed');
+                    sidebar.classList.add('sidebar-expanded');
+                    mainContent.classList.remove('main-content-collapsed');
+                    mainContent.classList.add('main-content-expanded');
+                    sidebarTexts.forEach(text => text.style.display = '');
+                }
+            }
+            
+            sidebarToggle.addEventListener('click', toggleSidebar);
+            
+            // Responsive sidebar behavior
+            function handleResize() {
+                if (window.innerWidth < 768) {
+                    sidebar.classList.add('sidebar-collapsed');
+                    sidebar.classList.remove('sidebar-expanded');
+                    sidebarTexts.forEach(text => text.style.display = 'none');
+                    sidebar.style.transform = 'translateX(-100%)';
+                    mainContent.classList.remove('main-content-expanded', 'main-content-collapsed');
+                } else {
+                    sidebar.style.transform = 'translateX(0)';
+                    // Do NOT force expanded here, just update text visibility
+                    if (sidebar.classList.contains('sidebar-collapsed')) {
+                        sidebarTexts.forEach(text => text.style.display = 'none');
+                        mainContent.classList.remove('main-content-expanded');
+                        mainContent.classList.add('main-content-collapsed');
+                    } else {
+                        sidebarTexts.forEach(text => text.style.display = 'inline');
+                        mainContent.classList.add('main-content-expanded');
+                        mainContent.classList.remove('main-content-collapsed');
+                    }
+                }
+            }
+            
+            window.addEventListener('resize', handleResize);
+            handleResize(); // Initial call
+            
+            // Mobile sidebar toggle
+            sidebarToggle.addEventListener('click', function() {
+                if (window.innerWidth < 768) {
+                    if (sidebar.style.transform === 'translateX(0px)') {
+                        sidebar.style.transform = 'translateX(-100%)';
+                    } else {
+                        sidebar.style.transform = 'translateX(0px)';
+                    }
+                }
+            });
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize Leads Chart
+            const leadsChart = echarts.init(document.getElementById('leads-chart'));
+            
+            const leadsOption = {
+                animation: false,
+                tooltip: {
+                    trigger: 'axis',
+                    backgroundColor: 'rgba(255, 255, 255, 0.8)',
+                    textStyle: {
+                        color: '#1f2937'
+                    }
+                },
+                grid: {
+                    top: 10,
+                    right: 10,
+                    bottom: 20,
+                    left: 40
+                },
+                xAxis: {
+                    type: 'category',
+                    data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+                    axisLine: {
+                        lineStyle: {
+                            color: '#e2e8f0'
+                        }
+                    },
+                    axisLabel: {
+                        color: '#64748b'
+                    }
+                },
+                yAxis: {
+                    type: 'value',
+                    axisLine: {
+                        show: false
+                    },
+                    axisLabel: {
+                        color: '#64748b'
+                    },
+                    splitLine: {
+                        lineStyle: {
+                            color: '#e2e8f0'
+                        }
+                    }
+                },
+                series: [
+                    {
+                        name: 'Leads',
+                        type: 'line',
+                        smooth: true,
+                        symbol: 'none',
+                        lineStyle: {
+                            width: 3,
+                            color: 'rgba(87, 181, 231, 1)'
+                        },
+                        areaStyle: {
+                            color: {
+                                type: 'linear',
+                                x: 0,
+                                y: 0,
+                                x2: 0,
+                                y2: 1,
+                                colorStops: [
+                                    {
+                                        offset: 0,
+                                        color: 'rgba(87, 181, 231, 0.2)'
+                                    },
+                                    {
+                                        offset: 1,
+                                        color: 'rgba(87, 181, 231, 0.01)'
+                                    }
+                                ]
+                            }
+                        },
+                        data: [320, 420, 380, 520, 450, 570, 630]
+                    }
+                ]
+            };
+            
+            leadsChart.setOption(leadsOption);
+            
+            // Initialize Filter Chart
+            const filterChart = echarts.init(document.getElementById('filter-chart'));
+            
+            const filterOption = {
+                animation: false,
+                tooltip: {
+                    trigger: 'item',
+                    backgroundColor: 'rgba(255, 255, 255, 0.8)',
+                    textStyle: {
+                        color: '#1f2937'
+                    }
+                },
+                legend: {
+                    orient: 'vertical',
+                    right: 10,
+                    top: 'center',
+                    textStyle: {
+                        color: '#64748b'
+                    }
+                },
+                series: [
+                    {
+                        name: 'Filter Usage',
+                        type: 'pie',
+                        radius: ['50%', '70%'],
+                        avoidLabelOverlap: false,
+                        itemStyle: {
+                            borderRadius: 8,
+                            borderColor: '#fff',
+                            borderWidth: 2
+                        },
+                        label: {
+                            show: false
+                        },
+                        emphasis: {
+                            label: {
+                                show: false
+                            }
+                        },
+                        labelLine: {
+                            show: false
+                        },
+                        data: [
+                            { value: 35, name: 'E-commerce', itemStyle: { color: 'rgba(87, 181, 231, 1)' } },
+                            { value: 25, name: 'Location', itemStyle: { color: 'rgba(141, 211, 199, 1)' } },
+                            { value: 20, name: 'Industry', itemStyle: { color: 'rgba(251, 191, 114, 1)' } },
+                            { value: 20, name: 'Technology', itemStyle: { color: 'rgba(252, 141, 98, 1)' } }
+                        ]
+                    }
+                ]
+            };
+            
+            filterChart.setOption(filterOption);
+            
+            // Handle window resize for charts
+            window.addEventListener('resize', function() {
+                leadsChart.resize();
+                filterChart.resize();
+            });
+        });
+    </script>
+<script id="plan-selection-script">
+document.addEventListener('DOMContentLoaded', function() {
+const planCards = document.querySelectorAll('.plan-card');
+const billingToggle = document.getElementById('billing-toggle');
+const cryptoRates = {
+  BTC: 0.000034,  // 1 USD to BTC
+  ETH: 0.00041    // 1 USD to ETH
+};
+const planPrices = {
+  basic: { monthly: 115, yearly: 1104 },
+  pro: { monthly: 225, yearly: 2160 },
+  enterprise: { monthly: 449, yearly: 4310 }
+};
+planCards.forEach(card => {
+  card.addEventListener('click', function() {
+    planCards.forEach(c => {
+      c.classList.remove('active');
+      c.classList.remove('border-2');
+      c.classList.add('border');
+      const button = c.querySelector('button');
+      if (button.textContent === 'Current Plan') {
+        button.textContent = 'Subscribe Now';
+        button.classList.remove('bg-primary', 'text-white');
+        button.classList.add('text-primary', 'border', 'border-primary');
+      }
+    });
+this.classList.add('active');
+    this.classList.remove('border');
+    this.classList.add('border-2', 'border-primary');
+    
+    const planId = this.id;
+    const isYearly = billingToggle.checked;
+    const planPrice = planPrices[planId.split('-')[0]][isYearly ? 'yearly' : 'monthly'];
+    
+    showCheckoutModal(planId, planPrice, isYearly);
+  });
+});
+function showCheckoutModal(planId, planPrice, isYearly) {
+  // Remove existing modal if any
+  const existingModal = document.getElementById('checkout-modal');
+  if (existingModal) {
+    existingModal.remove();
+  }
+  const modal = document.createElement('div');
+  modal.id = 'checkout-modal';
+  modal.className = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50';
+  
+  const modalContent = document.createElement('div');
+  modalContent.className = 'bg-white rounded-lg p-6 max-w-md w-full mx-4 relative';
+  
+  const closeButton = document.createElement('button');
+  closeButton.className = 'absolute top-4 right-4 text-gray-400 hover:text-gray-600';
+  closeButton.innerHTML = '<i class="ri-close-line ri-lg"></i>';
+  closeButton.onclick = () => modal.remove();
+  
+  const btcPrice = (planPrice * cryptoRates.BTC).toFixed(6);
+  const ethPrice = (planPrice * cryptoRates.ETH).toFixed(6);
+  
+  modalContent.innerHTML = `
+    <h3 class="text-xl font-semibold text-gray-900 mb-4">Complete Your Purchase</h3>
+    <div class="mb-6">
+      <p class="text-sm text-gray-600 mb-2">Selected Plan</p>
+      <p class="text-lg font-medium text-gray-900">${planId.split('-')[0].charAt(0).toUpperCase() + planId.split('-')[0].slice(1)} Plan - ${isYearly ? 'Yearly' : 'Monthly'}</p>
+      <p class="text-sm text-gray-600">USD ${planPrice}</p>
+    </div>
+    
+    <div class="space-y-4 mb-6">
+      <div class="border border-gray-200 rounded-lg p-4 cursor-pointer hover:border-primary" onclick="selectCrypto('BTC', ${btcPrice})">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center">
+            <div class="w-8 h-8 flex items-center justify-center text-[#F7931A]">
+              <i class="ri-bitcoin-fill ri-lg"></i>
+            </div>
+            <span class="ml-2 font-medium">Bitcoin</span>
+          </div>
+          <span class="text-sm font-medium">${btcPrice} BTC</span>
+        </div>
+      </div>
+      
+      <div class="border border-gray-200 rounded-lg p-4 cursor-pointer hover:border-primary" onclick="selectCrypto('ETH', ${ethPrice})">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center">
+            <div class="w-8 h-8 flex items-center justify-center text-[#627EEA]">
+              <i class="ri-ethereum-fill ri-lg"></i>
+            </div>
+            <span class="ml-2 font-medium">Ethereum</span>
+          </div>
+          <span class="text-sm font-medium">${ethPrice} ETH</span>
+        </div>
+      </div>
+    </div>
+    
+    <div id="payment-details" class="hidden">
+      <div class="bg-gray-50 rounded-lg p-4 mb-6">
+        <div class="flex justify-between items-center mb-2">
+          <span class="text-sm text-gray-600">Amount to Pay</span>
+          <span id="crypto-amount" class="font-medium"></span>
+        </div>
+        <div class="flex justify-between items-center">
+          <span class="text-sm text-gray-600">Network Fee</span>
+          <span class="text-sm text-gray-600">Variable</span>
+        </div>
+      </div>
+      
+      <div class="flex flex-col items-center space-y-4">
+        <div class="w-48 h-48 bg-gray-100 rounded-lg flex items-center justify-center">
+          <div id="payment-qr" class="w-40 h-40"></div>
+        </div>
+        <p class="text-sm text-gray-600 text-center">Scan QR code with your wallet app to complete payment</p>
+      </div>
+    </div>
+  `;
+  
+  modalContent.appendChild(closeButton);
+  modal.appendChild(modalContent);
+  document.body.appendChild(modal);
+}
+window.selectCrypto = function(crypto, amount) {
+  const paymentDetails = document.getElementById('payment-details');
+  const cryptoAmount = document.getElementById('crypto-amount');
+  const paymentQR = document.getElementById('payment-qr');
+  
+  paymentDetails.classList.remove('hidden');
+  cryptoAmount.textContent = `${amount} ${crypto}`;
+  
+  // Generate QR code (simulated)
+  const qrImage = document.createElement('img');
+  qrImage.src = `https://readdy.ai/api/search-image?query=QR%20code%20for%20crypto%20payment%2C%20minimalist%20design%20with%20$%7Bcrypto%7D%20logo%2C%20professional%20fintech%20style&width=160&height=160&seq=payment-qr-${crypto}&orientation=squarish`;
+  qrImage.alt = `${crypto} Payment QR`;
+  qrImage.className = 'w-full h-full object-contain';
+  
+  paymentQR.innerHTML = '';
+  paymentQR.appendChild(qrImage);
+}
+billingToggle.addEventListener('change', function() {
+  const prices = document.querySelectorAll('.plan-card .text-3xl');
+  if (this.checked) {
+    prices[0].textContent = '$115';
+    prices[1].textContent = '$225';
+    prices[2].textContent = 'Custom';
+  } else {
+    prices[0].textContent = '$115';
+    prices[1].textContent = '$225';
+    prices[2].textContent = 'Custom';
+  }
+});
+});
+</script>
+<script id="wallet-form-script">
+document.addEventListener('DOMContentLoaded', function() {
+const walletForm = document.getElementById('wallet-form');
+const walletAddress = document.getElementById('wallet-address');
+walletForm.addEventListener('submit', function(e) {
+e.preventDefault();
+// Simple validation
+if (!walletAddress.value) {
+walletAddress.classList.add('border-red-500');
+walletAddress.classList.add('ring-2');
+walletAddress.classList.add('ring-red-500/20');
+return;
+}
+// Show success message
+const successMessage = document.createElement('div');
+successMessage.className = 'fixed top-4 right-4 bg-green-50 border border-green-200 text-green-800 px-4 py-3 rounded-lg shadow-lg flex items-center z-50';
+successMessage.innerHTML = `
+<div class="w-5 h-5 flex items-center justify-center text-green-500 mr-2">
+<i class="ri-check-line"></i>
+</div>
+<span class="text-sm font-medium">Wallet saved successfully!</span>
+`;
+document.body.appendChild(successMessage);
+// Reset form
+walletForm.reset();
+walletAddress.classList.remove('border-red-500', 'ring-2', 'ring-red-500/20');
+// Remove message after 3 seconds
+setTimeout(() => {
+successMessage.remove();
+}, 3000);
+});
+// Validate wallet address format
+walletAddress.addEventListener('input', function() {
+const value = this.value.trim();
+if (value && (value.startsWith('0x') && value.length === 42)) {
+this.classList.remove('border-red-500', 'ring-2', 'ring-red-500/20');
+this.classList.add('border-green-500', 'ring-2', 'ring-green-500/20');
+} else if (value) {
+this.classList.remove('border-green-500', 'ring-2', 'ring-green-500/20');
+this.classList.add('border-red-500', 'ring-2', 'ring-red-500/20');
+} else {
+this.classList.remove('border-red-500', 'ring-2', 'ring-red-500/20');
+this.classList.remove('border-green-500', 'ring-2', 'ring-green-500/20');
+}
+});
+});
+</script>
+<script id="qr-code-script">
+document.addEventListener('DOMContentLoaded', function() {
+const refreshQrBtn = document.getElementById('refresh-qr');
+const connectWalletBtn = document.getElementById('connect-wallet');
+const qrLoading = document.getElementById('qr-loading');
+let connectedWallet = null;
+function showNotification(message, type = 'success') {
+  const colors = {
+    success: 'green',
+    info: 'blue',
+    error: 'red'
+  };
+  const color = colors[type];
+  
+  const notification = document.createElement('div');
+  notification.className = `fixed top-4 right-4 bg-${color}-50 border border-${color}-200 text-${color}-800 px-4 py-3 rounded-lg shadow-lg flex items-center z-50`;
+  notification.innerHTML = `
+    <div class="w-5 h-5 flex items-center justify-center text-${color}-500 mr-2">
+      <i class="ri-${type === 'success' ? 'check' : type === 'info' ? 'information' : 'error-warning'}-line"></i>
+    </div>
+    <span class="text-sm font-medium">${message}</span>
+  `;
+  
+  document.body.appendChild(notification);
+  setTimeout(() => notification.remove(), 3000);
+}
+refreshQrBtn.addEventListener('click', function() {
+  qrLoading.classList.remove('hidden');
+  setTimeout(() => {
+    qrLoading.classList.add('hidden');
+    showNotification('QR code refreshed!', 'info');
+  }, 1500);
+});
+connectWalletBtn.addEventListener('click', function() {
+  if (connectedWallet) {
+    showNotification('Wallet already connected!', 'info');
+    return;
+  }
+  
+  qrLoading.classList.remove('hidden');
+  setTimeout(() => {
+    qrLoading.classList.add('hidden');
+    connectedWallet = {
+      address: '0x742d35Cc6634C0532925a3b844Bc454e4438f44e',
+      balance: {
+        ETH: '2.5',
+        BTC: '0.15'
+      }
+    };
+    showNotification('Wallet connected successfully!');
+    connectWalletBtn.innerHTML = `
+      <div class="w-4 h-4 flex items-center justify-center mr-1">
+        <i class="ri-checkbox-circle-line"></i>
+      </div>
+      Connected
+    `;
+    connectWalletBtn.classList.remove('bg-primary');
+    connectWalletBtn.classList.add('bg-green-600');
+  }, 2000);
+});
+});
+</script>
+</body>
+</html>
