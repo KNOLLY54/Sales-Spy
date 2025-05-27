@@ -308,6 +308,8 @@
         id="main-content"
         class="main-content-expanded flex-1 transition-all duration-700 ease-in-out overflow-x-auto"
       >
+
+      
         <!-- Header -->
         <header class="bg-white shadow-sm sticky top-0 z-10">
           <div class="flex items-center justify-between px-6 py-4">
@@ -344,6 +346,7 @@
                       src="https://readdy.ai/api/search-image?query=professional%20headshot%20of%20a%20young%20business%20person%2C%20neutral%20expression%2C%20high%20quality%20portrait%2C%20business%20attire&width=200&height=200&seq=1&orientation=squarish"
                       alt="User avatar"
                       class="w-full h-full object-cover"
+                      id="header-profile-img"
                     />
                   </div>
                 </button>
@@ -681,7 +684,7 @@
               </div>
             </div>
             <div class="overflow-x-auto">
-              <table class="min-w-full divide-y divide-gray-200">
+              <table class="min-w-full divide-y divide-gray-200" id="results-table">
                 <thead class="bg-gray-50">
                   <tr>
                     <th
@@ -821,7 +824,7 @@
                     </th>
                   </tr>
                 </thead>
-                <tbody class="bg-white divide-y divide-gray-200">
+                <tbody class="bg-white divide-y divide-gray-200" id="results-tbody">
                   <tr class="hover:bg-gray-50">
                     <td class="px-6 py-4 whitespace-nowrap">
                       <div class="flex items-center">
@@ -2260,49 +2263,17 @@
               class="px-6 py-4 flex items-center justify-between border-t border-gray-200"
             >
               <div class="flex items-center">
-                <p class="text-sm text-gray-700">
-                  Showing <span class="font-medium">1</span> to
-                  <span class="font-medium">10</span> of
-                  <span class="font-medium">317,455</span> results
+                <p class="text-sm text-gray-700" id="pagination-info">
+                  <!-- Will be filled by JS -->
                 </p>
               </div>
-              <div class="flex items-center space-x-2">
-                <button
-                  class="bg-primary text-white w-8 h-8 rounded flex items-center justify-center"
-                >
-                  <span>1</span>
-                </button>
-                <button
-                  class="text-gray-500 hover:bg-gray-100 w-8 h-8 rounded flex items-center justify-center"
-                >
-                  <span>2</span>
-                </button>
-                <button
-                  class="text-gray-500 hover:bg-gray-100 w-8 h-8 rounded flex items-center justify-center"
-                >
-                  <span>3</span>
-                </button>
-                <span class="text-gray-500">...</span>
-                <button
-                  class="text-gray-500 hover:bg-gray-100 w-8 h-8 rounded flex items-center justify-center"
-                >
-                  <span>233</span>
-                </button>
-                <button
-                  class="text-gray-500 hover:bg-gray-100 w-8 h-8 rounded flex items-center justify-center"
-                >
-                  <span>234</span>
-                </button>
-                <button
-                  class="text-gray-500 hover:bg-gray-100 w-8 h-8 rounded flex items-center justify-center"
-                >
-                  <div class="w-4 h-4 flex items-center justify-center">
-                    <i class="ri-arrow-right-s-line"></i>
-                  </div>
-                </button>
+              <div class="flex items-center space-x-2" id="pagination-controls">
+                <!-- Will be filled by JS -->
               </div>
             </div>
           </div>
+
+          
         </main>
       </div>
     </div>
@@ -2624,6 +2595,102 @@
           }
         });
       });
+    </script>
+
+    <script>
+document.addEventListener("DOMContentLoaded", function () {
+  // --- Functional Pagination for Results Table ---
+  const ROWS_PER_PAGE = 10;
+  const table = document.getElementById("results-table");
+  const tbody = document.getElementById("results-tbody");
+  const paginationInfo = document.getElementById("pagination-info");
+  const paginationControls = document.getElementById("pagination-controls");
+
+  if (!table || !tbody || !paginationInfo || !paginationControls) return;
+
+  // Collect all rows (static for now, backend will provide this later)
+  const allRows = Array.from(tbody.querySelectorAll("tr"));
+  let currentPage = 1;
+  const totalRows = allRows.length;
+  const totalPages = Math.ceil(totalRows / ROWS_PER_PAGE);
+
+  function renderTablePage(page) {
+    // Clamp page
+    page = Math.max(1, Math.min(page, totalPages));
+    currentPage = page;
+    // Hide all rows
+    allRows.forEach(row => row.style.display = "none");
+    // Show only rows for this page
+    const start = (page - 1) * ROWS_PER_PAGE;
+    const end = Math.min(start + ROWS_PER_PAGE, totalRows);
+    for (let i = start; i < end; i++) {
+      allRows[i].style.display = "";
+    }
+    // Update info
+    paginationInfo.textContent = `Showing ${start + 1} to ${end} of ${totalRows} results`;
+    renderPaginationControls();
+  }
+
+  function renderPaginationControls() {
+    paginationControls.innerHTML = "";
+    // Prev button
+    const prevBtn = document.createElement("button");
+    prevBtn.className = "text-gray-500 hover:bg-gray-100 w-8 h-8 rounded flex items-center justify-center";
+    prevBtn.innerHTML = '<i class="ri-arrow-left-s-line"></i>';
+    prevBtn.disabled = currentPage === 1;
+    prevBtn.onclick = () => renderTablePage(currentPage - 1);
+    paginationControls.appendChild(prevBtn);
+
+    // Page numbers (show up to 5 pages, with ... if needed)
+    let startPage = Math.max(1, currentPage - 2);
+    let endPage = Math.min(totalPages, startPage + 4);
+    if (endPage - startPage < 4) startPage = Math.max(1, endPage - 4);
+
+    if (startPage > 1) {
+      addPageBtn(1);
+      if (startPage > 2) addEllipsis();
+    }
+    for (let i = startPage; i <= endPage; i++) {
+      addPageBtn(i);
+    }
+    if (endPage < totalPages) {
+      if (endPage < totalPages - 1) addEllipsis();
+      addPageBtn(totalPages);
+    }
+
+    // Next button
+    const nextBtn = document.createElement("button");
+    nextBtn.className = "text-gray-500 hover:bg-gray-100 w-8 h-8 rounded flex items-center justify-center";
+    nextBtn.innerHTML = '<i class="ri-arrow-right-s-line"></i>';
+    nextBtn.disabled = currentPage === totalPages;
+    nextBtn.onclick = () => renderTablePage(currentPage + 1);
+    paginationControls.appendChild(nextBtn);
+
+    function addPageBtn(pageNum) {
+      const btn = document.createElement("button");
+      btn.className = (pageNum === currentPage
+        ? "bg-primary text-white "
+        : "text-gray-500 hover:bg-gray-100 ") +
+        "w-8 h-8 rounded flex items-center justify-center";
+      btn.textContent = pageNum;
+      btn.disabled = pageNum === currentPage;
+      btn.onclick = () => renderTablePage(pageNum);
+      paginationControls.appendChild(btn);
+    }
+    function addEllipsis() {
+      const span = document.createElement("span");
+      span.className = "text-gray-500";
+      span.textContent = "...";
+      paginationControls.appendChild(span);
+    }
+  }
+
+  // Initial render
+  renderTablePage(1);
+
+  // --- BACKEND INTEGRATION POINT ---
+  // Replace allRows with paginated data from backend, and update totalRows/totalPages accordingly.
+});
     </script>
   </body>
 </html>

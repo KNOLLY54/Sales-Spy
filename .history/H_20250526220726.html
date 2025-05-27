@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div className="min-h-screen bg-gray-50">
+      {/* Sidebar */}
+      <div className="fixed left-0 top-0 h-full w-64 bg-white shadow-md z-10">
+        <div className="p-6">
+          <h1 className="text-2xl font-bold text-blue-600">BootLeads</h1>
+        </div>
+        <nav className="mt-6">
+          <ul>
+            <li className="px-6 py-3 flex items-center text-gray-700 hover:bg-gray-100 cursor-pointer">
+              <i className="fas fa-chart-bar mr-3"></i>
+              <span>Domains</span>
+            </li>
+            <li className="px-6 py-3 flex items-center text-gray-700 hover:bg-gray-100 cursor-pointer">
+              <i className="fas fa-th-large mr-3"></i>
+              <span>Apps</span>
+            </li>
+            <li className="px-6 py-3 flex items-center text-gray-700 hover:bg-gray-100 cursor-pointer">
+              <i className="fas fa-user mr-3"></i>
+              <span>Account</span>
+            </li>
+            <li className="px-6 py-3 flex items-center text-gray-700 hover:bg-gray-100 cursor-pointer">
+              <i className="fas fa-sign-out-alt mr-3"></i>
+              <span>Logout</span>
+            </li>
+          </ul>
+        </nav>
+        <div className="absolute bottom-0 left-0 w-full p-6">
+          <div className="bg-gray-100 rounded-lg p-4">
+            <h3 className="font-bold mb-2">Upgrade to Pro</h3>
+            <p className="text-sm text-gray-600 mb-4">
+              Unlock all features and get unlimited access.
+            </p>
+            <button className="w-full bg-blue-600 text-white py-2 rounded !rounded-button whitespace-nowrap cursor-pointer">
+              Upgrade
+            </button>
+          </div>
+        </div>
+      </div>
+      {/* Main Content */}
+      <div className="ml-64 p-8">
+        <div className="bg-white rounded-lg shadow-md p-6 mb-6">
+          <div className="flex items-center justify-between mb-6">
+            <div className="flex items-center">
+              <div className="w-8 h-8 bg-gray-700 rounded-full flex items-center justify-center mr-3">
+                <i className="fas fa-globe text-white text-sm"></i>
+              </div>
+              <h2 className="text-xl font-semibold">www.luminacraft.com</h2>
+            </div>
+            <button
+              id="domainCloseButton"
+              onClick={() => setIsConfirmDialogOpen(true)}
+              className="text-gray-400 hover:text-gray-600 cursor-pointer"
+            >
+              <i className="fas fa-times"></i>
+            </button>
+          </div>
+          <ConfirmDialog
+            isOpen={isConfirmDialogOpen}
+            onClose={() => setIsConfirmDialogOpen(false)}
+            onConfirm={handleRemove}
+            domain="www.luminacraft.com"
+          />
+          <div className="mb-6">
+            <div className="flex border-b">
+              <button
+                onClick={() => setActiveTab("basic")}
+                className={`py-3 px-6 font-medium text-sm whitespace-nowrap cursor-pointer ${activeTab === "basic" ? "text-blue-600 border-b-2 border-blue-600" : "text-gray-500"}`}
+              >
+                Basic Information
+              </button>
+              <button
+                onClick={() => setActiveTab("keyword")}
+                className={`py-3 px-6 font-medium text-sm whitespace-nowrap cursor-pointer ${activeTab === "keyword" ? "text-blue-600 border-b-2 border-blue-600" : "text-gray-500"}`}
+              >
+                Keyword
+              </button>
+              <button
+                onClick={() => setActiveTab("tags")}
+                className={`py-3 px-6 font-medium text-sm whitespace-nowrap cursor-pointer ${activeTab === "tags" ? "text-blue-600 border-b-2 border-blue-600" : "text-gray-500"}`}
+              >
+                Tags
+              </button>
+              <button
+                onClick={() => setActiveTab("pages")}
+                className={`py-3 px-6 font-medium text-sm whitespace-nowrap cursor-pointer ${activeTab === "pages" ? "text-blue-600 border-b-2 border-blue-600" : "text-gray-500"}`}
+              >
+                Pages
+              </button>
+            </div>
+          </div>
+          {activeTab === "keyword" && (
+            <div className="space-y-6">
+              <div className="flex items-center justify-between mb-6">
+                <h3 className="text-lg font-semibold">Keyword Rankings</h3>
+                <div className="flex items-center space-x-4">
+                  <div className="relative">
+                    <input
+                      type="text"
+                      placeholder="Search keywords..."
+                      className="pl-10 pr-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 w-64"
+                    />
+                    <i className="fas fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                  </div>
+                  <button className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 !rounded-button whitespace-nowrap">
+                    Export Data
+                  </button>
+                </div>
+              </div>
+
+              <div className="bg-white rounded-lg overflow-hidden">
+                <div className="overflow-x-auto">
+                  <table className="w-full">
+                    <thead>
+                      <tr className="bg-gray-50">
+                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                          Keyword
+                        </th>
+                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                          Position
+                        </th>
+                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                          Monthly Volume
+                        </th>
+                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                          Difficulty
+                        </th>
+                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                          CPC
+                        </th>
+                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                          URL
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody className="bg-white divide-y divide-gray-200">
+                      <tr>
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          <div className="text-sm font-medium text-gray-900">
+                            modern pendant lights
+                          </div>
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                            #3
+                          </span>
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          <div className="text-sm text-gray-900">12,400</div>
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          <div className="w-24 bg-gray-200 rounded-full h-2">
+                            <div
+                              className="bg-orange-500 rounded-full h-2"
+                              style={{ width: "65%" }}
+                            ></div>
+                          </div>
+                          <div className="text-xs text-gray-500 mt-1">
+                            65/100
+                          </div>
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          <div className="text-sm text-gray-900">$2.45</div>
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap text-sm text-blue-600">
+                          /collections/pendant-lights
+                        </td>
+                      </tr>
+
+                      <tr>
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          <div className="text-sm font-medium text-gray-900">
+                            luxury lighting fixtures
+                          </div>
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                            #5
+                          </span>
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          <div className="text-sm text-gray-900">8,800</div>
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          <div className="w-24 bg-gray-200 rounded-full h-2">
+                            <div
+                              className="bg-red-500 rounded-full h-2"
+                              style={{ width: "82%" }}
+                            ></div>
+                          </div>
+                          <div className="text-xs text-gray-500 mt-1">
+                            82/100
+                          </div>
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          <div className="text-sm text-gray-900">$3.20</div>
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap text-sm text-blue-600">
+                          /collections/luxury-fixtures
+                        </td>
+                      </tr>
+
+                      <tr>
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          <div className="text-sm font-medium text-gray-900">
+                            adjustable ceiling lights
+                          </div>
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                            #7
+                          </span>
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          <div className="text-sm text-gray-900">6,600</div>
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          <div className="w-24 bg-gray-200 rounded-full h-2">
+                            <div
+                              className="bg-yellow-500 rounded-full h-2"
+                              style={{ width: "45%" }}
+                            ></div>
+                          </div>
+                          <div className="text-xs text-gray-500 mt-1">
+                            45/100
+                          </div>
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          <div className="text-sm text-gray-900">$1.85</div>
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap text-sm text-blue-600">
+                          /collections/ceiling-lights
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <div className="px-6 py-4 border-t">
+                  <div className="flex items-center justify-between">
+                    <div className="text-sm text-gray-500">
+                      Showing 1 to 3 of 156 keywords
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <button className="px-3 py-1 border rounded text-sm text-gray-600 !rounded-button whitespace-nowrap">
+                        Previous
+                      </button>
+                      <button className="px-3 py-1 bg-blue-600 text-white rounded text-sm !rounded-button whitespace-nowrap">
+                        Next
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+          {activeTab === "basic" && (
+            <div className="space-y-6">
+              <h3 className="text-lg font-semibold mb-4">Basic Information</h3>
+              <div className="grid grid-cols-2 gap-x-12 gap-y-6">
+                <div>
+                  <p className="text-sm text-gray-500 mb-1">Platform</p>
+                  <p className="font-medium">Shopify</p>
+                </div>
+                <div>
+                  <p className="text-sm text-gray-500 mb-1">Title</p>
+                  <p className="font-medium">
+                    LuminaCraft – Premium Lighting Solutions
+                  </p>
+                </div>
+                <div>
+                  <p className="text-sm text-gray-500 mb-1">Meta description</p>
+                  <p className="font-medium text-gray-800">
+                    Discover premium lighting solutions for your home and
+                    office. Modern designs with exceptional quality.
+                  </p>
+                </div>
+                <div>
+                  <p className="text-sm text-gray-500 mb-1">Content Language</p>
+                  <p className="font-medium">English</p>
+                </div>
+                <div>
+                  <p className="text-sm text-gray-500 mb-1">Domain Reg Date</p>
+                  <p className="font-medium">2020-08-15</p>
+                </div>
+                <div>
+                  <p className="text-sm text-gray-500 mb-1">Country</p>
+                  <p className="font-medium">US</p>
+                </div>
+                <div>
+                  <p className="text-sm text-gray-500 mb-1">Store Location</p>
+                  <p className="font-medium">Portland, Oregon - US</p>
+                </div>
+                <div>
+                  <p className="text-sm text-gray-500 mb-1">Product Count</p>
+                  <p className="font-medium">248</p>
+                </div>
+                <div>
+                  <p className="text-sm text-gray-500 mb-1">
+                    Collections Count
+                  </p>
+                  <p className="font-medium">42</p>
+                </div>
+                <div>
+                  <p className="text-sm text-gray-500 mb-1">
+                    Product Avg Price
+                  </p>
+                  <p className="font-medium">79.95 USD</p>
+                </div>
+                <div>
+                  <p className="text-sm text-gray-500 mb-1">
+                    Latest Product Pub Date
+                  </p>
+                  <p className="font-medium">2025-05-23T14:32:18-05:00</p>
+                </div>
+                <div>
+                  <p className="text-sm text-gray-500 mb-1">Latest Product</p>
+                  <p className="font-medium text-blue-600 cursor-pointer">
+                    Modern Pendant Light with Adjustable Height - Limited
+                    Edition
+                  </p>
+                </div>
+                <div>
+                  <p className="text-sm text-gray-500 mb-1">
+                    My Shopify Domain
+                  </p>
+                  <p className="font-medium">luminacraft-store.myshopify.com</p>
+                </div>
+                <div>
+                  <p className="text-sm text-gray-500 mb-1">Theme</p>
+                  <p className="font-medium">Dawn 2.0</p>
+                </div>
+                <div>
+                  <p className="text-sm text-gray-500 mb-1">
+                    Fb Ad Count (Past 30 Days)
+                  </p>
+                  <p className="font-medium">23</p>
+                </div>
+                <div>
+                  <p className="text-sm text-gray-500 mb-1">Fb Ad Pages</p>
+                  <p className="font-medium text-blue-600 cursor-pointer">
+                    https://www.facebook.com/LuminaCraftLighting
+                  </p>
+                </div>
+                <div>
+                  <p className="text-sm text-gray-500 mb-1">Fb Ads</p>
+                  <p className="font-medium text-blue-600 cursor-pointer">
+                    https://www.facebook.com/ads/library/?active_status=all&ad_type=all&country=US&view_all_page_id=103856429876
+                  </p>
+                </div>
+                <div>
+                  <p className="text-sm text-gray-500 mb-1">Technologies</p>
+                  <div className="flex flex-wrap gap-2 mt-1">
+                    <span className="bg-blue-100 text-blue-800 text-xs px-3 py-1 rounded-full">
+                      Google Search Console
+                    </span>
+                    <span className="bg-blue-100 text-blue-800 text-xs px-3 py-1 rounded-full">
+                      Google Ads
+                    </span>
+                    <span className="bg-blue-100 text-blue-800 text-xs px-3 py-1 rounded-full">
+                      Google Analytics
+                    </span>
+                  </div>
+                </div>
+                <div>
+                  <p className="text-sm text-gray-500 mb-1">Payment Methods</p>
+                  <div className="flex flex-wrap gap-2 mt-1">
+                    <span className="bg-green-100 text-green-800 text-xs px-3 py-1 rounded-full">
+                      Shop Pay
+                    </span>
+                    <span className="bg-green-100 text-green-800 text-xs px-3 py-1 rounded-full">
+                      PayPal Express
+                    </span>
+                    <span className="bg-green-100 text-green-800 text-xs px-3 py-1 rounded-full">
+                      Apple Pay
+                    </span>
+                    <span className="bg-green-100 text-green-800 text-xs px-3 py-1 rounded-full">
+                      Google Pay
+                    </span>
+                  </div>
+                </div>
+                <div>
+                  <p className="text-sm text-gray-500 mb-1">Tags</p>
+                  <div className="flex flex-wrap gap-2 mt-1">
+                    <span className="bg-blue-100 text-blue-800 text-xs px-3 py-1 rounded-full">
+                      Online Housewares
+                    </span>
+                    <span className="bg-blue-100 text-blue-800 text-xs px-3 py-1 rounded-full">
+                      Shopify Plus
+                    </span>
+                  </div>
+                </div>
+                <div>
+                  <p className="text-sm text-gray-500 mb-1">Vendor</p>
+                  <div className="flex flex-wrap gap-2 mt-1">
+                    <span className="bg-orange-100 text-orange-800 text-xs px-3 py-1 rounded-full">
+                      LuminaCraft Co.
+                    </span>
+                    <span className="bg-orange-100 text-orange-800 text-xs px-3 py-1 rounded-full">
+                      ELCO Top 10
+                    </span>
+                    <span className="bg-orange-100 text-orange-800 text-xs px-3 py-1 rounded-full">
+                      Design Light Co.
+                    </span>
+                    <span className="bg-orange-100 text-orange-800 text-xs px-3 py-1 rounded-full">
+                      ELCO Flexible Designs
+                    </span>
+                    <button className="text-blue-600 text-xs cursor-pointer">
+                      Show More
+                    </button>
+                  </div>
+                </div>
+                <div>
+                  <p className="text-sm text-gray-500 mb-1">Product Type</p>
+                  <div className="flex flex-wrap gap-2 mt-1">
+                    <span className="bg-orange-100 text-orange-800 text-xs px-3 py-1 rounded-full">
+                      AMBIENT
+                    </span>
+                    <span className="bg-orange-100 text-orange-800 text-xs px-3 py-1 rounded-full">
+                      LIGHT
+                    </span>
+                    <span className="bg-orange-100 text-orange-800 text-xs px-3 py-1 rounded-full">
+                      DTL
+                    </span>
+                    <span className="bg-orange-100 text-orange-800 text-xs px-3 py-1 rounded-full">
+                      Clock Set
+                    </span>
+                  </div>
+                </div>
+                <div>
+                  <p className="text-sm text-gray-500 mb-1">
+                    Ships to countries
+                  </p>
+                  <div className="flex items-center">
+                    <span className="text-green-600 mr-2">•</span>
+                    <span className="font-medium">US</span>
+                  </div>
+                </div>
+                <div>
+                  <p className="text-sm text-gray-500 mb-1">Indexed Date</p>
+                  <p className="font-medium">2025-05-23</p>
+                </div>
+                <div>
+                  <p className="text-sm text-gray-500 mb-1">Updated Date</p>
+                  <p className="font-medium">2025-05-23</p>
+                </div>
+                <div className="col-span-2">
+                  <p className="text-sm text-gray-500 mb-3">Installed Apps</p>
+                  <div className="space-y-4">
+                    <div className="flex items-center">
+                      <div className="w-10 h-10 bg-blue-500 rounded flex items-center justify-center mr-3">
+                        <i className="fas fa-chart-line text-white"></i>
+                      </div>
+                      <span className="font-medium">
+                        Sales Subscriptions App
+                      </span>
+                    </div>
+                    <div className="flex items-center">
+                      <div className="w-10 h-10 bg-purple-500 rounded flex items-center justify-center mr-3">
+                        <i className="fas fa-sms text-white"></i>
+                      </div>
+                      <span className="font-medium">
+                        PostScript SMS Marketing
+                      </span>
+                    </div>
+                    <div className="flex items-center">
+                      <div className="w-10 h-10 bg-gray-800 rounded flex items-center justify-center mr-3">
+                        <i className="fas fa-star text-white"></i>
+                      </div>
+                      <span className="font-medium">
+                        Loox - Product Reviews App
+                      </span>
+                    </div>
+                  </div>
+                </div>
+                <div className="col-span-2">
+                  <h3 className="text-lg font-semibold mb-4">
+                    Contact Information
+                  </h3>
+                  <div className="grid grid-cols-2 gap-x-12 gap-y-6">
+                    <div>
+                      <p className="text-sm text-gray-500 mb-1">Facebook</p>
+                      <p className="font-medium text-blue-600 cursor-pointer">
+                        https://www.facebook.com/luminacraft (28,650 followers)
+                      </p>
+                    </div>
+                    <div>
+                      <p className="text-sm text-gray-500 mb-1">Instagram</p>
+                      <p className="font-medium text-blue-600 cursor-pointer">
+                        https://www.instagram.com/official.luminacraft (54,792
+                        followers)
+                      </p>
+                    </div>
+                    <div>
+                      <p className="text-sm text-gray-500 mb-1">Youtube</p>
+                      <p className="font-medium text-blue-600 cursor-pointer">
+                        https://www.youtube.com/channel/UCJKWVaKsYRD1BZ7ZNLx7w
+                        (6,515 followers)
+                      </p>
+                    </div>
+                    <div>
+                      <p className="text-sm text-gray-500 mb-1">Pages</p>
+                      <p className="font-medium">156</p>
+                    </div>
+                    <div>
+                      <p className="text-sm text-gray-500 mb-1">Contact</p>
+                      <p className="font-medium text-blue-600 cursor-pointer">
+                        https://www.luminacraft.com/pages/contact
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
+        {/* Pagination */}
+        <div className="flex items-center justify-center mt-8">
+          <button className="w-8 h-8 bg-blue-600 text-white rounded flex items-center justify-center mr-2 cursor-pointer !rounded-button">
+            1
+          </button>
+          <button className="w-8 h-8 bg-white text-gray-700 rounded flex items-center justify-center mr-2 cursor-pointer !rounded-button">
+            2
+          </button>
+          <button className="w-8 h-8 bg-white text-gray-700 rounded flex items-center justify-center mr-2 cursor-pointer !rounded-button">
+            3
+          </button>
+          <span className="mx-2">...</span>
+          <button className="w-8 h-8 bg-white text-gray-700 rounded flex items-center justify-center mr-2 cursor-pointer !rounded-button">
+            233
+          </button>
+          <button className="w-8 h-8 bg-white text-gray-700 rounded flex items-center justify-center cursor-pointer !rounded-button">
+            234
+          </button>
+        </div>
+      </div>
+    </div>
+</body>
+</html>
