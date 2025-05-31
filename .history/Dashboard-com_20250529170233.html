@@ -1,0 +1,957 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>BootLeads Dashboard</title>
+    <script src="https://cdn.tailwindcss.com/3.4.16"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: { primary: "#1E3A8A", secondary: "#5BC0EB" },
+            borderRadius: {
+              none: "0px",
+              sm: "4px",
+              DEFAULT: "8px",
+              md: "12px",
+              lg: "16px",
+              xl: "20px",
+              "2xl": "24px",
+              "3xl": "32px",
+              full: "9999px",
+              button: "8px",
+            },
+          },
+        },
+      };
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css"
+    />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/5.5.0/echarts.min.js"></script>
+    <style>
+      :where([class^="ri-"])::before {
+        content: "\f3c2";
+      }
+      body {
+        font-family: "Inter", sans-serif;
+        background-color: #f9fafb;
+      }
+      .glassmorphism {
+        background: rgba(255, 255, 255, 0.8);
+        backdrop-filter: blur(8px);
+        border: 1px solid rgba(255, 255, 255, 0.3);
+      }
+      input:focus {
+        outline: none;
+      }
+      .sidebar-expanded {
+        width: 240px;
+        transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+      .sidebar-collapsed {
+        width: 80px;
+        transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+      .main-content-expanded {
+        margin-left: 240px;
+        transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+      .main-content-collapsed {
+        margin-left: 80px;
+        transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+      @media (max-width: 768px) {
+        .main-content-expanded,
+        .main-content-collapsed {
+          margin-left: 0;
+        }
+      }
+      .custom-switch {
+        position: relative;
+        display: inline-block;
+        width: 44px;
+        height: 24px;
+      }
+      .custom-switch input {
+        opacity: 0;
+        width: 0;
+        height: 0;
+      }
+      .slider {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: #e2e8f0;
+        transition: 0.4s;
+        border-radius: 24px;
+      }
+      .slider:before {
+        position: absolute;
+        content: "";
+        height: 18px;
+        width: 18px;
+        left: 3px;
+        bottom: 3px;
+        background-color: white;
+        transition: 0.4s;
+        border-radius: 50%;
+      }
+      input:checked + .slider {
+        background-color: #3b82f6;
+      }
+      input:checked + .slider:before {
+        transform: translateX(20px);
+      }
+      /* Add styles for multi-selects and checkboxes if needed */
+      .multi-select {
+        min-width: 160px;
+      }
+      .filter-group {
+        margin-bottom: 1.5rem;
+      }
+      .filter-label {
+        font-weight: 500;
+        margin-bottom: 0.25rem;
+        display: block;
+      }
+      .filter-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;
+      }
+      .filter-col {
+        flex: 1 1 200px;
+        min-width: 200px;
+      }
+      .tld-checkboxes label {
+        margin-right: 1rem;
+      }
+      .display-dropdown {
+        min-width: 260px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="flex h-screen bg-gray-50">
+      <!-- Sidebar -->
+      <div
+        id="sidebar"
+        class="sidebar-expanded fixed h-full bg-white shadow-lg z-20 transition-all duration-700 ease-in-out"
+      >
+        <div class="flex flex-col h-full">
+          <!-- Logo -->
+          <div class="p-4 border-b flex items-center justify-center relative">
+            <img
+              src="logo-icon.png"
+              alt="Logo"
+              id="sidebar-logo-img"
+              class="w-8 h-8 mr-0 hidden"
+            />
+            <h1
+              id="sidebar-logo-text"
+              class="font-['Pacifico'] text-2xl text-primary"
+            >
+              Sales-Spy
+            </h1>
+            <!-- Mobile-only collapse button -->
+            <button
+              id="sidebar-mobile-close"
+              class="absolute right-2 top-2 p-2 rounded-full hover:bg-gray-100 md:hidden"
+              style="display: none;"
+              aria-label="Close sidebar"
+            >
+              <i class="ri-close-line text-xl"></i>
+            </button>
+          </div>
+          <!-- Navigation -->
+          <nav class="flex-1 overflow-y-auto py-4">
+            <ul>
+              <li class="mb-2">
+                <a
+                  href="Dashboard-home.html"
+                  class="flex items-center px-4 py-3 text-gray-600 hover:bg-gray-100 rounded-r-lg hover:text-primary transition-colors"
+                >
+                  <div class="w-6 h-6 flex items-center justify-center mr-3">
+                    <i class="ri-dashboard-line"></i>
+                  </div>
+                  <span class="sidebar-text">Dashboard</span>
+                </a>
+              </li>
+              <li class="mb-2">
+                <a
+                  href="Dashboard-web.html"
+                  class="flex items-center px-4 py-3 text-primary bg-blue-50 rounded-r-lg border-l-4 border-primary"
+                >
+                  <div class="w-6 h-6 flex items-center justify-center mr-3">
+                    <i class="ri-global-line"></i>
+                  </div>
+                  <span class="sidebar-text">Websites</span>
+                </a>
+              </li>
+              <li class="mb-2">
+                <a
+                  href="#"
+                  class="flex items-center px-4 py-3 text-gray-600 hover:bg-gray-100 rounded-r-lg hover:text-primary transition-colors"
+                >
+                  <div class="w-6 h-6 flex items-center justify-center mr-3">
+                    <i class="ri-shopping-cart-line"></i>
+                  </div>
+                  <span class="sidebar-text">E-commerce</span>
+                </a>
+              </li>
+              <li class="mb-2">
+                <a
+                  href="Dashboard-pay.html"
+                  class="flex items-center px-4 py-3 text-gray-600 hover:bg-gray-100 rounded-r-lg hover:text-primary transition-colors"
+                >
+                  <div class="w-6 h-6 flex items-center justify-center mr-3">
+                    <i class="ri-bank-card-line"></i>
+                  </div>
+                  <span class="sidebar-text">Payment</span>
+                </a>
+              </li>
+              <li class="mb-2">
+                <a
+                  href="Dashboard-set.html"
+                  class="flex items-center px-4 py-3 text-gray-600 hover:bg-gray-100 rounded-r-lg hover:text-primary transition-colors"
+                >
+                  <div class="w-6 h-6 flex items-center justify-center mr-3">
+                    <i class="ri-settings-line"></i>
+                  </div>
+                  <span class="sidebar-text">Settings</span>
+                </a>
+              </li>
+            </ul>
+          </nav>
+          <!-- Upgrade section -->
+          <div id="upgrade-section" class="p-4 border-t">
+            <div id="upgrade-expanded" class="bg-gray-50 rounded-lg p-4 mb-3">
+              <p class="text-sm text-gray-600 mb-2">Credits remaining</p>
+              <div class="flex items-center justify-between">
+                <span class="font-semibold text-lg">1,250</span>
+                <span class="text-xs text-gray-500">of 2,000</span>
+              </div>
+              <div class="w-full bg-gray-200 rounded-full h-2 mt-2">
+                <div
+                  class="bg-primary rounded-full h-2"
+                  style="width: 62.5%"
+                ></div>
+              </div>
+            </div>
+            <button
+              id="upgrade-btn-expanded"
+              class="w-full bg-primary text-white py-2 px-4 rounded-button flex items-center justify-center whitespace-nowrap hover:bg-blue-600 transition-colors"
+            >
+              <div class="w-5 h-5 flex items-center justify-center mr-2">
+                <i class="ri-arrow-up-line"></i>
+              </div>
+              <span>Upgrade Plan</span>
+            </button>
+            <button
+              id="upgrade-btn-collapsed"
+              class="hidden bg-primary text-white w-10 h-10 rounded-full flex items-center justify-center mx-auto mt-2 hover:bg-blue-600 transition-colors"
+              title="Upgrade"
+            >
+              <i class="ri-arrow-up-line"></i>
+            </button>
+          </div>
+          <script>
+            document.addEventListener("DOMContentLoaded", function () {
+              const sidebar = document.getElementById("sidebar");
+              const upgradeExpanded =
+                document.getElementById("upgrade-expanded");
+              const upgradeBtnExpanded = document.getElementById(
+                "upgrade-btn-expanded"
+              );
+              const upgradeBtnCollapsed = document.getElementById(
+                "upgrade-btn-collapsed"
+              );
+              const logoImg = document.getElementById("sidebar-logo-img");
+              const logoText = document.getElementById("sidebar-logo-text");
+
+              function updateUpgradeSection() {
+                if (sidebar.classList.contains("sidebar-collapsed")) {
+                  upgradeExpanded.style.display = "none";
+                  upgradeBtnExpanded.style.display = "none";
+                  upgradeBtnCollapsed.classList.remove("hidden");
+                } else {
+                  upgradeExpanded.style.display = "";
+                  upgradeBtnExpanded.style.display = "";
+                  upgradeBtnCollapsed.classList.add("hidden");
+                }
+              }
+
+              function updateLogo() {
+                if (sidebar.classList.contains("sidebar-collapsed")) {
+                  logoImg.classList.remove("hidden");
+                  logoText.classList.add("hidden");
+                } else {
+                  logoImg.classList.add("hidden");
+                  logoText.classList.remove("hidden");
+                }
+              }
+
+              // Initial state
+              updateUpgradeSection();
+              updateLogo();
+
+              // Listen for sidebar toggle
+              const sidebarToggle = document.getElementById("sidebar-toggle");
+              sidebarToggle.addEventListener("click", function () {
+                setTimeout(() => {
+                  updateUpgradeSection();
+                  updateLogo();
+                }, 310); // Wait for transition
+              });
+
+              // Also update on resize (for responsive)
+              window.addEventListener("resize", function () {
+                setTimeout(() => {
+                  updateUpgradeSection();
+                  updateLogo();
+                }, 310);
+              });
+            });
+          </script>
+        </div>
+      </div>
+
+      <!-- Main Content -->
+      <div
+        id="main-content"
+        class="main-content-expanded flex-1 transition-all duration-700 ease-in-out overflow-x-auto"
+      >
+        <!-- Header -->
+        <header class="bg-white shadow-sm sticky top-0 z-10">
+          <div class="flex items-center justify-between px-6 py-4">
+            <div class="flex items-center">
+              <button
+                id="sidebar-toggle"
+                class="p-2 rounded-full hover:bg-gray-100 mr-4"
+              >
+                <div class="w-5 h-5 flex items-center justify-center">
+                  <i class="ri-menu-line"></i>
+                </div>
+              </button>
+            </div>
+            <div class="flex items-center space-x-4">
+              <div class="flex items-center bg-gray-100 rounded-full px-3 py-1">
+                <div
+                  class="w-5 h-5 flex items-center justify-center mr-2 text-primary"
+                >
+                  <i class="ri-coin-line"></i>
+                </div>
+                <span class="text-sm font-medium">1,250 credits</span>
+              </div>
+              <button
+                class="bg-primary text-white py-2 px-4 rounded-button whitespace-nowrap hover:bg-blue-600 transition-colors"
+              >
+                <span>Upgrade</span>
+              </button>
+              <div class="relative">
+                <button class="flex items-center space-x-2">
+                  <div
+                    class="w-10 h-10 rounded-full bg-gray-200 flex items-center justify-center overflow-hidden"
+                  >
+                    <img
+                      src="https://readdy.ai/api/search-image?query=professional%20headshot%20of%20a%20young%20business%20person%2C%20neutral%20expression%2C%20high%20quality%20portrait%2C%20business%20attire&width=200&height=200&seq=1&orientation=squarish"
+                      alt="User avatar"
+                      class="w-full h-full object-cover"
+                    />
+                  </div>
+                </button>
+              </div>
+            </div>
+          </div>
+        </header>
+
+        <!-- Content -->
+        <main class="flex-1 p-6">
+          <div class="mb-6">
+            <h1 class="text-2xl font-bold text-gray-800 mb-2">Websites</h1>
+            <p class="text-gray-600">
+              Search, filter, and discover website leads for your business.
+            </p>
+          </div>
+          <!-- FILTERS SECTION -->
+          <form
+            id="websiteFilterForm"
+            class="bg-white rounded shadow-sm mb-6 p-4"
+            autocomplete="off"
+          >
+            <div class="filter-group">
+              <div class="filter-row">
+                <div class="filter-col">
+                  <label for="filter-keywords" class="filter-label">Keywords</label>
+                  <input
+                    type="text"
+                    id="filter-keywords"
+                    name="keywords"
+                    class="w-full px-3 py-2 border border-gray-300 rounded text-sm"
+                    placeholder="Enter keywords..."
+                  />
+                </div>
+                <div class="filter-col">
+                  <label for="filter-platform" class="filter-label">Platform</label>
+                  <select
+                    id="filter-platform"
+                    name="platform"
+                    class="w-full px-3 py-2 border border-gray-300 rounded text-sm"
+                  >
+                    <option value="">All Platforms</option>
+                    <option value="shopify">Shopify</option>
+                    <option value="wordpress">WordPress</option>
+                    <option value="custom">Custom</option>
+                    <option value="wix">Wix</option>
+                  </select>
+                </div>
+                <div class="filter-col">
+                  <label class="filter-label">SNS & Email</label>
+                  <div>
+                    <label>
+                      <input type="checkbox" name="sns_email[]" value="facebook" />
+                      Facebook
+                    </label>
+                    <label>
+                      <input type="checkbox" name="sns_email[]" value="instagram" />
+                      Instagram
+                    </label>
+                    <label>
+                      <input type="checkbox" name="sns_email[]" value="twitter" />
+                      Twitter
+                    </label>
+                    <label>
+                      <input type="checkbox" name="sns_email[]" value="email" />
+                      Email
+                    </label>
+                  </div>
+                </div>
+                <div class="filter-col">
+                  <label class="filter-label">Index Date</label>
+                  <div class="flex gap-2">
+                    <input
+                      type="date"
+                      id="filter-indexed-from"
+                      name="indexed_from"
+                      class="w-full px-3 py-2 border border-gray-300 rounded text-sm"
+                      placeholder="From"
+                    />
+                    <input
+                      type="date"
+                      id="filter-indexed-to"
+                      name="indexed_to"
+                      class="w-full px-3 py-2 border border-gray-300 rounded text-sm"
+                      placeholder="To"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="filter-group">
+              <div class="filter-row">
+                <div class="filter-col">
+                  <label for="filter-tags" class="filter-label">Tags</label>
+                  <select
+                    id="filter-tags"
+                    name="tags[]"
+                    class="w-full px-3 py-2 border border-gray-300 rounded text-sm multi-select"
+                    multiple
+                  >
+                    <option value="fashion">Fashion</option>
+                    <option value="electronics">Electronics</option>
+                    <option value="home">Home & Garden</option>
+                    <option value="beauty">Beauty</option>
+                    <option value="pets">Pets</option>
+                  </select>
+                </div>
+                <div class="filter-col">
+                  <label for="filter-language" class="filter-label">Language</label>
+                  <select
+                    id="filter-language"
+                    name="language"
+                    class="w-full px-3 py-2 border border-gray-300 rounded text-sm"
+                  >
+                    <option value="">All Languages</option>
+                    <option value="en">English</option>
+                    <option value="es">Spanish</option>
+                    <option value="fr">French</option>
+                    <option value="de">German</option>
+                    <option value="zh">Chinese</option>
+                  </select>
+                </div>
+                <div class="filter-col">
+                  <label for="filter-country" class="filter-label">Country</label>
+                  <select
+                    id="filter-country"
+                    name="country"
+                    class="w-full px-3 py-2 border border-gray-300 rounded text-sm"
+                  >
+                    <option value="">All Countries</option>
+                    <option value="us">United States</option>
+                    <option value="uk">United Kingdom</option>
+                    <option value="ca">Canada</option>
+                    <option value="au">Australia</option>
+                    <option value="de">Germany</option>
+                  </select>
+                </div>
+                <div class="filter-col">
+                  <label class="filter-label">Pages</label>
+                  <div class="flex gap-2">
+                    <input
+                      type="number"
+                      id="filter-pages-min"
+                      name="pages_min"
+                      class="w-full px-3 py-2 border border-gray-300 rounded text-sm"
+                      placeholder="Min"
+                      min="1"
+                    />
+                    <input
+                      type="number"
+                      id="filter-pages-max"
+                      name="pages_max"
+                      class="w-full px-3 py-2 border border-gray-300 rounded text-sm"
+                      placeholder="Max"
+                      min="1"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="filter-group">
+              <div class="filter-row">
+                <div class="filter-col">
+                  <label class="filter-label">Top-Level Domains</label>
+                  <div class="tld-checkboxes">
+                    <label>
+                      <input type="checkbox" name="tld[]" value=".com" /> .com
+                    </label>
+                    <label>
+                      <input type="checkbox" name="tld[]" value=".org" /> .org
+                    </label>
+                    <label>
+                      <input type="checkbox" name="tld[]" value=".net" /> .net
+                    </label>
+                    <label>
+                      <input type="checkbox" name="tld[]" value=".io" /> .io
+                    </label>
+                    <label>
+                      <input type="checkbox" name="tld[]" value=".co" /> .co
+                    </label>
+                  </div>
+                </div>
+                <div class="filter-col">
+                  <label for="filter-technologies" class="filter-label"
+                    >Technologies Used</label
+                  >
+                  <select
+                    id="filter-technologies"
+                    name="technologies[]"
+                    class="w-full px-3 py-2 border border-gray-300 rounded text-sm multi-select"
+                    multiple
+                  >
+                    <option value="react">React</option>
+                    <option value="vue">Vue.js</option>
+                    <option value="angular">Angular</option>
+                    <option value="jquery">jQuery</option>
+                    <option value="bootstrap">Bootstrap</option>
+                  </select>
+                </div>
+                <div class="filter-col">
+                  <label for="filter-apps" class="filter-label">Installed Apps</label>
+                  <select
+                    id="filter-apps"
+                    name="apps[]"
+                    class="w-full px-3 py-2 border border-gray-300 rounded text-sm multi-select"
+                    multiple
+                  >
+                    <option value="analytics">Google Analytics</option>
+                    <option value="hotjar">Hotjar</option>
+                    <option value="intercom">Intercom</option>
+                    <option value="mailchimp">Mailchimp</option>
+                    <option value="zendesk">Zendesk</option>
+                  </select>
+                </div>
+                <div class="filter-col">
+                  <label class="filter-label">Domain Records</label>
+                  <div>
+                    <label>
+                      <input type="checkbox" name="domain_records[]" value="dnssec" />
+                      DNSSEC
+                    </label>
+                    <label>
+                      <input type="checkbox" name="domain_records[]" value="whois-privacy" />
+                      WHOIS Privacy
+                    </label>
+                    <label>
+                      <input type="checkbox" name="domain_records[]" value="ssl" />
+                      SSL
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="flex mt-6">
+              <button
+                type="submit"
+                class="bg-primary text-white px-6 py-2 rounded-button flex items-center whitespace-nowrap mr-3"
+              >
+                <div class="w-5 h-5 flex items-center justify-center mr-2">
+                  <i class="ri-search-line"></i>
+                </div>
+                Search
+              </button>
+              <button
+                type="reset"
+                class="bg-gray-100 text-gray-700 px-6 py-2 rounded-button whitespace-nowrap"
+              >
+                Reset
+              </button>
+            </div>
+          </form>
+          <!-- RESULTS SECTION -->
+          <div class="bg-white rounded shadow-sm">
+            <div class="p-4 border-b border-gray-100 flex justify-between items-center">
+              <div class="text-sm text-gray-600" id="resultsCount">
+                Found 9,999 Websites
+              </div>
+              <div class="flex items-center">
+                <button
+                  id="display-columns-btn"
+                  class="bg-gray-100 text-gray-700 px-3 py-1.5 rounded-button text-sm whitespace-nowrap relative focus:outline-none"
+                  type="button"
+                  aria-haspopup="true"
+                  aria-expanded="false"
+                >
+                  <div class="flex items-center">
+                    <div class="w-4 h-4 flex items-center justify-center mr-1">
+                      <i class="ri-list-check"></i>
+                    </div>
+                    Display
+                  </div>
+                </button>
+                <div
+                  id="columns-dropdown"
+                  class="hidden absolute right-0 mt-2 z-30 w-72 bg-white border border-gray-200 rounded-lg shadow-lg p-3 max-h-80 overflow-y-auto transition-all duration-200 display-dropdown"
+                  tabindex="-1"
+                  aria-label="Column visibility menu"
+                >
+                  <form id="columns-dropdown-form" class="flex flex-col gap-2">
+                    <!-- Checkbox items will be injected here by JS -->
+                  </form>
+                </div>
+              </div>
+            </div>
+            <div class="overflow-x-auto">
+              <table id="resultsTable" class="min-w-full divide-y divide-gray-200">
+                <thead class="bg-gray-50">
+                  <tr>
+                    <th data-col="domain">Domain</th>
+                    <th data-col="platform">Platform</th>
+                    <th data-col="title">Title</th>
+                    <th data-col="description">Description</th>
+                    <th data-col="language">Language</th>
+                    <th data-col="country">Country</th>
+                    <th data-col="pages">Pages</th>
+                    <th data-col="tld">Top-Level Domain</th>
+                    <th data-col="email">Email</th>
+                    <th data-col="phone">Phone</th>
+                    <th data-col="whatsapp">WhatsApp</th>
+                    <th data-col="technologies">Technologies Used</th>
+                    <th data-col="apps">Installed Apps</th>
+                    <th data-col="domain-records">Domain Records</th>
+                    <th data-col="domain-release-date">Domain Release Date</th>
+                    <th data-col="index-date">Index Date</th>
+                    <th data-col="facebook-link">Facebook Link</th>
+                    <th data-col="instagram-link">Instagram Link</th>
+                    <th data-col="twitter-link">Twitter Link</th>
+                    <th data-col="pinterest-link">Pinterest Link</th>
+                    <th data-col="tiktok-link">TikTok Link</th>
+                    <th data-col="youtube-link">YouTube Link</th>
+                    <th data-col="facebook-followers">Facebook Followers</th>
+                    <th data-col="instagram-followers">Instagram Followers</th>
+                    <th data-col="pinterest-followers">Pinterest Followers</th>
+                    <th data-col="youtube-followers">YouTube Followers</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <!-- Example row, repeat for each website. Use data-json for full data -->
+                  <tr
+                    class="result-row cursor-pointer hover:bg-gray-50"
+                    data-json='{"domain":"yamloveme.com","platform":"Shopify","title":"yamloveme","description":"Trendy jewelry and accessories","language":"EN","country":"US","pages":12,"tld":".com","email":"contact@yamloveme.com","phone":"+1 555-5678","whatsapp":"+1 555-1234","technologies":["React","Bootstrap"],"apps":["Google Analytics","Mailchimp"],"domainRecords":["DNSSEC","SSL"],"domainReleaseDate":"2019-04-12","indexDate":"2024-06-01","facebookLink":"facebook.com/yamloveme","instagramLink":"instagram.com/yamloveme","twitterLink":"twitter.com/yamloveme","pinterestLink":"pinterest.com/yamloveme","tiktokLink":"tiktok.com/@yamloveme","youtubeLink":"youtube.com/yamloveme","facebookFollowers":2100,"instagramFollowers":5400,"pinterestFollowers":1200,"youtubeFollowers":800}'
+                  >
+                    <td data-col="domain">yamloveme.com</td>
+                    <td data-col="platform">Shopify</td>
+                    <td data-col="title">yamloveme</td>
+                    <td data-col="description">Trendy jewelry and accessories</td>
+                    <td data-col="language">EN</td>
+                    <td data-col="country">US</td>
+                    <td data-col="pages">12</td>
+                    <td data-col="tld">.com</td>
+                    <td data-col="email">contact@yamloveme.com</td>
+                    <td data-col="phone">+1 555-5678</td>
+                    <td data-col="whatsapp">+1 555-1234</td>
+                    <td data-col="technologies">React, Bootstrap</td>
+                    <td data-col="apps">Google Analytics, Mailchimp</td>
+                    <td data-col="domain-records">DNSSEC, SSL</td>
+                    <td data-col="domain-release-date">2019-04-12</td>
+                    <td data-col="index-date">2024-06-01</td>
+                    <td data-col="facebook-link">
+                      <a
+                        href="https://facebook.com/yamloveme"
+                        target="_blank"
+                        >facebook.com/yamloveme</a
+                      >
+                    </td>
+                    <td data-col="instagram-link">
+                      <a
+                        href="https://instagram.com/yamloveme"
+                        target="_blank"
+                        >instagram.com/yamloveme</a
+                      >
+                    </td>
+                    <td data-col="twitter-link">
+                      <a
+                        href="https://twitter.com/yamloveme"
+                        target="_blank"
+                        >twitter.com/yamloveme</a
+                      >
+                    </td>
+                    <td data-col="pinterest-link">
+                      <a
+                        href="https://pinterest.com/yamloveme"
+                        target="_blank"
+                        >pinterest.com/yamloveme</a
+                      >
+                    </td>
+                    <td data-col="tiktok-link">
+                      <a
+                        href="https://tiktok.com/@yamloveme"
+                        target="_blank"
+                        >tiktok.com/@yamloveme</a
+                      >
+                    </td>
+                    <td data-col="youtube-link">
+                      <a
+                        href="https://youtube.com/yamloveme"
+                        target="_blank"
+                        >youtube.com/yamloveme</a
+                      >
+                    </td>
+                    <td data-col="facebook-followers">2100</td>
+                    <td data-col="instagram-followers">5400</td>
+                    <td data-col="pinterest-followers">1200</td>
+                    <td data-col="youtube-followers">800</td>
+                  </tr>
+                  <!-- ...repeat for other rows... -->
+                </tbody>
+              </table>
+            </div>
+            <!-- ...pagination if needed... -->
+          </div>
+        </main>
+      </div>
+    </div>
+    <!-- DETAILS PANEL -->
+    <div id="detailsPanel"
+      class="fixed top-0 right-0 z-50 h-full w-[750px] max-w-full bg-white shadow-lg transform translate-x-full transition-transform duration-300 overflow-y-auto">
+      <button id="detailsPanelCloseBtn"
+        class="absolute top-4 left-4 z-10 p-2 rounded-full bg-gray-100 hover:bg-gray-200 text-gray-500 hover:text-gray-700 focus:outline-none"
+        title="Close panel" type="button">
+        <i class="ri-close-line text-xl"></i>
+      </button>
+      <div id="detailsContent" class="p-0"></div>
+    </div>
+    <!-- JS LOGIC -->
+    <script>
+      // --- COLUMN DISPLAY CONTROL ---
+      const columnsConfig = [
+        { key: "domain", label: "Domain", checked: true },
+        { key: "platform", label: "Platform", checked: true },
+        { key: "title", label: "Title", checked: true },
+        { key: "description", label: "Description", checked: true },
+        { key: "language", label: "Language", checked: false },
+        { key: "country", label: "Country", checked: false },
+        { key: "pages", label: "Pages", checked: false },
+        { key: "tld", label: "Top-Level Domain", checked: false },
+        { key: "email", label: "Email", checked: false },
+        { key: "phone", label: "Phone", checked: false },
+        { key: "whatsapp", label: "WhatsApp", checked: false },
+        { key: "technologies", label: "Technologies Used", checked: false },
+        { key: "apps", label: "Installed Apps", checked: false },
+        { key: "domain-records", label: "Domain Records", checked: false },
+        { key: "domain-release-date", label: "Domain Release Date", checked: false },
+        { key: "index-date", label: "Index Date", checked: false },
+        { key: "facebook-link", label: "Facebook Link", checked: false },
+        { key: "instagram-link", label: "Instagram Link", checked: false },
+        { key: "twitter-link", label: "Twitter Link", checked: false },
+        { key: "pinterest-link", label: "Pinterest Link", checked: false },
+        { key: "tiktok-link", label: "TikTok Link", checked: false },
+        { key: "youtube-link", label: "YouTube Link", checked: false },
+        { key: "facebook-followers", label: "Facebook Followers", checked: false },
+        { key: "instagram-followers", label: "Instagram Followers", checked: false },
+        { key: "pinterest-followers", label: "Pinterest Followers", checked: false },
+        { key: "youtube-followers", label: "YouTube Followers", checked: false }
+      ];
+      function renderColumnsDropdown() {
+        const form = document.getElementById("columns-dropdown-form");
+        form.innerHTML = "";
+        columnsConfig.forEach(col => {
+          const id = `col-toggle-${col.key}`;
+          const label = document.createElement("label");
+          label.className = "flex items-center gap-2 cursor-pointer px-1 py-1 rounded hover:bg-gray-50";
+          label.setAttribute("for", id);
+          const checkbox = document.createElement("input");
+          checkbox.type = "checkbox";
+          checkbox.id = id;
+          checkbox.className = "column-toggle form-checkbox h-4 w-4 text-primary";
+          checkbox.dataset.columnKey = col.key;
+          checkbox.checked = col.checked;
+          const span = document.createElement("span");
+          span.textContent = col.label;
+          span.className = "text-sm text-gray-700";
+          label.appendChild(checkbox);
+          label.appendChild(span);
+          form.appendChild(label);
+        });
+      }
+      function setColumnVisibility(key, visible) {
+        document.querySelectorAll(`[data-col="${key}"]`).forEach(cell => {
+          cell.style.display = visible ? "" : "none";
+        });
+      }
+      function applyColumnVisibility() {
+        columnsConfig.forEach(col => setColumnVisibility(col.key, col.checked));
+      }
+      document.addEventListener("DOMContentLoaded", function () {
+        // Display dropdown logic
+        renderColumnsDropdown();
+        applyColumnVisibility();
+        const displayBtn = document.getElementById("display-columns-btn");
+        const dropdown = document.getElementById("columns-dropdown");
+        const dropdownForm = document.getElementById("columns-dropdown-form");
+        displayBtn.addEventListener("click", function (e) {
+          e.stopPropagation();
+          dropdown.classList.toggle("hidden");
+          displayBtn.setAttribute("aria-expanded", !dropdown.classList.contains("hidden"));
+        });
+        document.addEventListener("mousedown", function (e) {
+          if (!dropdown.contains(e.target) && !displayBtn.contains(e.target)) dropdown.classList.add("hidden");
+        });
+        dropdownForm.addEventListener("change", function (e) {
+          if (e.target.classList.contains("column-toggle")) {
+            const key = e.target.dataset.columnKey;
+            const checked = e.target.checked;
+            const col = columnsConfig.find(c => c.key === key);
+            if (col) col.checked = checked;
+            setColumnVisibility(key, checked);
+          }
+        });
+      });
+    </script>
+    <script>
+      // --- FILTER LOGIC (frontend only, mock) ---
+      document.getElementById("websiteFilterForm").addEventListener("submit", function (e) {
+        e.preventDefault();
+        // Example: filter logic (mock, for demo)
+        // In production, collect form data and filter rows accordingly
+        // For now, just close details panel and reset count
+        document.getElementById("detailsPanel").classList.add("translate-x-full");
+        document.getElementById("detailsContent").innerHTML = "";
+        // Optionally, update #resultsCount
+        // document.getElementById("resultsCount").textContent = "Found X Websites";
+      });
+      document.getElementById("websiteFilterForm").addEventListener("reset", function () {
+        setTimeout(() => {
+          document.getElementById("detailsPanel").classList.add("translate-x-full");
+          document.getElementById("detailsContent").innerHTML = "";
+        }, 10);
+      });
+    </script>
+    <script>
+      // --- DETAILS PANEL LOGIC ---
+      function renderDetailsPanel(data) {
+        // Overview, Metadata, Contact, Technology, Domain, Social
+        return `
+<div class="p-6">
+  <h2 class="text-2xl font-bold mb-2">${data.domain || ""}</h2>
+  <div class="mb-4 text-gray-600">${data.title || ""}</div>
+  <div class="mb-6">${data.description || ""}</div>
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <div>
+      <h3 class="font-semibold mb-2">Metadata</h3>
+      <div><b>Platform:</b> ${data.platform || ""}</div>
+      <div><b>Language:</b> ${data.language || ""}</div>
+      <div><b>Country:</b> ${data.country || ""}</div>
+      <div><b>Pages:</b> ${data.pages || ""}</div>
+      <div><b>Top-Level Domain:</b> ${data.tld || ""}</div>
+    </div>
+    <div>
+      <h3 class="font-semibold mb-2">Contact Info</h3>
+      <div><b>Email:</b> ${data.email || ""}</div>
+      <div><b>Phone:</b> ${data.phone || ""}</div>
+      <div><b>WhatsApp:</b> ${data.whatsapp || ""}</div>
+    </div>
+    <div>
+      <h3 class="font-semibold mb-2">Technology Stack</h3>
+      <div><b>Technologies Used:</b> ${(data.technologies||[]).join(", ")}</div>
+      <div><b>Installed Apps:</b> ${(data.apps||[]).join(", ")}</div>
+    </div>
+    <div>
+      <h3 class="font-semibold mb-2">Domain Info</h3>
+      <div><b>Domain Records:</b> ${(data.domainRecords||[]).join(", ")}</div>
+      <div><b>Domain Release Date:</b> ${data.domainReleaseDate || ""}</div>
+      <div><b>Index Date:</b> ${data.indexDate || ""}</div>
+    </div>
+    <div>
+      <h3 class="font-semibold mb-2">Social Presence</h3>
+      <div><b>Facebook:</b> <a href="https://${data.facebookLink||'#'}" target="_blank">${data.facebookLink||""}</a> (${data.facebookFollowers||0} followers)</div>
+      <div><b>Instagram:</b> <a href="https://${data.instagramLink||'#'}" target="_blank">${data.instagramLink||""}</a> (${data.instagramFollowers||0} followers)</div>
+      <div><b>Twitter:</b> <a href="https://${data.twitterLink||'#'}" target="_blank">${data.twitterLink||""}</a></div>
+      <div><b>Pinterest:</b> <a href="https://${data.pinterestLink||'#'}" target="_blank">${data.pinterestLink||""}</a> (${data.pinterestFollowers||0} followers)</div>
+      <div><b>TikTok:</b> <a href="https://${data.tiktokLink||'#'}" target="_blank">${data.tiktokLink||""}</a></div>
+      <div><b>YouTube:</b> <a href="https://${data.youtubeLink||'#'}" target="_blank">${data.youtubeLink||""}</a> (${data.youtubeFollowers||0} followers)</div>
+    </div>
+  </div>
+</div>
+        `;
+      }
+      document.addEventListener("DOMContentLoaded", function () {
+        const detailsPanel = document.getElementById("detailsPanel");
+        const detailsContent = document.getElementById("detailsContent");
+        document.getElementById("resultsTable").addEventListener("click", function (e) {
+          const row = e.target.closest(".result-row");
+          if (!row) return;
+          const data = JSON.parse(row.getAttribute("data-json"));
+          detailsContent.innerHTML = renderDetailsPanel(data);
+          detailsPanel.classList.remove("translate-x-full");
+          detailsPanel.classList.add("translate-x-0");
+        });
+        document.getElementById("detailsPanelCloseBtn").onclick = function () {
+          detailsPanel.classList.remove("translate-x-0");
+          detailsPanel.classList.add("translate-x-full");
+          detailsContent.innerHTML = "";
+        };
+        document.addEventListener("mousedown", function (e) {
+          if (!detailsPanel.contains(e.target) && !e.target.closest(".result-row")) {
+            detailsPanel.classList.remove("translate-x-0");
+            detailsPanel.classList.add("translate-x-full");
+            detailsContent.innerHTML = "";
+          }
+        });
+      });
+    </script>
+    <!-- ...existing code for sidebar, etc... -->
+  </body>
+</html>

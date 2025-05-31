@@ -1,0 +1,1321 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>BootLeads Dashboard</title>
+    <script src="https://cdn.tailwindcss.com/3.4.16"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: { primary: "#1E3A8A", secondary: "#5BC0EB" },
+            borderRadius: {
+              none: "0px",
+              sm: "4px",
+              DEFAULT: "8px",
+              md: "12px",
+              lg: "16px",
+              xl: "20px",
+              "2xl": "24px",
+              "3xl": "32px",
+              full: "9999px",
+              button: "8px",
+            },
+          },
+        },
+      };
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.6.0/remixicon.min.css"
+    />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/5.5.0/echarts.min.js"></script>
+    <style>
+      :where([class^="ri-"])::before {
+        content: "\f3c2";
+      }
+      body {
+        font-family: "Inter", sans-serif;
+        background-color: #f9fafb;
+      }
+      .glassmorphism {
+        background: rgba(255, 255, 255, 0.8);
+        backdrop-filter: blur(8px);
+        border: 1px solid rgba(255, 255, 255, 0.3);
+      }
+      input:focus {
+        outline: none;
+      }
+      .sidebar-expanded {
+        width: 240px;
+        transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+      .sidebar-collapsed {
+        width: 80px;
+        transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+      .main-content-expanded {
+        margin-left: 240px;
+        transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+      .main-content-collapsed {
+        margin-left: 80px;
+        transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+      @media (max-width: 768px) {
+        .main-content-expanded,
+        .main-content-collapsed {
+          margin-left: 0;
+        }
+      }
+      .custom-switch {
+        position: relative;
+        display: inline-block;
+        width: 44px;
+        height: 24px;
+      }
+      .custom-switch input {
+        opacity: 0;
+        width: 0;
+        height: 0;
+      }
+      .slider {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: #e2e8f0;
+        transition: 0.4s;
+        border-radius: 24px;
+      }
+      .slider:before {
+        position: absolute;
+        content: "";
+        height: 18px;
+        width: 18px;
+        left: 3px;
+        bottom: 3px;
+        background-color: white;
+        transition: 0.4s;
+        border-radius: 50%;
+      }
+      input:checked + .slider {
+        background-color: #3b82f6;
+      }
+      input:checked + .slider:before {
+        transform: translateX(20px);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="flex h-screen bg-gray-50">
+      <!-- Sidebar -->
+      <div
+        id="sidebar"
+        class="sidebar-expanded fixed h-full bg-white shadow-lg z-20 transition-all duration-700 ease-in-out"
+      >
+        <div class="flex flex-col h-full">
+          <!-- Logo -->
+          <div class="p-4 border-b flex items-center justify-center relative">
+            <img
+              src="logo-icon.png"
+              alt="Logo"
+              id="sidebar-logo-img"
+              class="w-8 h-8 mr-0 hidden"
+            />
+            <h1
+              id="sidebar-logo-text"
+              class="font-['Pacifico'] text-2xl text-primary"
+            >
+              Sales-Spy
+            </h1>
+            <!-- Mobile-only collapse button -->
+            <button
+              id="sidebar-mobile-close"
+              class="absolute right-2 top-2 p-2 rounded-full hover:bg-gray-100 md:hidden"
+              style="display: none;"
+              aria-label="Close sidebar"
+            >
+              <i class="ri-close-line text-xl"></i>
+            </button>
+          </div>
+
+          <!-- Navigation -->
+          <nav class="flex-1 overflow-y-auto py-4">
+            <ul>
+              <li class="mb-2">
+                <a
+                  href="Dashboard-home.html"
+                   class="flex items-center px-4 py-3 text-gray-600 hover:bg-gray-100 rounded-r-lg hover:text-primary transition-colors"
+                >
+                  <div class="w-6 h-6 flex items-center justify-center mr-3">
+                    <i class="ri-dashboard-line"></i>
+                  </div>
+                  <span class="sidebar-text">Dashboard</span>
+                </a>
+              </li>
+              <li class="mb-2">
+                <a
+                  href="Dashboard-web.html"
+                  class="flex items-center px-4 py-3 text-primary bg-blue-50 rounded-r-lg border-l-4 border-primary"
+                >
+                  <div class="w-6 h-6 flex items-center justify-center mr-3">
+                    <i class="ri-global-line"></i>
+                  </div>
+                  <span class="sidebar-text">Websites</span>
+                </a>
+              </li>
+              <li class="mb-2">
+                <a
+                  href="#"
+                  class="flex items-center px-4 py-3 text-gray-600 hover:bg-gray-100 rounded-r-lg hover:text-primary transition-colors"
+                >
+                  <div class="w-6 h-6 flex items-center justify-center mr-3">
+                    <i class="ri-shopping-cart-line"></i>
+                  </div>
+                  <span class="sidebar-text">E-commerce</span>
+                </a>
+              </li>
+              <li class="mb-2">
+                <a
+                  href="Dashboard-pay.html"
+                  class="flex items-center px-4 py-3 text-gray-600 hover:bg-gray-100 rounded-r-lg hover:text-primary transition-colors"
+                >
+                  <div class="w-6 h-6 flex items-center justify-center mr-3">
+                     <i class="ri-bank-card-line"></i></i>
+                  </div>
+                  <span class="sidebar-text">Payment</span>
+                </a>
+              </li>
+              <li class="mb-2">
+                <a
+                  href="Dashboard-set.html"
+                  class="flex items-center px-4 py-3 text-gray-600 hover:bg-gray-100 rounded-r-lg hover:text-primary transition-colors"
+                >
+                  <div class="w-6 h-6 flex items-center justify-center mr-3">
+                    <i class="ri-settings-line"></i>
+                  </div>
+                  <span class="sidebar-text">Settings</span>
+                </a>
+              </li>
+            </ul>
+          </nav>
+
+          <!-- Upgrade section -->
+          <div id="upgrade-section" class="p-4 border-t">
+            <div id="upgrade-expanded" class="bg-gray-50 rounded-lg p-4 mb-3">
+              <p class="text-sm text-gray-600 mb-2">Credits remaining</p>
+              <div class="flex items-center justify-between">
+                <span class="font-semibold text-lg">1,250</span>
+                <span class="text-xs text-gray-500">of 2,000</span>
+              </div>
+              <div class="w-full bg-gray-200 rounded-full h-2 mt-2">
+                <div
+                  class="bg-primary rounded-full h-2"
+                  style="width: 62.5%"
+                ></div>
+              </div>
+            </div>
+            <button
+              id="upgrade-btn-expanded"
+              class="w-full bg-primary text-white py-2 px-4 rounded-button flex items-center justify-center whitespace-nowrap hover:bg-blue-600 transition-colors"
+            >
+              <div class="w-5 h-5 flex items-center justify-center mr-2">
+                <i class="ri-arrow-up-line"></i>
+              </div>
+              <span>Upgrade Plan</span>
+            </button>
+            <button
+              id="upgrade-btn-collapsed"
+              class="hidden bg-primary text-white w-10 h-10 rounded-full flex items-center justify-center mx-auto mt-2 hover:bg-blue-600 transition-colors"
+              title="Upgrade"
+            >
+              <i class="ri-arrow-up-line"></i>
+            </button>
+          </div>
+          <script>
+            document.addEventListener("DOMContentLoaded", function () {
+              const sidebar = document.getElementById("sidebar");
+              const upgradeExpanded =
+                document.getElementById("upgrade-expanded");
+              const upgradeBtnExpanded = document.getElementById(
+                "upgrade-btn-expanded"
+              );
+              const upgradeBtnCollapsed = document.getElementById(
+                "upgrade-btn-collapsed"
+              );
+              const logoImg = document.getElementById("sidebar-logo-img");
+              const logoText = document.getElementById("sidebar-logo-text");
+
+              function updateUpgradeSection() {
+                if (sidebar.classList.contains("sidebar-collapsed")) {
+                  upgradeExpanded.style.display = "none";
+                  upgradeBtnExpanded.style.display = "none";
+                  upgradeBtnCollapsed.classList.remove("hidden");
+                } else {
+                  upgradeExpanded.style.display = "";
+                  upgradeBtnExpanded.style.display = "";
+                  upgradeBtnCollapsed.classList.add("hidden");
+                }
+              }
+
+              function updateLogo() {
+                if (sidebar.classList.contains("sidebar-collapsed")) {
+                  logoImg.classList.remove("hidden");
+                  logoText.classList.add("hidden");
+                } else {
+                  logoImg.classList.add("hidden");
+                  logoText.classList.remove("hidden");
+                }
+              }
+
+              // Initial state
+              updateUpgradeSection();
+              updateLogo();
+
+              // Listen for sidebar toggle
+              const sidebarToggle = document.getElementById("sidebar-toggle");
+              sidebarToggle.addEventListener("click", function () {
+                setTimeout(() => {
+                  updateUpgradeSection();
+                  updateLogo();
+                }, 310); // Wait for transition
+              });
+
+              // Also update on resize (for responsive)
+              window.addEventListener("resize", function () {
+                setTimeout(() => {
+                  updateUpgradeSection();
+                  updateLogo();
+                }, 310);
+              });
+            });
+          </script>
+        </div>
+      </div>
+
+      <!-- Main Content -->
+      <div
+        id="main-content"
+        class="main-content-expanded flex-1 transition-all duration-700 ease-in-out overflow-x-auto"
+      >
+        <!-- Header -->
+        <header class="bg-white shadow-sm sticky top-0 z-10">
+          <div class="flex items-center justify-between px-6 py-4">
+            <div class="flex items-center">
+              <button
+                id="sidebar-toggle"
+                class="p-2 rounded-full hover:bg-gray-100 mr-4"
+              >
+                <div class="w-5 h-5 flex items-center justify-center">
+                  <i class="ri-menu-line"></i>
+                </div>
+              </button>
+            </div>
+            <div class="flex items-center space-x-4">
+              <div class="flex items-center bg-gray-100 rounded-full px-3 py-1">
+                <div
+                  class="w-5 h-5 flex items-center justify-center mr-2 text-primary"
+                >
+                  <i class="ri-coin-line"></i>
+                </div>
+                <span class="text-sm font-medium">1,250 credits</span>
+              </div>
+              <button
+                class="bg-primary text-white py-2 px-4 rounded-button whitespace-nowrap hover:bg-blue-600 transition-colors"
+              >
+                <span>Upgrade</span>
+              </button>
+              <div class="relative">
+                <button class="flex items-center space-x-2">
+                  <div
+                    class="w-10 h-10 rounded-full bg-gray-200 flex items-center justify-center overflow-hidden"
+                  >
+                    <img
+                      src="https://readdy.ai/api/search-image?query=professional%20headshot%20of%20a%20young%20business%20person%2C%20neutral%20expression%2C%20high%20quality%20portrait%2C%20business%20attire&width=200&height=200&seq=1&orientation=squarish"
+                      alt="User avatar"
+                      class="w-full h-full object-cover"
+                    />
+                  </div>
+                </button>
+              </div>
+            </div>
+          </div>
+        </header>
+
+        <!-- Content -->
+        <main class="flex-1 p-6">
+          <div class="mb-6">
+            <h1 class="text-2xl font-bold text-gray-800 mb-2">Websites</h1>
+            <p class="text-gray-600">
+              Search, filter, and discover website leads for your business.
+            </p>
+          </div>
+          <!-- FILTER PANEL -->
+<form id="website-filter-form" aria-label="Website Filters">
+  <div class="bg-white rounded shadow-sm mb-6" role="region" aria-labelledby="filters-heading">
+    <div
+      class="p-4 border-b border-gray-100 flex items-center justify-between"
+    >
+      <h2 id="filters-heading" class="text-lg font-semibold text-gray-800">Filters</h2>
+      <div class="flex items-center">
+        <span class="text-sm text-gray-600 mr-2">More Filters</span>
+        <!-- Toggle Switch for Advanced Filters -->
+        <label class="custom-switch ml-2" for="toggleAdvancedFilters" aria-label="Toggle advanced filters">
+          <input type="checkbox" id="toggleAdvancedFilters" />
+          <span class="slider" tabindex="0" role="switch" aria-checked="false"></span>
+        </label>
+      </div>
+    </div>
+    <div class="p-4">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-4">
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1"
+              >Keyword</label
+          >
+          <select
+              class="w-full px-3 py-2 border border-gray-300 rounded text-sm custom-select pr-8"
+              name="keyword"
+          >
+              <option value="">All Keywords</option>
+              <option value="jewelry">Jewelry</option>
+              <option value="fashion">Fashion</option>
+              <option value="accessories">Accessories</option>
+              <option value="electronics">Electronics</option>
+          </select>
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1"
+              >Platform</label
+          >
+          <select
+              class="w-full px-3 py-2 border border-gray-300 rounded text-sm custom-select pr-8"
+              name="platform"
+          >
+              <option value="">All Platforms</option>
+              <option value="shopify">Shopify</option>
+              <option value="wordpress">WordPress</option>
+              <option value="wix">Wix</option>
+              <option value="custom">Custom</option>
+          </select>
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1"
+              >SNS & Email</label
+          >
+          <select
+              class="w-full px-3 py-2 border border-gray-300 rounded text-sm custom-select pr-8"
+              name="sns"
+          >
+              <option value="">All</option>
+              <option value="facebook">Facebook</option>
+              <option value="instagram">Instagram</option>
+              <option value="twitter">Twitter</option>
+              <option value="email">Email</option>
+              <option value="whatsapp">WhatsApp</option>
+          </select>
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1"
+              >Index Date</label
+          >
+          <select
+              class="w-full px-3 py-2 border border-gray-300 rounded text-sm custom-select pr-8"
+              name="indexDate"
+          >
+              <option value="">All Dates</option>
+              <option value="2024-06-01">2024-06-01</option>
+              <option value="2024-05-01">2024-05-01</option>
+              <option value="2024-04-01">2024-04-01</option>
+          </select>
+        </div>
+      </div>
+      <div id="advancedFilters" class="hidden">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-4">
+          <div>
+              <label class="block text-sm font-medium text-gray-700 mb-1"
+                  >Tags</label
+              >
+              <select
+                  class="w-full px-3 py-2 border border-gray-300 rounded text-sm custom-select pr-8"
+                  name="tags"
+              >
+                  <option value="">All Tags</option>
+                  <option value="news">News</option>
+                  <option value="blog">Blog</option>
+                  <option value="portfolio">Portfolio</option>
+                  <option value="directory">Directory</option>
+                  <option value="community">Community</option>
+              </select>
+          </div>
+          <div>
+              <label class="block text-sm font-medium text-gray-700 mb-1"
+                  >Language</label
+              >
+              <select
+                  class="w-full px-3 py-2 border border-gray-300 rounded text-sm custom-select pr-8"
+                  name="language"
+              >
+                  <option value="">All Languages</option>
+                  <option value="en">English</option>
+                  <option value="fr">French</option>
+                  <option value="de">German</option>
+                  <option value="es">Spanish</option>
+                  <option value="zh">Chinese</option>
+              </select>
+          </div>
+          <div>
+              <label class="block text-sm font-medium text-gray-700 mb-1"
+                  >Country</label
+              >
+              <select
+                  class="w-full px-3 py-2 border border-gray-300 rounded text-sm custom-select pr-8"
+                  name="country"
+              >
+                  <option value="">All Countries</option>
+                  <option value="us">United States</option>
+                  <option value="gb">United Kingdom</option>
+                  <option value="fr">France</option>
+                  <option value="de">Germany</option>
+                  <option value="in">India</option>
+                  <option value="nl">Netherlands</option>
+                  <option value="vn">Vietnam</option>
+                  <option value="id">Indonesia</option>
+              </select>
+          </div>
+          <div>
+              <label class="block text-sm font-medium text-gray-700 mb-1"
+                  >Pages</label
+              >
+              <select
+                  class="w-full px-3 py-2 border border-gray-300 rounded text-sm custom-select pr-8"
+                  name="pages"
+              >
+                  <option value="">All</option>
+                  <option value="1-10">1-10</option>
+                  <option value="11-50">11-50</option>
+                  <option value="51-100">51-100</option>
+                  <option value="101-500">101-500</option>
+                  <option value="500+">500+</option>
+              </select>
+          </div>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-4">
+          <div>
+              <label class="block text-sm font-medium text-gray-700 mb-1"
+                  >Top-Level Domain</label
+              >
+              <select
+                  class="w-full px-3 py-2 border border-gray-300 rounded text-sm custom-select pr-8"
+                  name="tld"
+              >
+                  <option value="">All</option>
+                  <option value=".com">.com</option>
+                  <option value=".org">.org</option>
+                  <option value=".net">.net</option>
+                  <option value=".io">.io</option>
+                  <option value=".co">.co</option>
+              </select>
+          </div>
+          <div>
+              <label class="block text-sm font-medium text-gray-700 mb-1"
+                  >Technologies Used</label
+              >
+              <select
+                  class="w-full px-3 py-2 border border-gray-300 rounded text-sm custom-select pr-8"
+                  name="technologies"
+              >
+                  <option value="">All</option>
+                  <option value="react">React</option>
+                  <option value="vue">Vue.js</option>
+                  <option value="angular">Angular</option>
+                  <option value="jquery">jQuery</option>
+                  <option value="bootstrap">Bootstrap</option>
+                  <option value="tailwind">Tailwind CSS</option>
+                  <option value="php">PHP</option>
+                  <option value="laravel">Laravel</option>
+              </select>
+          </div>
+          <div>
+              <label class="block text-sm font-medium text-gray-700 mb-1"
+                  >Installed Apps</label
+              >
+              <select
+                  class="w-full px-3 py-2 border border-gray-300 rounded text-sm custom-select pr-8"
+                  name="apps"
+              >
+                  <option value="">All</option>
+                  <option value="analytics">Google Analytics</option>
+                  <option value="hotjar">Hotjar</option>
+                  <option value="intercom">Intercom</option>
+                  <option value="mailchimp">Mailchimp</option>
+                  <option value="zendesk">Zendesk</option>
+              </select>
+          </div>
+          <div>
+              <label class="block text-sm font-medium text-gray-700 mb-1"
+                  >Domain Records</label
+              >
+              <select
+                  class="w-full px-3 py-2 border border-gray-300 rounded text-sm custom-select pr-8"
+                  name="domainRecords"
+              >
+                  <option value="">All</option>
+                  <option value="dnssec">DNSSEC</option>
+                  <option value="whois-privacy">WHOIS Privacy</option>
+                  <option value="mx">MX</option>
+                  <option value="spf">SPF</option>
+              </select>
+          </div>
+      </div>
+      </div>
+      <div class="flex mt-6">
+          <button
+              class="bg-primary text-white px-6 py-2 rounded-button flex items-center whitespace-nowrap mr-3"
+          >
+              <div class="w-5 h-5 flex items-center justify-center mr-2">
+                  <i class="ri-search-line"></i>
+              </div>
+              Search
+          </button>
+          <button
+              class="bg-gray-100 text-gray-700 px-6 py-2 rounded-button whitespace-nowrap"
+          >
+              Reset
+          </button>
+      </div>
+    </div>
+  </div>
+</form>
+<!-- END FILTER PANEL -->
+
+          <!-- RESULT TABLE & DISPLAY CONTROL -->
+          <div class="bg-white rounded shadow-sm" role="region" aria-labelledby="results-heading">
+            <div class="p-4 border-b border-gray-100 flex justify-between items-center">
+              <div class="text-sm text-gray-600" id="results-heading">Found <span id="result-count">0</span> Websites</div>
+              <div class="flex items-center">
+                <button
+                  id="display-columns-btn"
+                  class="bg-gray-100 text-gray-700 px-3 py-1.5 rounded-button text-sm whitespace-nowrap relative focus:outline-none"
+                  type="button"
+                  aria-haspopup="true"
+                  aria-expanded="false"
+                  aria-controls="columns-dropdown"
+                  aria-label="Display columns"
+                >
+                  <div class="flex items-center">
+                    <div class="w-4 h-4 flex items-center justify-center mr-1">
+                      <i class="ri-list-check" aria-hidden="true"></i>
+                    </div>
+                    Display
+                  </div>
+                </button>
+                <div
+                  id="columns-dropdown"
+                  class="hidden absolute right-0 mt-2 z-30 w-72 bg-white border border-gray-200 rounded-lg shadow-lg p-3 max-h-96 overflow-y-auto transition-all duration-200"
+                  tabindex="-1"
+                  aria-label="Column visibility menu"
+                  role="menu"
+                >
+                  <form id="columns-dropdown-form" class="flex flex-col gap-2">
+                    <!-- Checkbox items will be injected here by JS -->
+                  </form>
+                </div>
+              </div>
+            </div>
+            <div class="overflow-x-auto">
+              <table id="website-results-table" class="min-w-full divide-y divide-gray-200" role="table" aria-label="Website results">
+                <thead class="bg-gray-50">
+                  <tr id="website-table-header">
+                    <!-- Table headers will be injected by JS -->
+                  </tr>
+                </thead>
+                <tbody id="website-table-body" class="bg-white divide-y divide-gray-200">
+                  <!-- Table rows will be injected by JS -->
+                </tbody>
+              </table>
+            </div>
+            <div class="px-6 py-4 flex items-center justify-between border-t border-gray-200">
+              <div class="flex items-center">
+                <p class="text-sm text-gray-700">
+                  Showing <span id="result-range-from" class="font-medium">0</span> to
+                  <span id="result-range-to" class="font-medium">0</span> of
+                  <span id="result-range-total" class="font-medium">0</span> results
+                </p>
+              </div>
+              <!-- Pagination controls can be added here -->
+              <div id="pagination-controls" class="flex items-center justify-center py-4"></div>
+            </div>
+          </div>
+          <!-- END RESULT TABLE -->
+
+          <!-- DETAILS PANEL -->
+          <div id="detailsPanel"
+            class="fixed top-0 right-0 z-50 h-full w-[750px] max-w-full bg-white shadow-lg transform translate-x-full transition-transform duration-300 overflow-y-auto"
+          >
+            <button id="detailsPanelCloseBtn"
+              class="absolute top-4 left-4 z-10 p-2 rounded-full bg-gray-100 hover:bg-gray-200 text-gray-500 hover:text-gray-700 focus:outline-none"
+              title="Close panel"
+              type="button">
+              <i class="ri-close-line text-xl"></i>
+            </button>
+            <div id="detailsContent" class="p-0">
+              <!-- Panel content will be injected here -->
+            </div>
+          </div>
+          <!-- END DETAILS PANEL -->
+        </main>
+      </div>
+    </div>
+
+    <script>
+    // --- MOCK DATA (Replace with backend/PHP data later) ---
+    const websiteData = [
+      {
+        domain: "yamloveme.com",
+        platform: "Shopify",
+        title: "yamloveme",
+        description: "Trendy jewelry and accessories",
+        language: "EN",
+        country: "US",
+        pages: 120,
+        tld: ".com",
+        email: "contact@yamloveme.com",
+        phone: "+1 555-5678",
+        whatsapp: "+1 555-1234",
+        technologies: ["React", "Bootstrap"],
+        apps: ["Google Analytics", "Hotjar"],
+        domainRecords: ["DNSSEC", "WHOIS Privacy"],
+        domainReleaseDate: "2019-04-12",
+        indexDate: "2024-06-01",
+        facebook: "facebook.com/yamloveme",
+        instagram: "instagram.com/yamloveme",
+        twitter: "twitter.com/yamloveme",
+        pinterest: "pinterest.com/yamloveme",
+        tiktok: "tiktok.com/@yamloveme",
+        youtube: "youtube.com/yamloveme",
+        facebookFollowers: 2100,
+        instagramFollowers: 5400,
+        pinterestFollowers: 1200,
+        youtubeFollowers: 800,
+        tags: ["Jewelry", "Trendy", "US"]
+      },
+      // ...add more mock website objects...
+    ];
+    // --- END MOCK DATA ---
+
+    // --- COLUMN DEFINITIONS ---
+    const websiteColumns = [
+      { key: "domain", label: "Domain", visible: true },
+      { key: "platform", label: "Platform", visible: true },
+      { key: "title", label: "Title", visible: true },
+      { key: "description", label: "Description", visible: false },
+      { key: "language", label: "Language", visible: false },
+      { key: "country", label: "Country", visible: true },
+      { key: "pages", label: "Pages", visible: false },
+      { key: "tld", label: "Top-Level Domain", visible: false },
+      { key: "email", label: "Email", visible: false },
+      { key: "phone", label: "Phone", visible: false },
+      { key: "whatsapp", label: "WhatsApp", visible: false },
+      { key: "technologies", label: "Technologies Used", visible: false },
+      { key: "apps", label: "Installed Apps", visible: false },
+      { key: "domainRecords", label: "Domain Records", visible: false },
+      { key: "domainReleaseDate", label: "Domain Release Date", visible: false },
+      { key: "indexDate", label: "Index Date", visible: false },
+      { key: "facebook", label: "Facebook Link", visible: false },
+      { key: "instagram", label: "Instagram Link", visible: false },
+      { key: "twitter", label: "Twitter Link", visible: false },
+      { key: "pinterest", label: "Pinterest Link", visible: false },
+      { key: "tiktok", label: "TikTok Link", visible: false },
+      { key: "youtube", label: "YouTube Link", visible: false },
+      { key: "facebookFollowers", label: "Facebook Followers", visible: false },
+      { key: "instagramFollowers", label: "Instagram Followers", visible: false },
+      { key: "pinterestFollowers", label: "Pinterest Followers", visible: false },
+      { key: "youtubeFollowers", label: "YouTube Followers", visible: false }
+    ];
+    // --- END COLUMN DEFINITIONS ---
+
+    // --- DISPLAY CONTROL LOGIC ---
+    function renderDisplayDropdown() {
+      const form = document.getElementById('columns-dropdown-form');
+      form.innerHTML = '';
+      websiteColumns.forEach((col, idx) => {
+        const id = `col-toggle-${col.key}`;
+        const label = document.createElement("label");
+        label.setAttribute("for", id);
+        label.className = "flex items-center gap-2 cursor-pointer px-1 py-1 rounded hover:bg-gray-50";
+        const checkbox = document.createElement("input");
+        checkbox.type = "checkbox";
+        checkbox.id = id;
+        checkbox.className = "column-toggle form-checkbox h-4 w-4 text-primary";
+        checkbox.dataset.columnKey = col.key;
+        checkbox.checked = col.visible;
+        checkbox.addEventListener('change', function () {
+          websiteColumns[idx].visible = checkbox.checked;
+          renderWebsiteTable();
+        });
+        const span = document.createElement("span");
+        span.textContent = col.label;
+        span.className = "text-sm text-gray-700";
+        label.appendChild(checkbox);
+        label.appendChild(span);
+        form.appendChild(label);
+      });
+    }
+    document.getElementById('display-columns-btn').addEventListener('click', function (e) {
+      e.stopPropagation();
+      const dropdown = document.getElementById('columns-dropdown');
+      dropdown.classList.toggle('hidden');
+      if (!dropdown.classList.contains('hidden')) dropdown.focus();
+    });
+    document.addEventListener('mousedown', function (e) {
+      const dropdown = document.getElementById('columns-dropdown');
+      const btn = document.getElementById('display-columns-btn');
+      if (!dropdown.contains(e.target) && !btn.contains(e.target)) {
+        dropdown.classList.add('hidden');
+      }
+    });
+    // --- END DISPLAY CONTROL LOGIC ---
+
+    // --- TABLE RENDERING ---
+    function showLoadingSpinner() {
+      const body = document.getElementById('website-table-body');
+      body.innerHTML = `
+        <tr>
+          <td colspan="${websiteColumns.filter(col => col.visible).length}" class="py-12 text-center">
+            <div class="flex flex-col items-center justify-center">
+              <svg class="animate-spin h-8 w-8 text-primary mb-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"></path>
+              </svg>
+              <span class="text-primary text-sm">Loading...</span>
+            </div>
+          </td>
+        </tr>
+      `;
+    }
+
+    // --- PAGINATION LOGIC ---
+let currentPage = 1;
+const pageSize = 10; // Number of results per page
+let lastFilteredData = websiteData;
+
+function renderPaginationControls(totalResults) {
+  const paginationContainer = document.getElementById('pagination-controls');
+  if (!paginationContainer) return;
+
+  const totalPages = Math.ceil(totalResults / pageSize);
+  let html = '';
+
+  // Previous button
+  html += `<button class="px-3 py-1 mx-1 rounded ${currentPage === 1 ? 'bg-gray-200 text-gray-400 cursor-not-allowed' : 'bg-gray-100 hover:bg-gray-200'}" ${currentPage === 1 ? 'disabled' : ''} id="pagination-prev">Previous</button>`;
+
+  // Page numbers (show up to 5 pages for brevity)
+  let startPage = Math.max(1, currentPage - 2);
+  let endPage = Math.min(totalPages, startPage + 4);
+  if (endPage - startPage < 4) startPage = Math.max(1, endPage - 4);
+
+  for (let i = startPage; i <= endPage; i++) {
+    html += `<button class="px-3 py-1 mx-1 rounded ${i === currentPage ? 'bg-primary text-white' : 'bg-gray-100 hover:bg-gray-200'}" data-page="${i}">${i}</button>`;
+  }
+
+  // Next button
+  html += `<button class="px-3 py-1 mx-1 rounded ${currentPage === totalPages ? 'bg-gray-200 text-gray-400 cursor-not-allowed' : 'bg-gray-100 hover:bg-gray-200'}" ${currentPage === totalPages ? 'disabled' : ''} id="pagination-next">Next</button>`;
+
+  paginationContainer.innerHTML = html;
+
+  // Event listeners
+  document.getElementById('pagination-prev')?.addEventListener('click', () => {
+    if (currentPage > 1) {
+      currentPage--;
+      renderWebsiteTable(lastFilteredData);
+      renderPaginationControls(lastFilteredData.length);
+    }
+  });
+  document.getElementById('pagination-next')?.addEventListener('click', () => {
+    if (currentPage < totalPages) {
+      currentPage++;
+      renderWebsiteTable(lastFilteredData);
+      renderPaginationControls(lastFilteredData.length);
+    }
+  });
+  // Page number buttons
+  paginationContainer.querySelectorAll('button[data-page]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      currentPage = parseInt(btn.getAttribute('data-page'));
+      renderWebsiteTable(lastFilteredData);
+      renderPaginationControls(lastFilteredData.length);
+    });
+  });
+}
+
+// --- TABLE RENDERING (update for pagination) ---
+function renderWebsiteTable(filteredData) {
+  const data = filteredData || websiteData;
+  lastFilteredData = data;
+  const totalResults = data.length;
+  const totalPages = Math.ceil(totalResults / pageSize);
+  if (currentPage > totalPages) currentPage = totalPages || 1;
+  const startIdx = (currentPage - 1) * pageSize;
+  const endIdx = Math.min(startIdx + pageSize, totalResults);
+  const pageData = data.slice(startIdx, endIdx);
+
+  // Header
+  const headerRow = document.getElementById('website-table-header');
+  headerRow.innerHTML = '';
+  websiteColumns.forEach(col => {
+    const th = document.createElement('th');
+    th.className = "px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider";
+    th.textContent = col.label;
+    th.style.display = col.visible ? "" : "none";
+    th.setAttribute('data-column-key', col.key);
+    headerRow.appendChild(th);
+  });
+  // Body
+  const body = document.getElementById('website-table-body');
+  body.innerHTML = '';
+  if (pageData.length === 0) {
+    body.innerHTML = `
+      <tr>
+        <td colspan="${websiteColumns.filter(col => col.visible).length}" class="py-12 text-center text-gray-400">
+          <div class="flex flex-col items-center justify-center">
+            <i class="ri-search-eye-line text-3xl mb-2"></i>
+            <span>No results found</span>
+          </div>
+        </td>
+      </tr>
+    `;
+  } else {
+    pageData.forEach(site => {
+      const tr = document.createElement('tr');
+      tr.className = "hover:bg-gray-50 result-row cursor-pointer";
+      tr.setAttribute('data-json', JSON.stringify(site));
+      websiteColumns.forEach(col => {
+        const td = document.createElement('td');
+        td.className = "px-6 py-4 whitespace-nowrap text-sm text-gray-500";
+        td.style.display = col.visible ? "" : "none";
+        let value = site[col.key];
+        if (Array.isArray(value)) {
+          value = value.join(', ');
+        }
+        if (col.key.endsWith('Link') && value) {
+          td.innerHTML = `<a href="https://${value}" target="_blank">${value}</a>`;
+        } else if (col.key === 'email' && value) {
+          td.innerHTML = `<a href="mailto:${value}">${value}</a>`;
+        } else if (col.key === 'phone' && value) {
+          td.innerHTML = `<a href="tel:${value}">${value}</a>`;
+        } else {
+          td.textContent = value || '';
+        }
+        tr.appendChild(td);
+      });
+      body.appendChild(tr);
+    });
+  }
+  // Update result count and range
+  document.getElementById('result-count').textContent = totalResults;
+  document.getElementById('result-range-from').textContent = totalResults > 0 ? startIdx + 1 : 0;
+  document.getElementById('result-range-to').textContent = endIdx;
+  document.getElementById('result-range-total').textContent = totalResults;
+
+  // Render pagination controls
+  renderPaginationControls(totalResults);
+}
+
+// --- END PAGINATION LOGIC ---
+
+    function renderWebsiteTable(filteredData) {
+      const data = filteredData || websiteData;
+      lastFilteredData = data;
+      const totalResults = data.length;
+      const totalPages = Math.ceil(totalResults / pageSize);
+      if (currentPage > totalPages) currentPage = totalPages || 1;
+      const startIdx = (currentPage - 1) * pageSize;
+      const endIdx = Math.min(startIdx + pageSize, totalResults);
+      const pageData = data.slice(startIdx, endIdx);
+
+      // Header
+      const headerRow = document.getElementById('website-table-header');
+      headerRow.innerHTML = '';
+      websiteColumns.forEach(col => {
+        const th = document.createElement('th');
+        th.className = "px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider";
+        th.textContent = col.label;
+        th.style.display = col.visible ? "" : "none";
+        th.setAttribute('data-column-key', col.key);
+        headerRow.appendChild(th);
+      });
+      // Body
+      const body = document.getElementById('website-table-body');
+      body.innerHTML = '';
+      if (pageData.length === 0) {
+        body.innerHTML = `
+          <tr>
+            <td colspan="${websiteColumns.filter(col => col.visible).length}" class="py-12 text-center text-gray-400">
+              <div class="flex flex-col items-center justify-center">
+                <i class="ri-search-eye-line text-3xl mb-2"></i>
+                <span>No results found</span>
+              </div>
+            </td>
+          </tr>
+        `;
+      } else {
+        pageData.forEach(site => {
+          const tr = document.createElement('tr');
+          tr.className = "hover:bg-gray-50 result-row cursor-pointer";
+          tr.setAttribute('data-json', JSON.stringify(site));
+          websiteColumns.forEach(col => {
+            const td = document.createElement('td');
+            td.className = "px-6 py-4 whitespace-nowrap text-sm text-gray-500";
+            td.style.display = col.visible ? "" : "none";
+            let value = site[col.key];
+            if (Array.isArray(value)) {
+              value = value.join(', ');
+            }
+            if (col.key.endsWith('Link') && value) {
+              td.innerHTML = `<a href="https://${value}" target="_blank">${value}</a>`;
+            } else if (col.key === 'email' && value) {
+              td.innerHTML = `<a href="mailto:${value}">${value}</a>`;
+            } else if (col.key === 'phone' && value) {
+              td.innerHTML = `<a href="tel:${value}">${value}</a>`;
+            } else {
+              td.textContent = value || '';
+            }
+            tr.appendChild(td);
+          });
+          body.appendChild(tr);
+        });
+      }
+      // Update result count and range
+      document.getElementById('result-count').textContent = totalResults;
+      document.getElementById('result-range-from').textContent = totalResults > 0 ? startIdx + 1 : 0;
+      document.getElementById('result-range-to').textContent = endIdx;
+      document.getElementById('result-range-total').textContent = totalResults;
+
+      // Render pagination controls
+      renderPaginationControls(totalResults);
+    }
+
+    // --- DETAILS PANEL LOGIC ---
+    function renderDetailsPanel(data) {
+      // Responsive grid for details (same as Dashboard-web.html)
+      return `
+<div class="p-4 md:p-8">
+  <div class="bg-white rounded-lg shadow-md p-4 md:p-6 mb-6">
+    <div class="flex flex-col md:flex-row md:items-center md:justify-between mb-6 gap-4">
+      <div class="flex items-center">
+        <div class="w-8 h-8 bg-gray-700 rounded-full flex items-center justify-center mr-3">
+          <i class="ri-global-line text-white text-lg"></i>
+        </div>
+        <h2 class="text-xl font-semibold break-words">${data.domain || data.title || ''}</h2>
+      </div>
+      <div class="flex flex-wrap gap-2 mt-2 md:mt-0">
+        ${(data.tags||[]).map(tag=>`<span class="bg-blue-100 text-blue-800 text-xs px-3 py-1 rounded-full">${tag}</span>`).join('')}
+      </div>
+    </div>
+    <div class="space-y-6">
+      <h3 class="text-lg font-semibold mb-4">Website Details</h3>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-6">
+        <div>
+          <p class="text-sm text-gray-500 mb-1">Title</p>
+          <div class="font-medium break-words">${data.title||''}</div>
+        </div>
+        <div>
+          <p class="text-sm text-gray-500 mb-1">Description</p>
+          <div class="font-medium break-words">${data.description||''}</div>
+        </div>
+        <div>
+          <p class="text-sm text-gray-500 mb-1">Domain</p>
+          <div class="font-medium break-words">${data.domain||''}</div>
+        </div>
+        <div>
+          <p class="text-sm text-gray-500 mb-1">Platform</p>
+          <div class="font-medium break-words">${data.platform||''}</div>
+        </div>
+        <div>
+          <p class="text-sm text-gray-500 mb-1">Country</p>
+          <div class="font-medium break-words">${data.country||''}</div>
+        </div>
+        <div>
+          <p class="text-sm text-gray-500 mb-1">Language</p>
+          <div class="font-medium break-words">${data.language||''}</div>
+        </div>
+        <div>
+          <p class="text-sm text-gray-500 mb-1">Pages</p>
+          <div class="font-medium break-words">${data.pages||''}</div>
+        </div>
+        <div>
+          <p class="text-sm text-gray-500 mb-1">Top-Level Domain</p>
+          <div class="font-medium break-words">${data.tld||''}</div>
+        </div>
+        <div>
+          <p class="text-sm text-gray-500 mb-1">Email</p>
+          <div class="font-medium break-words"><a href="mailto:${data.email||''}">${data.email||''}</a></div>
+        </div>
+        <div>
+          <p class="text-sm text-gray-500 mb-1">Phone</p>
+          <div class="font-medium break-words"><a href="tel:${data.phone||''}">${data.phone||''}</a></div>
+        </div>
+        <div>
+          <p class="text-sm text-gray-500 mb-1">WhatsApp</p>
+          <div class="font-medium break-words">${data.whatsapp||''}</div>
+        </div>
+        <div>
+          <p class="text-sm text-gray-500 mb-1">Technologies Used</p>
+          <div class="font-medium break-words">${(data.technologies||[]).join(', ')}</div>
+        </div>
+        <div>
+          <p class="text-sm text-gray-500 mb-1">Installed Apps</p>
+          <div class="font-medium break-words">${(data.apps||[]).join(', ')}</div>
+        </div>
+        <div>
+          <p class="text-sm text-gray-500 mb-1">Domain Records</p>
+          <div class="font-medium break-words">${(data.domainRecords||[]).join(', ')}</div>
+        </div>
+        <div>
+          <p class="text-sm text-gray-500 mb-1">Domain Release Date</p>
+          <div class="font-medium break-words">${data.domainReleaseDate||''}</div>
+        </div>
+        <div>
+          <p class="text-sm text-gray-500 mb-1">Index Date</p>
+          <div class="font-medium break-words">${data.indexDate||''}</div>
+        </div>
+        <div>
+          <p class="text-sm text-gray-500 mb-1">Facebook</p>
+          <div class="font-medium break-words"><a href="https://${data.facebook||'#'}" target="_blank">${data.facebook||''}</a></div>
+        </div>
+        <div>
+          <p class="text-sm text-gray-500 mb-1">Instagram</p>
+          <div class="font-medium break-words"><a href="https://${data.instagram||'#'}" target="_blank">${data.instagram||''}</a></div>
+        </div>
+        <div>
+          <p class="text-sm text-gray-500 mb-1">Twitter</p>
+          <div class="font-medium break-words"><a href="https://${data.twitter||'#'}" target="_blank">${data.twitter||''}</a></div>
+        </div>
+        <div>
+          <p class="text-sm text-gray-500 mb-1">Pinterest</p>
+          <div class="font-medium break-words"><a href="https://${data.pinterest||'#'}" target="_blank">${data.pinterest||''}</a></div>
+        </div>
+        <div>
+          <p class="text-sm text-gray-500 mb-1">TikTok</p>
+          <div class="font-medium break-words"><a href="https://${data.tiktok||'#'}" target="_blank">${data.tiktok||''}</a></div>
+        </div>
+        <div>
+          <p class="text-sm text-gray-500 mb-1">YouTube</p>
+          <div class="font-medium break-words"><a href="https://${data.youtube||'#'}" target="_blank">${data.youtube||''}</a></div>
+        </div>
+        <div>
+          <p class="text-sm text-gray-500 mb-1">Facebook Followers</p>
+          <div class="font-medium break-words">${data.facebookFollowers||''}</div>
+        </div>
+        <div>
+          <p class="text-sm text-gray-500 mb-1">Instagram Followers</p>
+          <div class="font-medium break-words">${data.instagramFollowers||''}</div>
+        </div>
+        <div>
+          <p class="text-sm text-gray-500 mb-1">Pinterest Followers</p>
+          <div class="font-medium break-words">${data.pinterestFollowers||''}</div>
+        </div>
+        <div>
+          <p class="text-sm text-gray-500 mb-1">YouTube Followers</p>
+          <div class="font-medium break-words">${data.youtubeFollowers||''}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      `;
+    }
+    // --- END DETAILS PANEL LOGIC ---
+
+    // --- EVENT BINDINGS & FILTER LOGIC ---
+    function applyWebsiteFilters() {
+      const form = document.getElementById('website-filter-form');
+      const formData = new FormData(form);
+      // Get all filter values
+      const filters = {};
+      for (const [key, value] of formData.entries()) {
+        if (value && value !== "") {
+          filters[key] = value;
+        }
+      }
+
+      // Filter logic
+      return websiteData.filter(site => {
+        // Keyword (tags)
+        if (filters.keyword && !(site.tags && site.tags.map(t => t.toLowerCase()).includes(filters.keyword.toLowerCase()))) {
+          return false;
+        }
+        // Platform
+        if (filters.platform && site.platform.toLowerCase() !== filters.platform.toLowerCase()) {
+          return false;
+        }
+        // SNS & Email (check if any SNS/email field matches)
+        if (filters.sns) {
+          const snsFields = ['facebook', 'instagram', 'twitter', 'email', 'whatsapp'];
+          let found = false;
+          for (const field of snsFields) {
+            if (site[field] && site[field].toLowerCase().includes(filters.sns.toLowerCase())) {
+              found = true;
+              break;
+            }
+          }
+          if (!found) return false;
+        }
+        // Index Date
+        if (filters.indexDate && site.indexDate !== filters.indexDate) {
+          return false;
+        }
+        // Advanced Filters
+        if (filters.tags && !(site.tags && site.tags.map(t => t.toLowerCase()).includes(filters.tags.toLowerCase()))) {
+          return false;
+        }
+        if (filters.language && site.language && site.language.toLowerCase() !== filters.language.toLowerCase()) {
+          return false;
+        }
+        if (filters.country && site.country && site.country.toLowerCase() !== filters.country.toLowerCase()) {
+          return false;
+        }
+        if (filters.pages) {
+          const pages = site.pages || 0;
+          if (filters.pages === "1-10" && !(pages >= 1 && pages <= 10)) return false;
+          if (filters.pages === "11-50" && !(pages >= 11 && pages <= 50)) return false;
+          if (filters.pages === "51-100" && !(pages >= 51 && pages <= 100)) return false;
+          if (filters.pages === "101-500" && !(pages >= 101 && pages <= 500)) return false;
+          if (filters.pages === "500+" && !(pages > 500)) return false;
+        }
+        if (filters.tld && site.tld !== filters.tld) {
+          return false;
+        }
+        if (filters.technologies && !(site.technologies && site.technologies.map(t => t.toLowerCase()).includes(filters.technologies.toLowerCase()))) {
+          return false;
+        }
+        if (filters.apps && !(site.apps && site.apps.map(a => a.toLowerCase()).includes(filters.apps.toLowerCase()))) {
+          return false;
+        }
+        if (filters.domainRecords && !(site.domainRecords && site.domainRecords.map(r => r.toLowerCase()).includes(filters.domainRecords.toLowerCase()))) {
+          return false;
+        }
+        return true;
+      });
+    }
+    document.getElementById('website-filter-form').addEventListener('submit', function (e) {
+      e.preventDefault();
+      showLoadingSpinner();
+      setTimeout(() => {
+        const filtered = applyWebsiteFilters();
+        renderWebsiteTable(filtered);
+      }, 500); // Simulate loading delay
+    });
+    document.getElementById('website-filter-form').addEventListener('reset', function () {
+      showLoadingSpinner();
+      setTimeout(() => renderWebsiteTable(websiteData), 500);
+    });
+
+    // Row click: show details panel
+    document.getElementById('website-table-body').addEventListener('click', function (e) {
+      const row = e.target.closest('tr.result-row');
+      if (!row) return;
+      const data = JSON.parse(row.getAttribute('data-json'));
+      document.getElementById('detailsContent').innerHTML = renderDetailsPanel(data);
+      const panel = document.getElementById('detailsPanel');
+      panel.classList.remove('translate-x-full');
+      panel.classList.add('translate-x-0');
+    });
+    // Details panel close
+    document.getElementById('detailsPanelCloseBtn').onclick = function () {
+      const panel = document.getElementById('detailsPanel');
+      panel.classList.remove('translate-x-0');
+      panel.classList.add('translate-x-full');
+      document.getElementById('detailsContent').innerHTML = '';
+    };
+    // Click outside to close details panel
+    document.addEventListener('mousedown', function (e) {
+      const panel = document.getElementById('detailsPanel');
+      if (!panel.contains(e.target) && !e.target.closest('tr.result-row')) {
+        panel.classList.remove('translate-x-0');
+        panel.classList.add('translate-x-full');
+        document.getElementById('detailsContent').innerHTML = '';
+      }
+    });
+    // --- END EVENT BINDINGS ---
+
+    // --- INITIALIZE ---
+    renderDisplayDropdown();
+    renderWebsiteTable();
+    // --- END INITIALIZE ---
+
+    // --- EXPORT TO CSV FEATURE ---
+function exportToCSV(data, columns) {
+  if (!data || !data.length) return;
+  const visibleCols = columns.filter(col => col.visible);
+  const header = visibleCols.map(col => `"${col.label}"`).join(",");
+  const rows = data.map(row =>
+    visibleCols.map(col => {
+      let value = row[col.key];
+      if (Array.isArray(value)) value = value.join(", ");
+      // Escape quotes
+      value = value !== undefined && value !== null ? String(value).replace(/"/g, '""') : "";
+      return `"${value}"`;
+    }).join(",")
+  );
+  const csvContent = [header, ...rows].join("\r\n");
+  const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+  const url = URL.createObjectURL(blob);
+
+  const link = document.createElement("a");
+  link.href = url;
+  link.setAttribute("download", "websites_export.csv");
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+  URL.revokeObjectURL(url);
+}
+
+// Add event listener for export button
+document.addEventListener("DOMContentLoaded", function () {
+  // Create export button if not present
+  let exportBtn = document.getElementById("export-results-btn");
+  if (!exportBtn) {
+    exportBtn = document.createElement("button");
+    exportBtn.id = "export-results-btn";
+    exportBtn.className = "bg-gray-100 text-gray-700 px-3 py-1.5 rounded-button text-sm whitespace-nowrap mr-3 flex items-center";
+    exportBtn.innerHTML = `<div class="w-4 h-4 flex items-center justify-center mr-1"><i class="ri-download-line"></i></div>Export`;
+    // Insert before the display columns button
+    const displayBtn = document.getElementById("display-columns-btn");
+    if (displayBtn && displayBtn.parentNode) {
+      displayBtn.parentNode.insertBefore(exportBtn, displayBtn);
+    }
+  }
+  exportBtn.addEventListener("click", function () {
+    exportToCSV(lastFilteredData, websiteColumns);
+  });
+});
+    </script>
+    <script>
+      // Toggle Advanced Filters functionality (same as Dashboard-web.html)
+      document.addEventListener("DOMContentLoaded", function () {
+        const toggle = document.getElementById("toggleAdvancedFilters");
+        const advancedFilters = document.getElementById("advancedFilters");
+        if (toggle && advancedFilters) {
+          toggle.addEventListener("change", function () {
+            if (toggle.checked) {
+              advancedFilters.classList.remove("hidden");
+            } else {
+              advancedFilters.classList.add("hidden");
+            }
+          });
+        }
+      });
+    </script>
+  </body>
+</html>

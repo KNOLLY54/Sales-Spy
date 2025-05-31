@@ -1,0 +1,37 @@
+/* Move custom styles here from <style> tag in HTML if needed. */
+/* Example: */
+:where([class^="ri-"])::before {
+  content: "\f3c2";
+}
+body {
+  font-family: "Inter", sans-serif;
+  background-color: #f9fafb;
+}
+.glassmorphism {
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+.sidebar-expanded {
+  width: 240px;
+  transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.sidebar-collapsed {
+  width: 80px;
+  transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.main-content-expanded {
+  margin-left: 240px;
+  transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.main-content-collapsed {
+  margin-left: 80px;
+  transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+@media (max-width: 768px) {
+  .main-content-expanded,
+  .main-content-collapsed {
+    margin-left: 0;
+  }
+}
+/* Add any other custom styles you need here. */
