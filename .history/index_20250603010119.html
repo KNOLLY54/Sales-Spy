@@ -625,7 +625,11 @@
           </h2>
           <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
             <div
-              class="bg-white rounded-lg shadow-md p-8 border border-gray-200 flex flex-col"
+              class="bg-white rounded-lg shadow-md p-8 border border-gray-200 flex flex-col pricing-card cursor-pointer"
+              data-plan="basic"
+              tabindex="0"
+              role="button"
+              aria-label="Select Basic Plan"
             >
               <h3 class="text-xl font-bold mb-4">Basic</h3>
               <div class="text-3xl font-bold mb-2">
@@ -663,12 +667,17 @@
               </ul>
               <a
                 href="#"
-                class="bg-white border border-primary text-primary px-6 py-3 !rounded-button whitespace-nowrap font-medium hover:bg-primary hover:text-white transition-all text-center"
+                class="bg-white border border-primary text-primary px-6 py-3 !rounded-button whitespace-nowrap font-medium hover:bg-primary hover:text-white transition-all text-center pricing-action"
+                data-plan="basic"
                 >Get started</a
               >
             </div>
             <div
-              class="bg-white rounded-lg shadow-lg p-8 border-2 border-primary flex flex-col relative transform scale-105"
+              class="bg-white rounded-lg shadow-lg p-8 border-2 border-primary flex flex-col relative transform scale-105 pricing-card cursor-pointer"
+              data-plan="pro"
+              tabindex="0"
+              role="button"
+              aria-label="Select Pro Plan"
             >
               <div
                 class="absolute top-0 right-0 bg-primary text-white text-xs font-bold px-3 py-1 rounded-bl-lg rounded-tr-lg"
@@ -722,12 +731,17 @@
               </ul>
               <a
                 href="#"
-                class="bg-primary text-white px-6 py-3 !rounded-button whitespace-nowrap font-medium hover:bg-opacity-90 transition-all text-center"
+                class="bg-primary text-white px-6 py-3 !rounded-button whitespace-nowrap font-medium hover:bg-opacity-90 transition-all text-center pricing-action"
+                data-plan="pro"
                 >Get started</a
               >
             </div>
             <div
-              class="bg-white rounded-lg shadow-md p-8 border border-gray-200 flex flex-col"
+              class="bg-white rounded-lg shadow-md p-8 border border-gray-200 flex flex-col pricing-card cursor-pointer"
+              data-plan="enterprise"
+              tabindex="0"
+              role="button"
+              aria-label="Select Enterprise Plan"
             >
               <h3 class="text-xl font-bold mb-4">Enterprise</h3>
               <div class="text-3xl font-bold mb-2">
@@ -776,7 +790,8 @@
               </ul>
               <a
                 href="#"
-                class="bg-white border border-primary text-primary px-6 py-3 !rounded-button whitespace-nowrap font-medium hover:bg-primary hover:text-white transition-all text-center"
+                class="bg-white border border-primary text-primary px-6 py-3 !rounded-button whitespace-nowrap font-medium hover:bg-primary hover:text-white transition-all text-center pricing-action"
+                data-plan="enterprise"
                 >Contact sales</a
               >
             </div>
@@ -919,6 +934,52 @@
         </div>
       </div>
     </footer>
+    <!-- Pricing Modal (glass style, hidden by default) -->
+    <div
+      id="pricingModal"
+      class="fixed inset-0 z-[2000] flex items-center justify-center bg-black bg-opacity-40 transition-opacity duration-300 opacity-0 pointer-events-none"
+      aria-modal="true"
+      role="dialog"
+      tabindex="-1"
+    >
+      <div
+        class="glass-effect rounded-xl p-8 w-full max-w-md mx-4 relative shadow-2xl"
+        style="
+          background: rgba(255, 255, 255, 0.15);
+          backdrop-filter: blur(12px);
+          border: 1px solid rgba(255, 255, 255, 0.3);
+          box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
+        "
+      >
+        <button
+          id="closePricingModal"
+          class="absolute top-3 right-3 text-2xl text-gray-500 hover:text-primary focus:outline-none"
+          aria-label="Close"
+          type="button"
+        >
+          &times;
+        </button>
+        <div class="text-center">
+          <i class="ri-lock-2-line text-primary ri-3x mb-4"></i>
+          <h3 class="text-2xl font-bold mb-2 text-gray-800">Access Required</h3>
+          <p class="text-gray-600 mb-6">
+            Please log in or sign up to continue with your selected plan.
+          </p>
+          <div class="flex flex-col gap-4">
+            <a
+              href="signup.html?form=login"
+              class="w-full bg-primary text-white py-3 !rounded-button font-medium hover:bg-opacity-90 transition-all"
+              >Log in</a
+            >
+            <a
+              href="signup.html?form=signup"
+              class="w-full bg-white border border-primary text-primary py-3 !rounded-button font-medium hover:bg-primary hover:text-white transition-all"
+              >Sign up</a
+            >
+          </div>
+        </div>
+      </div>
+    </div>
     <style>
       /* Hamburger icon animation (optional, for a modern look) */
       #hamburger-btn.open span:nth-child(1) {
@@ -946,12 +1007,43 @@
         opacity: 1;
         pointer-events: auto;
       }
+
+      /* Pricing Modal glass effect and transitions */
+      #pricingModal {
+        transition: opacity 0.3s;
+      }
+      #pricingModal.open {
+        opacity: 1;
+        pointer-events: auto;
+      }
+      #pricingModal .glass-effect {
+        background: rgba(255, 255, 255, 0.85);
+        backdrop-filter: blur(12px);
+        border-radius: 20px;
+        border-width: 1.5px;
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
+        animation: modalPopIn 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+      @keyframes modalPopIn {
+        0% {
+          transform: scale(0.95) translateY(30px);
+          opacity: 0;
+        }
+        100% {
+          transform: scale(1) translateY(0);
+          opacity: 1;
+        }
+      }
     </style>
+
     <script>
       const hamburgerBtn = document.getElementById("hamburger-btn");
       const mobileMenu = document.getElementById("mobile-menu");
       const mobileMenuOverlay = document.getElementById("mobile-menu-overlay");
       const closeBtn = document.getElementById("close-mobile-menu");
+      const pricingModal = document.getElementById("pricingModal");
+      const closePricingModal = document.getElementById("closePricingModal");
 
       function openMenu() {
         mobileMenu.classList.add("open");
@@ -981,6 +1073,69 @@
           closeMenu();
         }
       });
+
+      // Pricing modal logic (fully functional)
+      (function () {
+        // Get modal and close button
+        const pricingModal = document.getElementById("pricingModal");
+        const closePricingModal = document.getElementById("closePricingModal");
+
+        // Open modal on pricing-action button click
+        document.querySelectorAll(".pricing-action").forEach((btn) => {
+          btn.addEventListener("click", function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+            pricingModal.classList.add("open");
+            pricingModal.classList.remove("pointer-events-none");
+            setTimeout(() => {
+              closePricingModal && closePricingModal.focus();
+            }, 100);
+          });
+        });
+
+        // Open modal on card click (but not if a link/button inside)
+        document.querySelectorAll(".pricing-card").forEach((card) => {
+          card.addEventListener("click", function (e) {
+            if (
+              e.target.closest(".pricing-action") ||
+              e.target.tagName === "A" ||
+              e.target.tagName === "BUTTON"
+            )
+              return;
+            pricingModal.classList.add("open");
+            pricingModal.classList.remove("pointer-events-none");
+            setTimeout(() => {
+              closePricingModal && closePricingModal.focus();
+            }, 100);
+          });
+          // Keyboard accessibility: open modal on Enter/Space
+          card.addEventListener("keydown", function (e) {
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+              pricingModal.classList.add("open");
+              pricingModal.classList.remove("pointer-events-none");
+              setTimeout(() => {
+                closePricingModal && closePricingModal.focus();
+              }, 100);
+            }
+          });
+        });
+
+        // Close modal logic
+        function closeModal() {
+          pricingModal.classList.remove("open");
+          pricingModal.classList.add("pointer-events-none");
+        }
+        if (closePricingModal)
+          closePricingModal.addEventListener("click", closeModal);
+        pricingModal.addEventListener("click", function (e) {
+          if (e.target === pricingModal) closeModal();
+        });
+        document.addEventListener("keydown", function (e) {
+          if (e.key === "Escape" && pricingModal.classList.contains("open"))
+            closeModal();
+        });
+      })();
     </script>
     <style>
       /* Responsive: Hide mobile menu on desktop */

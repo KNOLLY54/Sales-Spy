@@ -625,7 +625,8 @@
           </h2>
           <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
             <div
-              class="bg-white rounded-lg shadow-md p-8 border border-gray-200 flex flex-col"
+              class="bg-white rounded-lg shadow-md p-8 border border-gray-200 flex flex-col pricing-card cursor-pointer"
+              data-plan="basic"
             >
               <h3 class="text-xl font-bold mb-4">Basic</h3>
               <div class="text-3xl font-bold mb-2">
@@ -668,7 +669,8 @@
               >
             </div>
             <div
-              class="bg-white rounded-lg shadow-lg p-8 border-2 border-primary flex flex-col relative transform scale-105"
+              class="bg-white rounded-lg shadow-lg p-8 border-2 border-primary flex flex-col relative transform scale-105 pricing-card cursor-pointer"
+              data-plan="pro"
             >
               <div
                 class="absolute top-0 right-0 bg-primary text-white text-xs font-bold px-3 py-1 rounded-bl-lg rounded-tr-lg"
@@ -727,7 +729,8 @@
               >
             </div>
             <div
-              class="bg-white rounded-lg shadow-md p-8 border border-gray-200 flex flex-col"
+              class="bg-white rounded-lg shadow-md p-8 border border-gray-200 flex flex-col pricing-card cursor-pointer"
+              data-plan="enterprise"
             >
               <h3 class="text-xl font-bold mb-4">Enterprise</h3>
               <div class="text-3xl font-bold mb-2">
@@ -946,6 +949,26 @@
         opacity: 1;
         pointer-events: auto;
       }
+
+      /* Pricing Modal glass effect (matches signup.html) */
+      .glass-effect {
+        background: rgba(255, 255, 255, 0.85);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border: 1px solid rgba(31, 38, 135, 0.15);
+        box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
+      }
+      #pricingModal {
+        transition: opacity 0.4s;
+      }
+      #pricingModal.show {
+        display: flex !important;
+        opacity: 1;
+      }
+      #pricingModal:not(.show) {
+        opacity: 0;
+        pointer-events: none;
+      }
     </style>
     <script>
       const hamburgerBtn = document.getElementById("hamburger-btn");
@@ -979,6 +1002,37 @@
       document.addEventListener("keydown", (e) => {
         if (e.key === "Escape" && mobileMenu.classList.contains("open")) {
           closeMenu();
+        }
+      });
+
+      // Pricing Modal logic
+      const pricingModal = document.getElementById("pricingModal");
+      const closePricingModal = document.getElementById("closePricingModal");
+      // Attach click to all pricing cards
+      document.querySelectorAll(".pricing-card").forEach(card => {
+        card.addEventListener("click", function(e) {
+          // Prevent link click inside card from navigating
+          if (e.target.tagName === "A") e.preventDefault();
+          pricingModal.classList.add("show");
+          pricingModal.classList.remove("hidden");
+          document.body.style.overflow = "hidden";
+        });
+      });
+      // Close modal logic
+      function closePricing() {
+        pricingModal.classList.remove("show");
+        pricingModal.classList.add("hidden");
+        document.body.style.overflow = "";
+      }
+      if (closePricingModal) closePricingModal.addEventListener("click", closePricing);
+      // Close on click outside modal
+      pricingModal.addEventListener("click", function(e) {
+        if (e.target === pricingModal) closePricing();
+      });
+      // Close on ESC
+      document.addEventListener("keydown", function(e) {
+        if (e.key === "Escape" && pricingModal.classList.contains("show")) {
+          closePricing();
         }
       });
     </script>
