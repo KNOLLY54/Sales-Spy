@@ -275,30 +275,26 @@ display: block;
   </nav>
   <!-- Upgrade section (unchanged) -->
   <div id="upgrade-section" class="p-4 border-t">
-    <div id="upgrade-expanded" class="bg-gray-50 rounded-lg p-4 mb-3">
-      <p class="text-sm text-gray-600 mb-2">Credits remaining</p>
-      <div class="flex items-center justify-between">
-        <span class="font-semibold text-lg">1,250</span>
-        <span class="text-xs text-gray-500">of 2,000</span>
-      </div>
-      <div class="w-full bg-gray-200 rounded-full h-2 mt-2">
-        <div class="bg-primary rounded-full h-2" style="width: 62.5%"></div>
-      </div>
-    </div>
-    <a href="Dashboard-pay.html">
-      <button id="upgrade-btn-expanded" class="w-full bg-primary text-white py-2 px-4 rounded-button flex items-center justify-center whitespace-nowrap hover:bg-blue-600 transition-colors">
-        <div class="w-5 h-5 flex items-center justify-center mr-2">
-          <i class="ri-arrow-up-line"></i>
-        </div>
-        <span>Upgrade Plan</span>
-      </button>
-    </a>
-    <a href="Dashboard-pay.html">
-      <button id="upgrade-btn-collapsed" class="hidden bg-primary text-white w-10 h-10 rounded-full flex items-center justify-center mx-auto mt-2 hover:bg-blue-600 transition-colors" title="Upgrade">
-        <i class="ri-arrow-up-line"></i>
-      </button>
-    </a>
-  </div>
+                    <div id="upgrade-expanded" class="bg-gray-50 rounded-lg p-4 mb-3">
+                        <p class="text-sm text-gray-600 mb-2">Credits remaining</p>
+                        <div class="flex items-center justify-between">
+                            <span class="font-semibold text-lg">1,250</span>
+                            <span class="text-xs text-gray-500">of 2,000</span>
+                        </div>
+                        <div class="w-full bg-gray-200 rounded-full h-2 mt-2">
+                            <div class="bg-primary rounded-full h-2" style="width: 62.5%"></div>
+                        </div>
+                    </div>
+                    <button id="upgrade-btn-expanded" class="w-full bg-primary text-white py-2 px-4 rounded-button flex items-center justify-center whitespace-nowrap hover:bg-blue-600 transition-colors">
+                        <div class="w-5 h-5 flex items-center justify-center mr-2">
+                            <i class="ri-arrow-up-line"></i>
+                        </div>
+                        <span>Upgrade Plan</span>
+                    </button>
+                    <button id="upgrade-btn-collapsed" class="hidden bg-primary text-white w-10 h-10 rounded-full flex items-center justify-center mx-auto mt-2 hover:bg-blue-600 transition-colors" title="Upgrade">
+                        <i class="ri-arrow-up-line"></i>
+                    </button>
+                </div>
 </div>
 <script>
 document.addEventListener('DOMContentLoaded', function() {
@@ -427,11 +423,9 @@ document.addEventListener('DOMContentLoaded', function() {
           </div>
           <span class="text-sm font-medium">1,250 credits</span>
         </div>
-        <a href="Dashboard-pay.html">
-          <button class="bg-primary text-white py-2 px-4 rounded-button whitespace-nowrap hover:bg-blue-600 transition-colors">
-            <span>Upgrade</span>
-          </button>
-        </a>
+        <button class="bg-primary text-white py-2 px-4 rounded-button whitespace-nowrap hover:bg-blue-600 transition-colors">
+          <span>Upgrade</span>
+        </button>
         <div class="dropdown">
           <button class="flex items-center space-x-2 focus:outline-none">
             <div class="w-10 h-10 rounded-full bg-gray-200 flex items-center justify-center overflow-hidden">
@@ -898,7 +892,111 @@ document.addEventListener('DOMContentLoaded', function() {
     </div>
   </div>
 </div>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  // Crypto modal logic
+  const paymentForm = document.getElementById('payment-form');
+  const cryptoCurrency = document.getElementById('crypto-currency');
+  const blockchainNetwork = document.getElementById('blockchain-network');
+  const walletAddress = document.getElementById('wallet-address');
+  const walletType = document.getElementById('wallet-type');
+  const billingFrequency = document.getElementById('billing-frequency');
+  const termsToggle = document.getElementById('terms-toggle');
+  const termsCheckbox = document.getElementById('terms-checkbox');
+  const saveWalletBtn = document.getElementById('save-wallet-btn');
+  const walletError = document.getElementById('wallet-error');
+  let termsChecked = false;
 
+  // Checkbox toggle
+  if (termsToggle && termsCheckbox) {
+    termsToggle.addEventListener('click', function(e) {
+      termsChecked = !termsChecked;
+      termsCheckbox.classList.toggle('checked', termsChecked);
+      validateForm();
+    });
+  }
+
+  // Enable/disable Save button
+  function validateForm() {
+    let valid = true;
+    walletError.classList.add('hidden');
+    // Required fields
+    if (!cryptoCurrency.value || !blockchainNetwork.value || !walletAddress.value.trim() || !walletType.value || !billingFrequency.value || !termsChecked) {
+      valid = false;
+    }
+    // Wallet address validation
+    if (walletAddress.value.trim()) {
+      const addr = walletAddress.value.trim();
+      let regex = null;
+      if (cryptoCurrency.value === 'BTC') {
+        // Bitcoin: starts with 1, 3, or bc1
+        regex = /^(1|3|bc1)[a-zA-Z0-9]{25,}$/;
+      } else if (cryptoCurrency.value === 'ETH' || cryptoCurrency.value === 'USDT') {
+        // Ethereum/USDT: starts with 0x, 42 chars
+        regex = /^0x[a-fA-F0-9]{40}$/;
+      }
+      if (regex && !regex.test(addr)) {
+        walletError.textContent = 'Invalid wallet address for selected cryptocurrency.';
+        walletError.classList.remove('hidden');
+        valid = false;
+      }
+    }
+    saveWalletBtn.disabled = !valid;
+    return valid;
+  }
+
+  [cryptoCurrency, blockchainNetwork, walletAddress, walletType, billingFrequency].forEach(el => {
+    if (el) el.addEventListener('input', validateForm);
+  });
+  if (walletAddress) walletAddress.addEventListener('blur', validateForm);
+
+  // Simulate saving wallet
+  if (paymentForm) {
+    paymentForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+      if (!validateForm()) return;
+      saveWalletBtn.disabled = true;
+      const orig = saveWalletBtn.innerHTML;
+      saveWalletBtn.innerHTML = '<div class="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin mr-2 inline-block"></div> Saving...';
+      setTimeout(() => {
+        saveWalletBtn.innerHTML = orig;
+        saveWalletBtn.disabled = false;
+        document.getElementById('payment-modal').classList.add('hidden');
+        // Show success modal
+        let modal = document.getElementById('payment-success-modal');
+        if (!modal) {
+          modal = document.createElement('div');
+          modal.id = 'payment-success-modal';
+          modal.className = 'fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40';
+          modal.innerHTML = `
+            <div class="bg-white rounded-lg shadow-xl max-w-xs w-full p-6 text-center">
+              <div class="w-12 h-12 mx-auto mb-4 flex items-center justify-center text-green-500 bg-green-100 rounded-full">
+                <i class="ri-checkbox-circle-line ri-2x"></i>
+              </div>
+              <h4 class="text-lg font-medium mb-2">Wallet Added</h4>
+              <p class="text-sm text-gray-600 mb-4">Your crypto wallet has been saved successfully.</p>
+              <button id="close-payment-success-modal" class="px-4 py-2 bg-primary text-white rounded-button text-sm font-medium hover:bg-blue-600 transition-colors">OK</button>
+            </div>
+          `;
+          document.body.appendChild(modal);
+        }
+        modal.classList.remove('hidden');
+        modal.onclick = function(ev) {
+          if (ev.target.id === 'close-payment-success-modal' || ev.target === modal) {
+            modal.classList.add('hidden');
+          }
+        };
+        // Reset form
+        paymentForm.reset();
+        termsChecked = false;
+        termsCheckbox.classList.remove('checked');
+        saveWalletBtn.disabled = true;
+        walletError.classList.add('hidden');
+      }, 1200);
+    });
+  }
+});
+</script>
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {

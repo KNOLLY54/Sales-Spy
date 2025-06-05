@@ -58,9 +58,6 @@
         -webkit-appearance: none;
         margin: 0;
       }
-      html {
-        scroll-behavior: smooth;
-      }
     </style>
   </head>
   <body class="bg-white">
@@ -76,24 +73,21 @@
         class="container mx-auto px-4 py-4 flex justify-between items-center"
       >
         <div class="flex items-center">
-          <a href="# " class="text-2xl font-['Pacifico'] text-primary"
+          <a href="#" class="text-2xl font-['Pacifico'] text-primary"
             >Sales - Spy</a
           >
         </div>
         <nav class="hidden md:flex space-x-8">
-          <a href="#home" class="text-gray-800 hover:text-primary font-medium"
+          <a href="#" class="text-gray-800 hover:text-primary font-medium"
             >Home</a
           >
-           <a href="#platforms" class="text-gray-800 hover:text-primary font-medium"
-            >Platforms</a
-          >
-          <a href="#features" class="text-gray-800 hover:text-primary font-medium"
+          <a href="#" class="text-gray-800 hover:text-primary font-medium"
             >Features</a
           >
-          <a href="#pricing" class="text-gray-800 hover:text-primary font-medium"
+          <a href="#" class="text-gray-800 hover:text-primary font-medium"
             >Pricing</a
           >
-          <a href="#faq" class="text-gray-800 hover:text-primary font-medium"
+          <a href="#" class="text-gray-800 hover:text-primary font-medium"
             >Blog</a
           >
         </nav>
@@ -143,22 +137,22 @@
         </div>
         <div class="flex-1 flex flex-col justify-center items-center space-y-8">
           <a
-            href="#home"
+            href="#"
             class="text-2xl font-semibold text-gray-900 hover:text-primary transition"
             >Home</a
           >
           <a
-            href="#features"
+            href="#"
             class="text-2xl font-semibold text-gray-900 hover:text-primary transition"
             >Features</a
           >
           <a
-            href="#pricing"
+            href="#"
             class="text-2xl font-semibold text-gray-900 hover:text-primary transition"
             >Pricing</a
           >
           <a
-            href="#faq"
+            href="#"
             class="text-2xl font-semibold text-gray-900 hover:text-primary transition"
             >Blog</a
           >
@@ -180,7 +174,7 @@
 
     <main>
       <!-- Hero Section -->
-      <section id="home" class="w-full py-16 relative overflow-hidden mt-24">
+      <section class="w-full py-16 relative overflow-hidden mt-24">
         <div class="container mx-auto px-4">
           <div class="text-center max-w-4xl mx-auto mb-12">
             <h1 class="text-3xl md:text-4xl lg:text-5xl font-bold mb-4">
@@ -239,7 +233,7 @@
         </div>
       </section>
       <!-- Integrations Section -->
-      <section id="platforms" class="py-16">
+      <section class="py-16">
         <div class="container mx-auto px-4">
           <h2 class="text-2xl md:text-3xl font-bold text-center mb-12">
             Generate leads across multiple website & e-commerce platforms
@@ -351,7 +345,7 @@
         </div>
       </section>
       <!-- Features Section -->
-      <section id="features" class="py-16 bg-gray-50">
+      <section class="py-16 bg-gray-50">
         <div class="container mx-auto px-4">
           <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
             <div>
@@ -624,7 +618,7 @@
         </div>
       </section>
       <!-- Pricing Section -->
-      <section id="pricing" class="py-16 bg-gray-50">
+      <section class="py-16 bg-gray-50">
         <div class="container mx-auto px-4">
           <h2 class="text-2xl md:text-3xl font-bold text-center mb-12">
             Pricing
@@ -671,7 +665,7 @@
               </ul>
               <a
                 href="#"
-                class="bg-white border border-primary text-primary px-6 py-3 !rounded-button whitespace-nowrap font-medium hover:bg-primary hover:text-white transition-all text-center pricing-action"
+                class="bg-white border border-primary text-primary px-6 py-3 !rounded-button whitespace-nowrap font-medium hover:bg-primary hover:text-white transition-all text-center"
                 >Get started</a
               >
             </div>
@@ -732,7 +726,7 @@
               </ul>
               <a
                 href="#"
-                class="bg-primary text-white px-6 py-3 !rounded-button whitespace-nowrap font-medium hover:bg-opacity-90 transition-all text-center pricing-action"
+                class="bg-primary text-white px-6 py-3 !rounded-button whitespace-nowrap font-medium hover:bg-opacity-90 transition-all text-center"
                 >Get started</a
               >
             </div>
@@ -788,7 +782,7 @@
               </ul>
               <a
                 href="#"
-                class="bg-white border border-primary text-primary px-6 py-3 !rounded-button whitespace-nowrap font-medium hover:bg-primary hover:text-white transition-all text-center pricing-action"
+                class="bg-white border border-primary text-primary px-6 py-3 !rounded-button whitespace-nowrap font-medium hover:bg-primary hover:text-white transition-all text-center"
                 >Contact sales</a
               >
             </div>
@@ -796,7 +790,7 @@
         </div>
       </section>
       <!-- FAQ Section -->
-      <section id="faq" class="py-16">
+      <section class="py-16">
         <div class="container mx-auto px-4">
           <h2 class="text-2xl md:text-3xl font-bold text-center mb-12">
             Frequently Asked Questions
@@ -934,16 +928,9 @@
     <!-- Pricing Modal (add before closing </body>) -->
     <div
       id="pricingModal"
-      class="fixed inset-0 bg-black bg-opacity-20 hidden items-center justify-center z-[9999]"
-     
+      class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-[9999]"
     >
-      <div class="bg-white glass-effect rounded-xl p-8 w-full max-w-md mx-4 relative shadow-2xl border border-gray-200"  style="  
-        background: rgba(255, 255, 255, 0.15);
-        backdrop-filter: blur(12px);
-        -webkit-backdrop-filter: blur(12px);
-        border: 1px solid rgba(255, 255, 255, 0.3);
-        box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
-      ">
+      <div class="glass-effect glass-effect-modal rounded-xl p-8 w-full max-w-md mx-4 relative shadow-2xl border border-gray-200">
         <button
           id="closePricingModal"
           class="absolute top-4 right-4 text-gray-400 hover:text-primary text-2xl focus:outline-none"
@@ -1004,7 +991,28 @@
         opacity: 1;
         pointer-events: auto;
       }
-     
+      .glass-effect {
+        background: rgba(255, 255, 255, 0.15);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
+      }
+      .glass-effect-modal {
+        background: rgba(255, 255, 255, 0.85) !important;
+        -webkit-backdrop-filter: blur(16px) !important;
+        backdrop-filter: blur(16px) !important;
+        border-radius: 16px !important;
+        border: 1.5px solid rgba(30, 58, 138, 0.10) !important;
+        box-shadow: 0 8px 32px 0 rgba(30,58,138,0.13), 0 2px 8px 0 rgba(30,58,138,0.08) !important;
+      }
+      #pricingModal .glass-effect-modal {
+        background: rgba(255, 255, 255, 0.85) !important;
+        -webkit-backdrop-filter: blur(16px) !important;
+        backdrop-filter: blur(16px) !important;
+        border-radius: 16px !important;
+        border: 1.5px solid rgba(30, 58, 138, 0.10) !important;
+      }
       #pricingModal {
         display: none;
         align-items: center;
@@ -1014,10 +1022,15 @@
       #pricingModal.active {
         display: flex;
       }
-      #pricingModal .glass-effect {
-        background: rgba(255, 255, 255, 0.95);
-        border-radius: 20px;
-        border-width: 1.5px;
+      .pricing-card {
+        cursor: pointer;
+        transition: box-shadow 0.2s, transform 0.2s;
+      }
+      .pricing-card:focus,
+      .pricing-card:hover {
+        box-shadow: 0 8px 32px 0 rgba(31,38,135,0.18), 0 2px 8px 0 rgba(30,58,138,0.08);
+        transform: translateY(-2px) scale(1.02);
+        outline: none;
       }
     </style>
     <script>

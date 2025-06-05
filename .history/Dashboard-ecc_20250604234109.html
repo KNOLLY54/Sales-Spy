@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Sales-Spy Websites Dashboard</title>
+    <title>Sales-Spy E-commerce Dashboard</title>
     <script src="https://cdn.tailwindcss.com/3.4.16"></script>
     <script>
       tailwind.config = {
@@ -165,7 +165,7 @@
               <li class="mb-2">
                 <a
                   href="Dashboard-com.html"
-                  class="flex items-center px-4 py-3 text-primary bg-blue-50 rounded-r-lg border-l-4 border-primary"
+                 class="flex items-center px-4 py-3 text-gray-600 hover:bg-gray-100 rounded-r-lg hover:text-primary transition-colors"
                 >
                   <div class="w-6 h-6 flex items-center justify-center mr-3">
                     <i class="ri-global-line"></i>
@@ -176,7 +176,8 @@
               <li class="mb-2">
                 <a
                   href="Dashboard-ecc.html"
-                  class="flex items-center px-4 py-3 text-gray-600 hover:bg-gray-100 rounded-r-lg hover:text-primary transition-colors"
+                  
+                   class="flex items-center px-4 py-3 text-primary bg-blue-50 rounded-r-lg border-l-4 border-primary"
                 >
                   <div class="w-6 h-6 flex items-center justify-center mr-3">
                     <i class="ri-shopping-cart-line"></i>
@@ -225,24 +226,24 @@
               </div>
             </div>
             <a href="Dashboard-pay.html">
-              <button
-                id="upgrade-btn-expanded"
-                class="w-full bg-primary text-white py-2 px-4 rounded-button flex items-center justify-center whitespace-nowrap hover:bg-blue-600 transition-colors"
-              >
-                <div class="w-5 h-5 flex items-center justify-center mr-2">
-                  <i class="ri-arrow-up-line"></i>
-                </div>
-                <span>Upgrade Plan</span>
-              </button>
+            <button
+              id="upgrade-btn-expanded"
+              class="w-full bg-primary text-white py-2 px-4 rounded-button flex items-center justify-center whitespace-nowrap hover:bg-blue-600 transition-colors"
+            >
+              <div class="w-5 h-5 flex items-center justify-center mr-2">
+                <i class="ri-arrow-up-line"></i>
+              </div>
+              <span>Upgrade Plan</span>
+            </button>
             </a>
             <a href="Dashboard-pay.html">
-              <button
-                id="upgrade-btn-collapsed"
-                class="hidden bg-primary text-white w-10 h-10 rounded-full flex items-center justify-center mx-auto mt-2 hover:bg-blue-600 transition-colors"
-                title="Upgrade"
-              >
-                <i class="ri-arrow-up-line"></i>
-              </button>
+            <button
+              id="upgrade-btn-collapsed"
+              class="hidden bg-primary text-white w-10 h-10 rounded-full flex items-center justify-center mx-auto mt-2 hover:bg-blue-600 transition-colors"
+              title="Upgrade"
+            >
+              <i class="ri-arrow-up-line"></i>
+            </button>
             </a>
           </div>
           <script>
@@ -333,13 +334,11 @@
                 </div>
                 <span class="text-sm font-medium">1,250 credits</span>
               </div>
-              <a href="Dashboard-pay.html">
-                <button
-                  class="bg-primary text-white py-2 px-4 rounded-button whitespace-nowrap hover:bg-blue-600 transition-colors"
-                >
-                  <span>Upgrade</span>
-                </button>
-              </a>
+              <button
+                class="bg-primary text-white py-2 px-4 rounded-button whitespace-nowrap hover:bg-blue-600 transition-colors"
+              >
+                <span>Upgrade</span>
+              </button>
               <div class="relative">
                 <button class="flex items-center space-x-2">
                   <div
@@ -360,9 +359,9 @@
         <!-- Content -->
         <main class="flex-1 p-6">
           <div class="mb-6">
-           <h1 class="text-2xl font-bold text-primary mb-2" style="color: #1E3A8A;">Websites</h1>
+            <h1 class="text-2xl font-bold text-primary mb-2" style="color: #1E3A8A;">E-commerce</h1>
             <p class="text-gray-600">
-              Search, filter, and discover <span class="font-bold " style="color: #1E3A8A;">Websites leads</span> for your business.
+              Search, filter, and discover <span class="font-bold " style="color: #1E3A8A;">E-commerce leads</span> for your business.
             </p>
           </div>
           <!-- Filters Section -->
@@ -400,10 +399,10 @@
                     class="w-full px-3 py-2 border border-gray-300 rounded text-sm custom-select pr-8"
                   >
                     <option value="">All Platforms</option>
+                    <option value="shopify">Shopify</option>
+                    <option value="woocommerce">WooCommerce</option>
+                    <option value="magento">Magento</option>
                     <option value="wordpress">WordPress</option>
-                    <option value="wix">Wix</option>
-                    <option value="squarespace">Squarespace</option>
-                    <option value="webflow">Webflow</option>
                   </select>
                 </div>
                 <div>
@@ -440,10 +439,10 @@
                       class="w-full px-3 py-2 border border-gray-300 rounded text-sm custom-select pr-8"
                     >
                       <option value="">Select Tags</option>
-                      <option value="blog">Blog</option>
-                      <option value="portfolio">Portfolio</option>
-                      <option value="business">Business</option>
-                      <option value="personal">Personal</option>
+                      <option value="fashion">Fashion</option>
+                      <option value="electronics">Electronics</option>
+                      <option value="home">Home & Garden</option>
+                      <option value="beauty">Beauty</option>
                     </select>
                   </div>
                   <div>
@@ -478,6 +477,22 @@
                   </div>
                   <div>
                     <label class="block text-sm font-medium text-gray-700 mb-1"
+                      >Product Count</label
+                    >
+                    <select
+                      class="w-full px-3 py-2 border border-gray-300 rounded text-sm custom-select pr-8"
+                    >
+                      <option value="">Any</option>
+                      <option value="1-100">1-100</option>
+                      <option value="101-500">101-500</option>
+                      <option value="501-1000">501-1000</option>
+                      <option value="1001+">1001+</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-4">
+                  <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1"
                       >Pages</label
                     >
                     <select
@@ -490,8 +505,6 @@
                       <option value="101+">101+</option>
                     </select>
                   </div>
-                </div>
-                <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-4">
                   <div>
                     <label class="block text-sm font-medium text-gray-700 mb-1"
                       >Top Level Domain</label
@@ -524,6 +537,23 @@
                   </div>
                   <div>
                     <label class="block text-sm font-medium text-gray-700 mb-1"
+                      >Installed Apps</label
+                    >
+                    <select
+                      class="w-full px-3 py-2 border border-gray-300 rounded text-sm custom-select pr-8"
+                    >
+                      <option value="">All Apps</option>
+                      <option value="analytics">Google Analytics</option>
+                      <option value="hotjar">Hotjar</option>
+                      <option value="intercom">Intercom</option>
+                      <option value="mailchimp">Mailchimp</option>
+                      <option value="zendesk">Zendesk</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                  <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1"
                       >Domain Reg Year</label
                     >
                     <select
@@ -537,7 +567,60 @@
                       <option value="before-2010">Before 2010</option>
                     </select>
                   </div>
-                  <!-- Removed: Product Count, Collections Count, Product Avg Price, Currency, Installed Apps -->
+                  <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1"
+                      >Product Avg Price</label
+                    >
+                    <div class="flex space-x-2">
+                      <input
+                        type="number"
+                        placeholder="Min"
+                        class="w-full px-3 py-2 border border-gray-300 rounded text-sm"
+                      />
+                      <input
+                        type="number"
+                        placeholder="Max"
+                        class="w-full px-3 py-2 border border-gray-300 rounded text-sm"
+                      />
+                    </div>
+                  </div>
+                  <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1"
+                      >Currency</label
+                    >
+                    <select
+                      class="w-full px-3 py-2 border border-gray-300 rounded text-sm custom-select pr-8"
+                    >
+                      <option value="">All Currencies</option>
+                      <option value="usd">USD</option>
+                      <option value="eur">EUR</option>
+                      <option value="gbp">GBP</option>
+                      <option value="cad">CAD</option>
+                      <option value="aud">AUD</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1"
+                      >Order Results By</label
+                    >
+                    <select
+                      class="w-full px-3 py-2 border border-gray-300 rounded text-sm custom-select pr-8"
+                    >
+                      <option value="relevance">Relevance</option>
+                      <option value="date-desc">Date (Newest)</option>
+                      <option value="date-asc">Date (Oldest)</option>
+                      <option value="traffic-desc">
+                        Traffic (High to Low)
+                      </option>
+                      <option value="traffic-asc">Traffic (Low to High)</option>
+                      <option value="products-desc">
+                        Products (High to Low)
+                      </option>
+                      <option value="products-asc">
+                        Products (Low to High)
+                      </option>
+                    </select>
+                  </div>
                 </div>
               </div>
               <div class="flex mt-6">
@@ -605,77 +688,158 @@
               <table class="min-w-full divide-y divide-gray-200">
                 <thead class="bg-gray-50">
                   <tr>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th
+                      class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                    >
                       Domain
                     </th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th
+                      class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                    >
                       Platform
                     </th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th
+                      class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                    >
                       Title
                     </th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th
+                      class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                    >
                       Description
                     </th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th
+                      class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                    >
                       Language
                     </th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th
+                      class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                    >
                       Country
                     </th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th
+                      class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                    >
+                      Product Count
+                    </th>
+                    <th
+                      class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                    >
+                      Collections Count
+                    </th>
+                    <th
+                      class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                    >
+                      Product Avg Price
+                    </th>
+                    <th
+                      class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                    >
+                      Currency
+                    </th>
+                    <th
+                      class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                    >
                       Email
                     </th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th
+                      class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                    >
                       Phone
                     </th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                      Tags
+                    <th
+                      class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                    >
+                      WhatsApp
                     </th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th
+                      class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                    >
+                      Fb Ad Count (Past 30 Days)
+                    </th>
+                    <th
+                      class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                    >
                       Domain Reg Date
                     </th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th
+                      class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                    >
+                      Latest Product Upload Date
+                    </th>
+                    <th
+                      class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                    >
                       Indexed Date
                     </th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th
+                      class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                    >
+                      Facebook Followers
+                    </th>
+                    <th
+                      class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                    >
+                      Instagram Followers
+                    </th>
+                    <th
+                      class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                    >
+                      Pinterest Followers
+                    </th>
+                    <th
+                      class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                    >
+                      YouTube Followers
+                    </th>
+                    <th
+                      class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                    >
                       Facebook Link
                     </th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th
+                      class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                    >
                       Twitter Link
                     </th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th
+                      class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                    >
                       Instagram Link
                     </th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th
+                      class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                    >
                       Pinterest Link
                     </th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th
+                      class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                    >
                       Tiktok Link
                     </th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    <th
+                      class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                    >
                       YouTube Link
                     </th>
                   </tr>
                 </thead>
                 <tbody class="bg-white divide-y divide-gray-200">
-                  <!-- Example row, repeat for each result row -->
                   <tr class="hover:bg-gray-50 result-row cursor-pointer"
                       data-domain="yamloveme.com"
                       data-platform="Shopify"
                       data-title="yamloveme"
                       data-description="Trendy jewelry and accessories"
-                      data-language="EN"
                       data-country="US"
-                      data-email="contact@yamloveme.com"
-                      data-phone="+1 555-5678"
-                      data-tags="Jewelry,Trendy,US"
-                      data-domainregdate="2019-04-12"
-                      data-indexeddate="2024-06-01"
+                      data-productcount="1900"
+                      data-price="37.69"
                   >
                     <td class="px-6 py-4 whitespace-nowrap">
                       <div class="flex items-center">
-                        <div class="w-8 h-8 flex items-center justify-center bg-red-100 rounded-full mr-3">
+                        <div
+                          class="w-8 h-8 flex items-center justify-center bg-red-100 rounded-full mr-3"
+                        >
                           <i class="ri-heart-fill text-red-500"></i>
                         </div>
                         <div class="text-sm font-medium text-gray-900">
@@ -683,54 +847,124 @@
                         </div>
                       </div>
                     </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
                       Shopify
                     </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
                       yamloveme
                     </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
                       Trendy jewelry and accessories
                     </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
                       EN
                     </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
                       US
                     </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                      contact@yamloveme.com
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
+                      1900
                     </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
+                      12
+                    </td>
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
+                      37.69
+                    </td>
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
+                      USD
+                    </td>
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
                       +1 555-5678
                     </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                      <span class="bg-blue-100 text-blue-800 text-xs px-3 py-1 rounded-full mr-1">Jewelry</span>
-                      <span class="bg-blue-100 text-blue-800 text-xs px-3 py-1 rounded-full mr-1">Trendy</span>
-                      <span class="bg-blue-100 text-blue-800 text-xs px-3 py-1 rounded-full">US</span>
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
+                      8
                     </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
                       2019-04-12
                     </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
+                      2024-05-01
+                    </td>
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
                       2024-06-01
                     </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
+                      2,100
+                    </td>
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
+                      5,400
+                    </td>
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
+                      1,200
+                    </td>
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
+                      800
+                    </td>
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
                       <a href="#">facebook.com/yamloveme</a>
                     </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
                       <a href="#">twitter.com/yamloveme</a>
                     </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
                       <a href="#">instagram.com/yamloveme</a>
                     </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
                       <a href="#">pinterest.com/yamloveme</a>
                     </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
                       <a href="#">tiktok.com/@yamloveme</a>
                     </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
                       <a href="#">youtube.com/yamloveme</a>
                     </td>
                   </tr>
@@ -740,12 +974,8 @@
                       data-title="True Compress"
                       data-description="Compression wear for athletes"
                       data-country="GB"
-                      data-language="EN"
-                      data-email="support@true-compress.com"
-                      data-phone="+44 20 1234 5678"
-                      data-tags="Athletic,Compression,GB"
-                      data-domainregdate="2021-08-22"
-                      data-indexeddate="2024-06-01"
+                      data-productcount="10"
+                      data-price="42.04"
                   >
                     <td class="px-6 py-4 whitespace-nowrap">
                       <div class="flex items-center">
@@ -759,54 +989,134 @@
                         </div>
                       </div>
                     </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
                       Shopify
                     </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
                       True Compress
                     </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
                       Compression wear for athletes
                     </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
                       EN
                     </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
                       GB
                     </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
+                      10
+                    </td>
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
+                      3
+                    </td>
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
+                      42.04
+                    </td>
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
+                      GBP
+                    </td>
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
                       support@true-compress.com
                     </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
                       +44 20 1234 5678
                     </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                      <span class="bg-blue-100 text-blue-800 text-xs px-3 py-1 rounded-full mr-1">Athletic</span>
-                      <span class="bg-blue-100 text-blue-800 text-xs px-3 py-1 rounded-full mr-1">Compression</span>
-                      <span class="bg-blue-100 text-blue-800 text-xs px-3 py-1 rounded-full">GB</span>
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
+                      +44 7700 900123
                     </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
+                      2
+                    </td>
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
                       2021-08-22
                     </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
+                      2024-05-15
+                    </td>
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
                       2024-06-01
                     </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
+                      1,000
+                    </td>
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
+                      2,300
+                    </td>
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
+                      500
+                    </td>
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
+                      300
+                    </td>
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
                       <a href="#">facebook.com/truecompress</a>
                     </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
                       <a href="#">twitter.com/truecompress</a>
                     </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
                       <a href="#">instagram.com/truecompress</a>
                     </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
                       <a href="#">pinterest.com/truecompress</a>
                     </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
                       <a href="#">tiktok.com/@truecompress</a>
                     </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
                       <a href="#">youtube.com/truecompress</a>
                     </td>
                   </tr>
@@ -816,12 +1126,8 @@
                       data-title="TeleNaarl – Timeless Jewellery for Every Occasion"
                       data-description="Fine jewelry for all occasions"
                       data-country="IN"
-                      data-language="EN"
-                      data-email="hello@telenaarl.com"
-                      data-phone="+91 22 1234 5678"
-                      data-tags="Jewelry,Timeless,IN"
-                      data-domainregdate="2018-11-10"
-                      data-indexeddate="2024-06-01"
+                      data-productcount="1185"
+                      data-price="93.04"
                   >
                     <td class="px-6 py-4 whitespace-nowrap">
                       <div class="flex items-center">
@@ -835,54 +1141,134 @@
                         </div>
                       </div>
                     </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
                       Shopify
                     </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
                       TeleNaarl – Timeless Jewellery for Every Occasion
                     </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
                       Fine jewelry for all occasions
                     </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
                       EN
                     </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
                       IN
                     </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
+                      1185
+                    </td>
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
+                      8
+                    </td>
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
+                      93.04
+                    </td>
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
+                      INR
+                    </td>
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
                       hello@telenaarl.com
                     </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
                       +91 22 1234 5678
                     </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                      <span class="bg-blue-100 text-blue-800 text-xs px-3 py-1 rounded-full mr-1">Jewelry</span>
-                      <span class="bg-blue-100 text-blue-800 text-xs px-3 py-1 rounded-full mr-1">Timeless</span>
-                      <span class="bg-blue-100 text-blue-800 text-xs px-3 py-1 rounded-full">IN</span>
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
+                      +91 90000 12345
                     </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
+                      5
+                    </td>
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
                       2018-11-10
                     </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
+                      2024-05-20
+                    </td>
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
                       2024-06-01
                     </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
+                      3,200
+                    </td>
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
+                      7,800
+                    </td>
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
+                      2,100
+                    </td>
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
+                      1,000
+                    </td>
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
                       <a href="#">facebook.com/telenaarl</a>
                     </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
                       <a href="#">twitter.com/telenaarl</a>
                     </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
                       <a href="#">instagram.com/telenaarl</a>
                     </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
                       <a href="#">pinterest.com/telenaarl</a>
                     </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
                       <a href="#">tiktok.com/@telenaarl</a>
                     </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
                       <a href="#">youtube.com/telenaarl</a>
                     </td>
                   </tr>
@@ -892,12 +1278,8 @@
                       data-title="dbfay"
                       data-description="Fashion and accessories"
                       data-country="FR"
-                      data-language="FR"
-                      data-email="contact@dbfay.com"
-                      data-phone="+33 1 23 45 67 89"
-                      data-tags="Fashion,Accessories,FR"
-                      data-domainregdate="2020-02-18"
-                      data-indexeddate="2024-06-01"
+                      data-productcount="840"
+                      data-price="35.56"
                   >
                     <td class="px-6 py-4 whitespace-nowrap">
                       <div class="flex items-center">
@@ -911,54 +1293,134 @@
                         </div>
                       </div>
                     </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
                       Shopify
                     </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
                       dbfay
                     </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
                       Fashion and accessories
                     </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
                       FR
                     </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
                       FR
                     </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
+                      840
+                    </td>
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
+                      6
+                    </td>
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
+                      35.56
+                    </td>
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
+                      EUR
+                    </td>
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
                       contact@dbfay.com
                     </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
                       +33 1 23 45 67 89
                     </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                      <span class="bg-blue-100 text-blue-800 text-xs px-3 py-1 rounded-full mr-1">Fashion</span>
-                      <span class="bg-blue-100 text-blue-800 text-xs px-3 py-1 rounded-full mr-1">Accessories</span>
-                      <span class="bg-blue-100 text-blue-800 text-xs px-3 py-1 rounded-full">FR</span>
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
+                      +33 6 12 34 56 78
                     </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
+                      3
+                    </td>
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
                       2020-02-18
                     </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
+                      2024-05-25
+                    </td>
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
                       2024-06-01
                     </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
+                      1,500
+                    </td>
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
+                      2,800
+                    </td>
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
+                      600
+                    </td>
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
+                      400
+                    </td>
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
                       <a href="#">facebook.com/dbfay</a>
                     </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
                       <a href="#">twitter.com/dbfay</a>
                     </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
                       <a href="#">instagram.com/dbfay</a>
                     </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
                       <a href="#">pinterest.com/dbfay</a>
                     </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
                       <a href="#">tiktok.com/@dbfay</a>
                     </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
                       <a href="#">youtube.com/dbfay</a>
                     </td>
                   </tr>
@@ -968,12 +1430,8 @@
                       data-title="Epic Falls: Legendary Laughs!"
                       data-description="Humor gifts and novelties"
                       data-country="US"
-                      data-language="EN"
-                      data-email=""
-                      data-phone="+1 555-9876"
-                      data-tags="Humor,Gifts,US"
-                      data-domainregdate="2022-01-05"
-                      data-indexeddate="2024-06-01"
+                      data-productcount="3"
+                      data-price="1623.08"
                   >
                     <td class="px-6 py-4 whitespace-nowrap">
                       <div class="flex items-center">
@@ -987,54 +1445,134 @@
                         </div>
                       </div>
                     </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
                       Shopify
                     </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                      Epic Falls: Legendary Laughs!
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
+                      Epic Falls: Legendary Laughs! – EpicFalls
                     </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
                       Humor gifts and novelties
                     </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
                       EN
                     </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
                       US
                     </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
+                      3
+                    </td>
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
+                      1
+                    </td>
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
+                      1623.08
+                    </td>
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
+                      USD
+                    </td>
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
                      
                     </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
                       +1 555-9876
                     </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                      <span class="bg-blue-100 text-blue-800 text-xs px-3 py-1 rounded-full mr-1">Humor</span>
-                      <span class="bg-blue-100 text-blue-800 text-xs px-3 py-1 rounded-full mr-1">Gifts</span>
-                      <span class="bg-blue-100 text-blue-800 text-xs px-3 py-1 rounded-full">US</span>
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
+                      +1 555-4321
                     </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
+                      1
+                    </td>
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
                       2022-01-05
                     </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
+                      2024-05-28
+                    </td>
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
                       2024-06-01
                     </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
+                      500
+                    </td>
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
+                      1,000
+                    </td>
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
+                      200
+                    </td>
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
+                      100
+                    </td>
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
                       <a href="#">facebook.com/epicfalls</a>
                     </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
                       <a href="#">twitter.com/epicfalls</a>
                     </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
                       <a href="#">instagram.com/epicfalls</a>
                     </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
                       <a href="#">pinterest.com/epicfalls</a>
                     </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
                       <a href="#">tiktok.com/@epicfalls</a>
                     </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
                       <a href="#">youtube.com/epicfalls</a>
                     </td>
                   </tr>
@@ -1044,12 +1582,8 @@
                       data-title="akitada"
                       data-description="Japanese home goods"
                       data-country="DE"
-                      data-language="DE"
-                      data-email="kontakt@akitada.com"
-                      data-phone="+49 30 123456"
-                      data-tags="Home Goods,Japanese,DE"
-                      data-domainregdate="2017-07-30"
-                      data-indexeddate="2024-06-01"
+                      data-productcount="165"
+                      data-price="29.96"
                   >
                     <td class="px-6 py-4 whitespace-nowrap">
                       <div class="flex items-center">
@@ -1063,56 +1597,145 @@
                         </div>
                       </div>
                     </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
                       Shopify
                     </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
                       akitada
                     </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
                       Japanese home goods
                     </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
                       DE
                     </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
                       DE
                     </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
+                      165
+                    </td>
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
+                      4
+                    </td>
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
+                      29.96
+                    </td>
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
+                      EUR
+                    </td>
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
                       kontakt@akitada.com
                     </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
                       +49 30 123456
                     </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                      <span class="bg-blue-100 text-blue-800 text-xs px-3 py-1 rounded-full mr-1">Home Goods</span>
-                      <span class="bg-blue-100 text-blue-800 text-xs px-3 py-1 rounded-full mr-1">Japanese</span>
-                      <span class="bg-blue-100 text-blue-800 text-xs px-3 py-1 rounded-full">DE</span>
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
+                      +49 170 1234567
                     </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
+                      0
+                    </td>
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
                       2017-07-30
                     </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
+                      2024-05-30
+                    </td>
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
                       2024-06-01
                     </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
+                      800
+                    </td>
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
+                      1,200
+                    </td>
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
+                      300
+                    </td>
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
+                      150
+                    </td>
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
                       <a href="#">facebook.com/akitada</a>
                     </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
                       <a href="#">twitter.com/akitada</a>
                     </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
                       <a href="#">instagram.com/akitada</a>
                     </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
                       <a href="#">pinterest.com/akitada</a>
                     </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
                       <a href="#">tiktok.com/@akitada</a>
                     </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                      data-domainregdate="2016-03-14"
-                      data-indexeddate="2024-06-01"
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
+                      <a href="#">youtube.com/akitada</a>
+                    </td>
+                  </tr>
+                  <tr class="hover:bg-gray-50 result-row cursor-pointer"
+                      data-domain="avapros.com"
+                      data-platform="Shopify"
+                      data-title="avapros"
+                      data-description="Professional beauty products"
+                      data-country="ID"
+                      data-productcount="1181"
+                      data-price="35.73"
                   >
                     <td class="px-6 py-4 whitespace-nowrap">
                       <div class="flex items-center">
@@ -1126,54 +1749,134 @@
                         </div>
                       </div>
                     </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
                       Shopify
                     </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
                       avapros
                     </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
                       Professional beauty products
                     </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
                       ID
                     </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
                       ID
                     </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
+                      1181
+                    </td>
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
+                      10
+                    </td>
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
+                      35.73
+                    </td>
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
+                      IDR
+                    </td>
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
                       cs@avapros.com
                     </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
                       +62 21 123456
                     </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                      <span class="bg-blue-100 text-blue-800 text-xs px-3 py-1 rounded-full mr-1">Beauty</span>
-                      <span class="bg-blue-100 text-blue-800 text-xs px-3 py-1 rounded-full mr-1">Professional</span>
-                      <span class="bg-blue-100 text-blue-800 text-xs px-3 py-1 rounded-full">ID</span>
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
+                      +62 812 3456 7890
                     </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
+                      4
+                    </td>
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
                       2016-03-14
                     </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
+                      2024-05-18
+                    </td>
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
                       2024-06-01
                     </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
+                      2,000
+                    </td>
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
+                      3,500
+                    </td>
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
+                      900
+                    </td>
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
+                      600
+                    </td>
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
                       <a href="#">facebook.com/avapros</a>
                     </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
                       <a href="#">twitter.com/avapros</a>
                     </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
                       <a href="#">instagram.com/avapros</a>
                     </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
                       <a href="#">pinterest.com/avapros</a>
                     </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
                       <a href="#">tiktok.com/@avapros</a>
                     </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
                       <a href="#">youtube.com/avapros</a>
                     </td>
                   </tr>
@@ -1183,12 +1886,8 @@
                       data-title="blackrow"
                       data-description="Streetwear and urban fashion"
                       data-country="VN"
-                      data-language="VI"
-                      data-email="hello@blackrow.com"
-                      data-phone="+84 28 1234 5678"
-                      data-tags="Streetwear,Urban,VN"
-                      data-domainregdate="2015-12-01"
-                      data-indexeddate="2024-06-01"
+                      data-productcount="1385"
+                      data-price="43.57"
                   >
                     <td class="px-6 py-4 whitespace-nowrap">
                       <div class="flex items-center">
@@ -1202,54 +1901,134 @@
                         </div>
                       </div>
                     </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
                       Shopify
                     </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
                       blackrow
                     </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
                       Streetwear and urban fashion
                     </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
                       VI
                     </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
                       VN
                     </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
+                      1385
+                    </td>
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
+                      7
+                    </td>
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
+                      43.57
+                    </td>
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
+                      VND
+                    </td>
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
                       hello@blackrow.com
                     </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
                       +84 28 1234 5678
                     </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                      <span class="bg-blue-100 text-blue-800 text-xs px-3 py-1 rounded-full mr-1">Streetwear</span>
-                      <span class="bg-blue-100 text-blue-800 text-xs px-3 py-1 rounded-full mr-1">Urban</span>
-                      <span class="bg-blue-100 text-blue-800 text-xs px-3 py-1 rounded-full">VN</span>
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
+                      +84 912 345 678
                     </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
+                      6
+                    </td>
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
                       2015-12-01
                     </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
+                      2024-05-10
+                    </td>
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
                       2024-06-01
                     </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
+                      1,800
+                    </td>
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
+                      4,200
+                    </td>
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
+                      1,100
+                    </td>
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
+                      700
+                    </td>
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
                       <a href="#">facebook.com/blackrow</a>
                     </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
                       <a href="#">twitter.com/blackrow</a>
                     </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
                       <a href="#">instagram.com/blackrow</a>
                     </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
                       <a href="#">pinterest.com/blackrow</a>
                     </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
                       <a href="#">tiktok.com/@blackrow</a>
                     </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
                       <a href="#">youtube.com/blackrow</a>
                     </td>
                   </tr>
@@ -1259,12 +2038,8 @@
                       data-title="foxness"
                       data-description="Pet accessories and toys"
                       data-country="NL"
-                      data-language="NL"
-                      data-email="info@foxness.com"
-                      data-phone="+31 20 1234567"
-                      data-tags="Pets,Accessories,NL"
-                      data-domainregdate="2023-02-14"
-                      data-indexeddate="2024-06-01"
+                      data-productcount="610"
+                      data-price="31.95"
                   >
                     <td class="px-6 py-4 whitespace-nowrap">
                       <div class="flex items-center">
@@ -1278,54 +2053,135 @@
                         </div>
                       </div>
                     </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
                       Shopify
                     </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
                       foxness
                     </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
                       Pet accessories and toys
                     </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
                       NL
                     </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
                       NL
                     </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
+                      610
+                    </td>
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
+                      5
+                    </td>
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
+                      31.95
+                    </td>
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
+                      EUR
+                    </td>
+                    <td
+
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
                       info@foxness.com
                     </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
                       +31 20 1234567
                     </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                      <span class="bg-blue-100 text-blue-800 text-xs px-3 py-1 rounded-full mr-1">Pets</span>
-                      <span class="bg-blue-100 text-blue-800 text-xs px-3 py-1 rounded-full mr-1">Accessories</span>
-                      <span class="bg-blue-100 text-blue-800 text-xs px-3 py-1 rounded-full">NL</span>
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
+                      +31 6 12345678
                     </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
+                      2
+                    </td>
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
                       2023-02-14
                     </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
+                      2024-05-29
+                    </td>
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
                       2024-06-01
                     </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
+                      900
+                    </td>
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
+                      1,500
+                    </td>
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
+                      400
+                    </td>
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
+                      250
+                    </td>
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
                       <a href="#">facebook.com/foxness</a>
                     </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
                       <a href="#">twitter.com/foxness</a>
                     </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
                       <a href="#">instagram.com/foxness</a>
                     </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
                       <a href="#">pinterest.com/foxness</a>
                     </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
                       <a href="#">tiktok.com/@foxness</a>
                     </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
                       <a href="#">youtube.com/foxness</a>
                     </td>
                   </tr>
@@ -1335,12 +2191,8 @@
                       data-title="cofuze.com - CoFuze™"
                       data-description="Coffee accessories and mugs"
                       data-country="IN"
-                      data-language="EN"
-                      data-email="support@cofuze.com"
-                      data-phone="+91 44 1234 5678"
-                      data-tags="Coffee,Accessories,IN"
-                      data-domainregdate="2022-10-10"
-                      data-indexeddate="2024-06-01"
+                      data-productcount="90"
+                      data-price="87.64"
                   >
                     <td class="px-6 py-4 whitespace-nowrap">
                       <div class="flex items-center">
@@ -1354,37 +2206,135 @@
                         </div>
                       </div>
                     </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
                       Shopify
                     </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
                       cofuze.com - CoFuze™
                     </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
                       Coffee accessories and mugs
                     </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
                       EN
                     </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
                       IN
                     </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
+                      90
+                    </td>
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
+                      2
+                    </td>
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
+                      87.64
+                    </td>
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
+                      INR
+                    </td>
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
                       support@cofuze.com
                     </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
                       +91 44 1234 5678
                     </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                      <span class="bg-blue-100 text-blue-800 text-xs px-3 py-1 rounded-full mr-1">Coffee</span>
-                      <span class="bg-blue-100 text-blue-800 text-xs px-3 py-1 rounded-full mr-1">Accessories</span>
-                      <span class="bg-blue-100 text-blue-800 text-xs px-3 py-1 rounded-full">IN</span>
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
+                      +91 90000 56789
                     </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
+                      0
+                    </td>
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
                       2022-10-10
                     </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
+                      2024-05-31
+                    </td>
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
                       2024-06-01
+                    </td>
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
+                      400
+                    </td>
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
+                      900
+                    </td>
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
+                      100
+                    </td>
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
+                      50
+                    </td>
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
+                      <a href="#">facebook.com/cofuze</a>
+                    </td>
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
+                      <a href="#">twitter.com/cofuze</a>
+                    </td>
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
+                      <a href="#">instagram.com/cofuze</a>
+                    </td>
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
+                      <a href="#">pinterest.com/cofuze</a>
+                    </td>
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
+                      <a href="#">tiktok.com/@cofuze</a>
+                    </td>
+                    <td
+                      class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
+                    >
+                      <a href="#">youtube.com/cofuze</a>
                     </td>
                   </tr>
                 </tbody>
@@ -1532,7 +2482,8 @@
         const table = document.querySelector("table");
         if (!displayBtn || !dropdown || !dropdownForm || !table) return;
 
-        // Only website-related columns for the Display dropdown
+        // Updated columns array: only these checked by default
+        // Store = Domain, Platform, Title, Country, Product Count, Product Avg Price
         const columns = [
           { key: "domain", label: "Domain", checked: true },
           { key: "platform", label: "Platform", checked: true },
@@ -1540,16 +2491,59 @@
           { key: "description", label: "Description", checked: false },
           { key: "language", label: "Language", checked: false },
           { key: "country", label: "Country", checked: true },
+          { key: "product-count", label: "Product Count", checked: true },
+          {
+            key: "collections-count",
+            label: "Collections Count",
+            checked: false,
+          },
+          {
+            key: "product-avg-price",
+            label: "Product Avg Price",
+            checked: true,
+          },
+          { key: "currency", label: "Currency", checked: false },
           { key: "email", label: "Email", checked: false },
           { key: "phone", label: "Phone", checked: false },
+          { key: "whatsapp", label: "WhatsApp", checked: false },
+          {
+            key: "fb-ad-count",
+            label: "Fb Ad Count (Past 30 Days)",
+            checked: false,
+          },
           { key: "domain-reg-date", label: "Domain Reg Date", checked: false },
+          {
+            key: "latest-product-upload-date",
+            label: "Latest Product Upload Date",
+            checked: false,
+          },
           { key: "indexed-date", label: "Indexed Date", checked: false },
+          {
+            key: "facebook-followers",
+            label: "Facebook Followers",
+            checked: false,
+          },
+          {
+            key: "instagram-followers",
+            label: "Instagram Followers",
+            checked: false,
+          },
+          {
+            key: "pinterest-followers",
+            label: "Pinterest Followers",
+            checked: false,
+          },
+          {
+            key: "youtube-followers",
+            label: "YouTube Followers",
+            checked: false,
+          },
           { key: "facebook-link", label: "Facebook Link", checked: false },
           { key: "twitter-link", label: "Twitter Link", checked: false },
           { key: "instagram-link", label: "Instagram Link", checked: false },
           { key: "pinterest-link", label: "Pinterest Link", checked: false },
           { key: "tiktok-link", label: "Tiktok Link", checked: false },
-          { key: "youtube-link", label: "YouTube Link", checked: false }
+          { key: "youtube-link", label: "YouTube Link", checked: false },
         ];
 
         // Render checkboxes
@@ -1578,7 +2572,7 @@
           dropdownForm.appendChild(label);
         });
 
-        // Map table columns by header text (case-insensitive)
+        // Map table columns to data-column-key attribute
         function mapTableColumns() {
           const ths = table.querySelectorAll("thead th");
           ths.forEach((th, idx) => {
@@ -1713,6 +2707,11 @@
           whatsapp: "+1 555-1234",
           regDate: "2019-04-12",
           indexedDate: "2024-06-01",
+          collectionsCount: 12,
+          productCount: 1900,
+          avgPrice: "37.69 USD",
+          latestProduct: "Heart Pendant Necklace",
+          latestProductDate: "2024-05-01",
           country: "US",
           language: "EN",
           facebook: "facebook.com/yamloveme",
@@ -1720,7 +2719,13 @@
           youtube: "youtube.com/yamloveme",
           pinterest: "pinterest.com/yamloveme",
           tiktok: "tiktok.com/@yamloveme",
-          twitter: "twitter.com/yamloveme"
+          twitter: "twitter.com/yamloveme",
+          fbAdCount: 8,
+          facebookFollowers: 2100,
+          instagramFollowers: 5400,
+          youtubeFollowers: 800,
+          pinterestFollowers: 1200,
+          // ...add more fields as needed
         },
         "true-compress.com": {
           domain: "true-compress.com",
@@ -1736,6 +2741,11 @@
           whatsapp: "+44 7700 900123",
           regDate: "2021-08-22",
           indexedDate: "2024-06-01",
+          collectionsCount: 3,
+          productCount: 10,
+          avgPrice: "42.04 GBP",
+          latestProduct: "Pro Compression Shorts",
+          latestProductDate: "2024-05-15",
           country: "GB",
           language: "EN",
           facebook: "facebook.com/truecompress",
@@ -1743,7 +2753,12 @@
           youtube: "youtube.com/truecompress",
           pinterest: "pinterest.com/truecompress",
           tiktok: "tiktok.com/@truecompress",
-          twitter: "twitter.com/truecompress"
+          twitter: "twitter.com/truecompress",
+          fbAdCount: 2,
+          facebookFollowers: 1000,
+          instagramFollowers: 2300,
+          youtubeFollowers: 300,
+          pinterestFollowers: 500,
         },
         "dbfay.com": {
           domain: "dbfay.com",
@@ -1759,6 +2774,11 @@
           whatsapp: "+33 6 12 34 56 78",
           regDate: "2020-02-18",
           indexedDate: "2024-06-01",
+          collectionsCount: 6,
+          productCount: 840,
+          avgPrice: "35.56 EUR",
+          latestProduct: "Parisian Silk Scarf",
+          latestProductDate: "2024-05-25",
           country: "FR",
           language: "FR",
           facebook: "facebook.com/dbfay",
@@ -1766,7 +2786,12 @@
           youtube: "youtube.com/dbfay",
           pinterest: "pinterest.com/dbfay",
           tiktok: "tiktok.com/@dbfay",
-          twitter: "twitter.com/dbfay"
+          twitter: "twitter.com/dbfay",
+          fbAdCount: 3,
+          facebookFollowers: 1500,
+          instagramFollowers: 2800,
+          youtubeFollowers: 400,
+          pinterestFollowers: 600,
         },
         "epicfalls.legendary-laughs.shop": {
           domain: "epicfalls.legendary-laughs.shop",
@@ -1782,6 +2807,11 @@
           whatsapp: "+1 555-4321",
           regDate: "2022-01-05",
           indexedDate: "2024-06-01",
+          collectionsCount: 1,
+          productCount: 3,
+          avgPrice: "1623.08 USD",
+          latestProduct: "Legendary Prank Kit",
+          latestProductDate: "2024-05-28",
           country: "US",
           language: "EN",
           facebook: "facebook.com/epicfalls",
@@ -1789,7 +2819,12 @@
           youtube: "youtube.com/epicfalls",
           pinterest: "pinterest.com/epicfalls",
           tiktok: "tiktok.com/@epicfalls",
-          twitter: "twitter.com/epicfalls"
+          twitter: "twitter.com/epicfalls",
+          fbAdCount: 1,
+          facebookFollowers: 500,
+          instagramFollowers: 1000,
+          youtubeFollowers: 100,
+          pinterestFollowers: 200,
         },
         "akitada.com": {
           domain: "akitada.com",
@@ -1805,6 +2840,11 @@
           whatsapp: "+49 170 1234567",
           regDate: "2017-07-30",
           indexedDate: "2024-06-01",
+          collectionsCount: 4,
+          productCount: 165,
+          avgPrice: "29.96 EUR",
+          latestProduct: "Bamboo Tea Set",
+          latestProductDate: "2024-05-30",
           country: "DE",
           language: "DE",
           facebook: "facebook.com/akitada",
@@ -1812,7 +2852,12 @@
           youtube: "youtube.com/akitada",
           pinterest: "pinterest.com/akitada",
           tiktok: "tiktok.com/@akitada",
-          twitter: "twitter.com/akitada"
+          twitter: "twitter.com/akitada",
+          fbAdCount: 0,
+          facebookFollowers: 800,
+          instagramFollowers: 1200,
+          youtubeFollowers: 150,
+          pinterestFollowers: 300,
         },
         "avapros.com": {
           domain: "avapros.com",
@@ -1828,6 +2873,11 @@
           whatsapp: "+62 812 3456 7890",
           regDate: "2016-03-14",
           indexedDate: "2024-06-01",
+          collectionsCount: 10,
+          productCount: 1181,
+          avgPrice: "35.73 IDR",
+          latestProduct: "Pro Makeup Kit",
+          latestProductDate: "2024-05-18",
           country: "ID",
           language: "ID",
           facebook: "facebook.com/avapros",
@@ -1835,7 +2885,12 @@
           youtube: "youtube.com/avapros",
           pinterest: "pinterest.com/avapros",
           tiktok: "tiktok.com/@avapros",
-          twitter: "twitter.com/avapros"
+          twitter: "twitter.com/avapros",
+          fbAdCount: 4,
+          facebookFollowers: 2000,
+          instagramFollowers: 3500,
+          youtubeFollowers: 600,
+          pinterestFollowers: 900,
         },
         "blackrow.com": {
           domain: "blackrow.com",
@@ -1851,6 +2906,11 @@
           whatsapp: "+84 912 345 678",
           regDate: "2015-12-01",
           indexedDate: "2024-06-01",
+          collectionsCount: 7,
+          productCount: 1385,
+          avgPrice: "43.57 VND",
+          latestProduct: "Urban Hoodie",
+          latestProductDate: "2024-05-10",
           country: "VN",
           language: "VI",
           facebook: "facebook.com/blackrow",
@@ -1858,7 +2918,12 @@
           youtube: "youtube.com/blackrow",
           pinterest: "pinterest.com/blackrow",
           tiktok: "tiktok.com/@blackrow",
-          twitter: "twitter.com/blackrow"
+          twitter: "twitter.com/blackrow",
+          fbAdCount: 6,
+          facebookFollowers: 1800,
+          instagramFollowers: 4200,
+          youtubeFollowers: 700,
+          pinterestFollowers: 1100,
         },
         "foxness.com": {
           domain: "foxness.com",
@@ -1874,6 +2939,11 @@
           whatsapp: "+31 6 12345678",
           regDate: "2023-02-14",
           indexedDate: "2024-06-01",
+          collectionsCount: 5,
+          productCount: 610,
+          avgPrice: "31.95 EUR",
+          latestProduct: "Fox Plush Toy",
+          latestProductDate: "2024-05-29",
           country: "NL",
           language: "NL",
           facebook: "facebook.com/foxness",
@@ -1881,7 +2951,12 @@
           youtube: "youtube.com/foxness",
           pinterest: "pinterest.com/foxness",
           tiktok: "tiktok.com/@foxness",
-          twitter: "twitter.com/foxness"
+          twitter: "twitter.com/foxness",
+          fbAdCount: 2,
+          facebookFollowers: 900,
+          instagramFollowers: 1500,
+          youtubeFollowers: 250,
+          pinterestFollowers: 400,
         },
         "cofuze.com": {
           domain: "cofuze.com",
@@ -1897,6 +2972,11 @@
           whatsapp: "+91 90000 56789",
           regDate: "2022-10-10",
           indexedDate: "2024-06-01",
+          collectionsCount: 2,
+          productCount: 90,
+          avgPrice: "87.64 INR",
+          latestProduct: "Insulated Mug",
+          latestProductDate: "2024-05-31",
           country: "IN",
           language: "EN",
           facebook: "facebook.com/cofuze",
@@ -1904,7 +2984,12 @@
           youtube: "youtube.com/cofuze",
           pinterest: "pinterest.com/cofuze",
           tiktok: "tiktok.com/@cofuze",
-          twitter: "twitter.com/cofuze"
+          twitter: "twitter.com/cofuze",
+          fbAdCount: 0,
+          facebookFollowers: 400,
+          instagramFollowers: 900,
+          youtubeFollowers: 50,
+          pinterestFollowers: 100,
         }
         // ...existing code...
       };
@@ -1917,7 +3002,7 @@
         const detailsContent = document.getElementById('detailsContent');
         const resultsTable = document.querySelector('table');
 
-        // Helper: render only website-related fields from the full data object
+        // Helper: render all fields from the full data object
         function renderFullDetails(data) {
           // Responsive grid for details
           return `
@@ -1994,6 +3079,26 @@
           <div class="font-medium break-words">${data.indexedDate||''}</div>
         </div>
         <div>
+          <p class="text-sm text-gray-500 mb-1">Collections Count</p>
+          <div class="font-medium break-words">${data.collectionsCount||''}</div>
+        </div>
+        <div>
+          <p class="text-sm text-gray-500 mb-1">Product Count</p>
+          <div class="font-medium break-words">${data.productCount||''}</div>
+        </div>
+        <div>
+          <p class="text-sm text-gray-500 mb-1">Avg Product Price</p>
+          <div class="font-medium break-words">${data.avgPrice||''}</div>
+        </div>
+        <div>
+          <p class="text-sm text-gray-500 mb-1">Latest Product</p>
+          <div class="font-medium break-words">${data.latestProduct||''}</div>
+        </div>
+        <div>
+          <p class="text-sm text-gray-500 mb-1">Latest Product Date</p>
+          <div class="font-medium break-words">${data.latestProductDate||''}</div>
+        </div>
+        <div>
           <p class="text-sm text-gray-500 mb-1">Facebook</p>
           <div class="font-medium break-words"><a href="https://${data.facebook||'#'}" target="_blank">${data.facebook||''}</a></div>
         </div>
@@ -2016,6 +3121,26 @@
         <div>
           <p class="text-sm text-gray-500 mb-1">Twitter</p>
           <div class="font-medium break-words"><a href="https://${data.twitter||'#'}" target="_blank">${data.twitter||''}</a></div>
+        </div>
+        <div>
+          <p class="text-sm text-gray-500 mb-1">FB Ad Count (Past 30 Days)</p>
+          <div class="font-medium break-words">${data.fbAdCount||''}</div>
+        </div>
+        <div>
+          <p class="text-sm text-gray-500 mb-1">Facebook Followers</p>
+          <div class="font-medium break-words">${data.facebookFollowers||''}</div>
+        </div>
+        <div>
+          <p class="text-sm text-gray-500 mb-1">Instagram Followers</p>
+          <div class="font-medium break-words">${data.instagramFollowers||''}</div>
+        </div>
+        <div>
+          <p class="text-sm text-gray-500 mb-1">YouTube Followers</p>
+          <div class="font-medium break-words">${data.youtubeFollowers||''}</div>
+        </div>
+        <div>
+          <p class="text-sm text-gray-500 mb-1">Pinterest Followers</p>
+          <div class="font-medium break-words">${data.pinterestFollowers||''}</div>
         </div>
       </div>
     </div>
